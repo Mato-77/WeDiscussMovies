@@ -1,20 +1,30 @@
 package com.wediscussmovies.project.service;
 
-import com.wediscussmovies.project.model.*;
+import com.wediscussmovies.project.ajaxmodels.Grade;
+import com.wediscussmovies.project.model.Movie;
+import com.wediscussmovies.project.model.Person;
+import com.wediscussmovies.project.model.User;
 
+import java.sql.Date;
 import java.util.List;
-import java.util.Optional;
 
 public interface PersonService {
+    List<Person> findAll();
      List<Person> findAllDirectors();
      List<Person> findAllActors();
-    Optional<Person> findById(Integer person_id);
-    Optional<Person> findActorById(Integer id);
-    Optional<Person> findDirectorById(Integer id);
-    boolean save(Person person);
-    List<Person> findActorsByNameLike(String name);
-    List<Person> findActorsBySurnameLike(String surname);
-    List<Person> findDirectorsByNameLike(String name);
-    List<Person> findDirectorsBySurnameLike(String surname);
+    Person findById(Integer person_id);
+
+    Person  save(String name, String surname, Character type,
+                 Date birthDate, String image_url, String description, List<Integer> movieIds);
+
+    Person edit(Integer personId, String name, String surname, Character type,
+                Date birthDate, String image_url, String description, List<Integer> movieIds);
+
+    List<Person> findPersonsByNameOrSurname(Character type,String searchQuery);
+
+    List<Movie> findAllMoviesByPerson(Person person);
+
+    void deleteById(Integer id);
+    void addGradePerson(Integer personId, User user, Grade grade);
 
 }
