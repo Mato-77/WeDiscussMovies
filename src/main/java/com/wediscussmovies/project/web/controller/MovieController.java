@@ -60,6 +60,21 @@ public class MovieController {
         return "template";
     }
 
+    @GetMapping("/{id}")
+    public String getMovie(@PathVariable Integer id, Model model){
+        model.addAttribute("movie", movieService.findById(id));
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (!(auth instanceof AnonymousAuthenticationToken)){
+            UserDetails userDetails = (UserDetails) auth.getPrincipal();
+            User user = (User) userDetails;
+            model.addAttribute("likedMovies",this.movieService.findLikedMoviesByUser(user));
+            model.addAttribute("user",user);
+        }
+
+        model.addAttribute("contentTemplate", "movieShow");
+        return "template";
+    }
 
     @GetMapping("/add")
     public String addMovie(Model model){

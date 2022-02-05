@@ -1,0 +1,32 @@
+
+<div xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" style="width: 80%; margin: auto">
+    <div>
+
+        <div style="width: 60%; margin-left: 10px; padding:20px; float:left">
+            <h1 th:text="${person.getName() + ' ' + person.getSurname()}" style="text-align: center; padding:10px; background-color: rgba(64,64,64,0.5); color:white; border-radius: 10px 0px"></h1>
+            <hr>
+            <h3 th:text="${'Born on: ' + person.getDateOfBirth()}"></h3>
+            <div style="background-color: rgba(200,200,200,0.5); border-radius: 10px; padding:15px; ">
+                <h3>Description:</h3>
+                <p th:text="${person.getDescription()}" style="text-align: justify"></p>
+            </div>
+
+            <div th:if="${person.getType() == 'D'}">
+                <h3 >Directed movies:</h3>
+                <ul>
+                    <li th:each="movie: ${actor.getMovies()}"><a th:text="${movie.getTitle()}" th:href="@{'/movies/{id}' (id=${movie.getMovieId()})}" ></a></li>
+                </ul>
+            </div>
+            <div th:if="${person.getType() == 'A'}">
+                <h3 >Acted in movies:</h3>
+                <ul>
+                    <li th:each="movie: ${actor.getMovieActors()}" ><a th:text="${movie.getMovie().getTitle()}" th:href="@{'/movies/{id}' (id=${movie.getMovie().getMovieId()})}" ></a></li>
+                </ul>
+            </div>
+
+        </div>
+        <div style="width: 30%; margin-left: 10px; padding:20px; border-left: 3px solid black; border-radius: 10px; float:left">
+            <img th:src="${person.getImageUrl()}" style="width: 90%; height: auto">
+        </div>
+    </div>
+</div>

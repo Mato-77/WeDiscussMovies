@@ -11,9 +11,9 @@
                         <thead>
                         <tr>
                             <th scope="col">Име</th>
-                            <th scope="col">Презиме</th>
+                            <!--<th scope="col">Презиме</th>-->
                             <th scope="col">Датум рагање</th>
-                            <th scope="col">Опис</th>
+                            <!--<th scope="col">Опис</th>-->
 <!--                            <th scope="col">Занрови</th>-->
                             <th scope="col">Слика</th>
 
@@ -30,10 +30,10 @@
                         </thead>
                         <tbody>
                         <tr th:each="person : ${persons}" class="elements">
-                            <td th:text="${person.getName()}"></td>
-                            <td th:text="${person.getSurname()}"></td>
+                            <td><a th:href="@{'/persons/{id}' (id=${person.getPersonId()})}" th:text="${person.getName() + ' ' + person.getSurname()}"></a></td>
+                            <!--<td th:text="${person.getSurname()}"></td>-->
                             <td th:text="${person.getDateOfBirth()}"></td>
-                            <td th:text="${person.getDescription()}"></td>
+                            <!--<td th:text="${person.getDescription()}"></td>-->
 
 <!--                            <td>-->
 <!--                                <div th:each="g: ${person.getGenres()}" th:text="${g.getGenre().genreType }"></div>-->
