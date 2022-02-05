@@ -1,0 +1,72 @@
+<main xmlns:th="http://www.thymeleaf.org">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5">
+                <form th:action="@{'/discussions/save/{discussionId}' (discussionId = ${discussion?.getDiscussionId()})}" method="POST">
+                    <div class="form-group">
+
+                        <label for="title">Наслов</label>
+                        <input type="text"
+                               class="form-control"
+                               id="title"
+                               name="title"
+                               th:value="${discussion?.getTitle()}"
+                               required
+                               placeholder="Наслов">
+                    </div>
+                    <div class="form-group">
+                        <label for="text">Опис</label>
+                        <input type="text"
+                               class="form-control"
+                               id="text"
+                               name="text"
+                               th:value="${discussion?.getText()}"
+                               multiple
+                               placeholder="Опис">
+                    </div>
+
+                    <div>
+                        <input type="radio"
+                               class="form-control discussion-type"
+                               name="type"
+                               th:value="M"
+                               th:text="Филм"
+                               th:checked="${discussion?.getType() != null && discussion.getType().toString().equals('M')}"
+
+                        >
+                        <input type="radio"
+                               class="form-control discussion-type"
+                               name="type"
+                               th:value="P"
+                               th:text="Личност"
+                               th:checked="${discussion?.getType() != null && discussion.getType().toString().equals('P')}">
+                    </div>
+
+
+
+
+                    <div class="form-group">
+                        <select name="idDiscussed" class="selected-discussion">
+                            <option></option>
+                            <option class="movies-discussion" th:each="movie:${movies}" th:value="${movie.getMovieId()}"
+                                    th:text="${movie.getTitle()}"
+                                    th:selected="${discussion?.getMovie()?.equals(movie)}"></option>
+
+                            <option class="persons-discussion" th:each="person:${persons}" th:value="${person.getPersonId()}"
+                                    th:text="${person.getName() + ' ' + person.getSurname()}"
+                                    th:selected="${discussion?.getPerson()?.equals(person)}"></option>
+
+                        </select>
+                    </div>
+
+
+                    <button id="submit" type="submit" class="btn btn-primary">Submit</button>
+                    <a type="button" class="btn btn-primary" th:href="@{/discussions}">Back</a>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+</main>

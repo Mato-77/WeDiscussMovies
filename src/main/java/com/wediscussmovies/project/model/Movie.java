@@ -1,0 +1,88 @@
+package com.wediscussmovies.project.model;
+
+import com.wediscussmovies.project.model.relation.MovieLikes;
+import com.wediscussmovies.project.model.relation.MovieActors;
+import com.wediscussmovies.project.model.relation.MovieGenres;
+import com.wediscussmovies.project.model.relation.MovieRates;
+import lombok.Data;
+
+import javax.persistence.*;
+import java.sql.Date;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.Objects;
+
+@Entity
+@Table(name = "movies", schema = "project", catalog = "db_202122z_va_prj_wediscussmovies")
+@Data
+public class Movie {
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @Column(name = "movie_id")
+    private int movieId;
+    @Basic
+    @Column(name = "title")
+    private String title;
+    @Basic
+    @Column(name = "description")
+    private String description;
+    @Basic
+    @Column(name = "image_url")
+    private String imageUrl;
+    @Basic
+    @Column(name = "airing_date")
+    private Date airingDate;
+    @Basic
+    @Column(name = "imdb_rating")
+    private Double imdbRating;
+
+    @OneToMany(mappedBy = "movie")
+    private Collection<MovieActors> actors;
+    @OneToMany(mappedBy = "movie")
+    private Collection<MovieGenres> genres;
+    @OneToMany(mappedBy = "movie")
+    private Collection<MovieLikes> likes;
+    @OneToMany(mappedBy = "movie")
+    private Collection<MovieRates> rates;
+
+    @ManyToOne
+    @JoinColumn(name = "director_id")
+    private Person director;
+
+    public Movie() {
+
+    }
+
+    public Movie(String title, String description, String imageUrl, Date airingDate,
+                 Double imdbRating, Person director) {
+        this.title = title;
+        this.description = description;
+        this.imageUrl = imageUrl;
+        this.airingDate = airingDate;
+        this.imdbRating = imdbRating;
+        this.director = director;
+
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Movie movie = (Movie) o;
+        return movieId == movie.movieId;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(movieId);
+    }
+
+    public static Comparator<Movie> comparatorTitle = Comparator.comparing(Movie::getTitle);
+
+
+
+
+
+
+
+}

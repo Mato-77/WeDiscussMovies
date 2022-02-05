@@ -1,0 +1,44 @@
+<div xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+    <div th:text="${disc.getMovie() != null ? disc.getMovie().getTitle() : disc.getPerson().getName() + ' ' + disc.getPerson().getSurname()}"></div>
+    <div th:text="${disc.getTitle()}"></div>
+    <div th:text="${disc.getText()}"></div>
+    <div th:text="${disc.getDate()}"></div>
+    <div th:text="${disc.getUser().getUsername()}"></div>
+    <div th:if="${disc.getUser().equals(user)}"><a class="btn btn-primary" th:href="@{'/discussions/add/{id}' (id=${disc.getDiscussionId()})}">Промени</a> </div>
+    <div th:if="${disc.getUser().equals(user)}"><a class="btn btn-primary button-delete-discussion" th:discussion-id="${disc.getDiscussionId()}">Избриши</a> </div>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+
+            <th scope="col">Опис</th>
+            <th scope="col">Датум</th>
+            <th scope="col">Корисник</th>
+            <th:block  sec:authorize="isAuthenticated()">
+
+                <th scope="col"></th>
+                <th scope="col"></th>
+            </th:block>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="reply : ${replies}" class="movie">
+            <td th:text="${reply.getText()}"></td>
+            <td th:text="${reply.getDate()}"></td>
+            <td th:text="${reply.getUser().getUsername()}"></td>
+            <td th:if="${reply.getUser().equals(user)}"><a class="btn btn-primary" th:href="@{'/replies/edit/{discussionId}/{replyId}' (discussionId=${disc.getDiscussionId()},replyId=${reply.getReplyId()})}">Промени</a> </td>
+            <td th:if="${reply.getUser().equals(user)}"><a class="btn btn-primary button-delete-reply" th:reply-id="${reply.getReplyId()}" th:dicsussion-id="${disc.getDiscussionId()}">Избриши</a> </td>
+
+            <th:block sec:authorize="isAuthenticated()">
+                <td th:if="${!reply.getUser().equals(user)}"><a class="btn btn-primary" th:href="@{'/replies/add/{discussionId}' (discussionId=${disc.getDiscussionId()})}">Реплицирај</a> </td>
+                <td th:if="${!reply.getUser().equals(user)}">
+                    <a class="btn btn-primary">Ми се допаѓа</a>
+                    <a class="btn btn-primary">Не ми се допаѓа</a>
+                </td>
+            </th:block>
+
+
+        </tr>
+        </tbody>
+    </table>
+</div>
