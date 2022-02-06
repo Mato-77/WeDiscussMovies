@@ -1,5 +1,16 @@
-<div class="container mb-4">
-    <div class="row">
+<div class="container mb-4" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+    <div class="row" th:each="row: ${movie_rows}" >
+        <div class="col-md-3" th:each="movie: ${row}" >
+            <a class="card-text-center" th:href="@{'/movies/{id}' (id=${movie.getMovieId()})}" >
+                    <div class="card-body card bg-image" th:style="'background:url(' + ${movie.getImageUrl()} + ') no-repeat center #eee;'">
+                        <h3 class="card-title title" th:text="${movie.getTitle()}"></h3>
+                        <h3 class="card-text bottom" th:text="${'Rated '+movie.getImdbRating()}"></h3>
+                    </div>
+            </a>
+        </div>
+    </div>
+
+    <!--<div class="row">
         <div class="col-12" th:if="${movies.size() > 0}">
             <div class="table-responsive">
                 <table class="table table-striped">
@@ -38,5 +49,5 @@
                 </table>
             </div>
         </div>
-    </div>
+    </div>-->
 </div>

@@ -47,6 +47,16 @@ public class PersonController {
         return "template";
     }
 
+    @GetMapping("/persons/{id}")
+    public String getPerson(@PathVariable Integer id, Model model){
+        Person person = personService.findById(id);
+        //Error handling, could be null!!!!!!!!!
+        model.addAttribute("person", person);
+
+        model.addAttribute("contentTemplate", "personShow");
+        return "template";
+    }
+
     @GetMapping("/persons/add")
     public String addingFormForPerson( Model model){
 

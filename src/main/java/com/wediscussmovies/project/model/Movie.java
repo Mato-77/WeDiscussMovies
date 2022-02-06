@@ -5,6 +5,7 @@ import com.wediscussmovies.project.model.relation.MovieActors;
 import com.wediscussmovies.project.model.relation.MovieGenres;
 import com.wediscussmovies.project.model.relation.MovieRates;
 import lombok.Data;
+import org.hibernate.annotations.Fetch;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -36,7 +37,7 @@ public class Movie {
     @Column(name = "imdb_rating")
     private Double imdbRating;
 
-    @OneToMany(mappedBy = "movie")
+    @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY)
     private Collection<MovieActors> actors;
     @OneToMany(mappedBy = "movie")
     private Collection<MovieGenres> genres;
