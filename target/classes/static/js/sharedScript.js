@@ -145,11 +145,11 @@ function ajaxCallLike(url,button,type,message){
                 let userId = $(button).attr("user-id")
                 let movieId=$(button).attr("movie-id")
                 if (type==='like') {
-                    $(button).parent().append("<a class='btn btn-warning button-remove-favourite-list' movie-id=" + movieId + " user-id=" + userId + ">Избриши од омилена листа</a>")
+                    $(button).parent().append("<a class='bottom-heart btn btn-danger button-remove-favourite-list' movie-id=" + movieId + " user-id=" + userId + ">💔</a>")
                     console.log("da")
                 }
                 else{
-                    $(button).parent().append("<a class='btn btn-success button-add-favourite-list' movie-id=" + movieId + " user-id=" + userId + ">Додади во омилена листа</a>")
+                    $(button).parent().append("<a class='bottom-heart btn btn-success button-add-favourite-list' movie-id=" + movieId + " user-id=" + userId + ">❤</a>")
 
                 }
             }

@@ -1,46 +1,18 @@
-<style>
-    .card{
-        background-size: 200px 300px;
-        background-repeat: no-repeat;
-        float:left;
-        margin: 7px;
-        min-height: 270px;
-        border-radius: 10px;
-        padding: 20px;
-        color: white;
-        -webkit-text-stroke-width: 1px;
-        -webkit-text-stroke-color: black;
-    }
-
-    .card h4{
-        text-align: center;
-        background-color: rgba(255,255,255,0.7);
-        border-radius: 5px;
-    }
-
-    .card h3{
-        position: absolute;
-        top: 85%;
-        margin:auto;
-        width: 100%;
-        left: 0%;
-        border-radius: 10px;
-        text-align: center;
-        background-color: rgba(255,255,255,0.7);
-    }
-</style>
-
-
 <div class="container mb-4" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
-    <div class="row">
+    <div class="row" th:each="row: ${movie_rows}" >
+        <div class="col-md-3" th:each="movie: ${row}" >
+            <a class="card-text-center" th:href="@{'/movies/{id}' (id=${movie.getMovieId()})}" >
+                    <div class="card-body card bg-image" th:style="'background:url(' + ${movie.getImageUrl()} + ') no-repeat center #eee;'">
+                        <h3 class="card-title title" th:text="${movie.getTitle()}"></h3>
+                        <h3 class="card-text bottom" th:text="${'Rated '+movie.getImdbRating()}"></h3>
+                    </div>
+            </a>
+        </div>
+    </div>
+
+    <!--<div class="row">
         <div class="col-12" th:if="${movies.size() > 0}">
             <div class="table-responsive">
-                <a th:each="movie: ${movies}" th:href="@{'/movies/{id}' (id=${movie.getMovieId()})}" >
-                    <div class="col-2 card" th:style="'background:url(' + ${movie.getImageUrl()} + ');'">
-                        <h4 th:text="${movie.getTitle()}"></h4>
-                        <h3 th:text="${movie.getImdbRating()}"></h3>
-                    </div>
-                </a>
                 <table class="table table-striped">
                     <thead>
                     <tr>
@@ -77,5 +49,5 @@
                 </table>
             </div>
         </div>
-    </div>
+    </div>-->
 </div>

@@ -10,6 +10,22 @@
     </div>
 
     <div class="container mb-4">
+        <div class="row" th:each="row: ${movie_rows}" >
+            <div class="col-md-3" th:each="movie: ${row}" >
+                    <div class="card-body card bg-image" th:style="'background:url(' + ${movie.getImageUrl()} + ') no-repeat center #eee;'">
+                        <a class="card-text-center" style="color: white" th:href="@{'/movies/{id}' (id=${movie.getMovieId()})}" >
+                        <h3 class="card-title title" th:text="${movie.getTitle()}"></h3>
+                        </a>
+                        <h3 class="card-text bottom" th:text="${'Rated '+movie.getImdbRating()}"></h3>
+                        <th:block sec:authorize="isAuthenticated()">
+                            <a class="bottom-heart btn btn-success button-add-favourite-list" th:movie-id="${movie.getMovieId()}" th:user-id="${user.getUserId()}" th:if="${!likedMovies.contains(movie)}">❤</a>
+                            <a class="bottom-heart btn btn-danger button-remove-favourite-list" th:movie-id="${movie.getMovieId()}" th:user-id="${user.getUserId()}" th:if="${likedMovies.contains(movie)}">💔</a>
+                        </th:block>
+                    </div>
+            </div>
+        </div>
+    </div>
+    <!--<div class="container mb-4">
         <div class="row">
             <div class="col-12" th:if="${movies.size() > 0}">
                 <div class="table-responsive">
@@ -17,7 +33,7 @@
                         <thead>
                         <tr>
                             <th scope="col">Наслов</th>
-                            <!--<th scope="col">Опис</th>-->
+                            <th scope="col">Опис</th>
                             <th scope="col">Датум издавање</th>
                             <th scope="col">Допаѓања</th>
                             <th scope="col">Жанрови</th>
@@ -39,7 +55,7 @@
                         <tbody>
                         <tr th:each="movie : ${movies}" class="elements">
                             <td><a th:text="${movie.getTitle()}" th:href="@{'/movies/{id}' (id=${movie.getMovieId()})}"></a></td>
-                            <!--<td th:text="${movie.getDescription()}"></td>-->
+                            <td th:text="${movie.getDescription()}"></td>
                             <td th:text="${movie.getAiringDate()}"></td>
                             <td th:text="${movie.getLikes() != null  ? movie.getLikes().size() : 0}">
 
@@ -65,7 +81,6 @@
                             <td>
                                 <a class="btn btn-success button-add-favourite-list" th:movie-id="${movie.getMovieId()}" th:user-id="${user.getUserId()}" th:if="${!likedMovies.contains(movie)}">Додади во омилена листа</a>
                                 <a class="btn btn-warning button-remove-favourite-list" th:movie-id="${movie.getMovieId()}" th:user-id="${user.getUserId()}" th:if="${likedMovies.contains(movie)}">Избриши од омилена листа</a>
-
                             </td>
                             <td>
                                 <a class="btn btn-success button-add-grade-movie" th:movie-id="${movie.getMovieId()}">Остави оценка</a>
@@ -83,6 +98,6 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>-->
 
 </div>

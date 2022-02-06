@@ -1,5 +1,6 @@
 package com.wediscussmovies.project.web.controller;
 
+import com.wediscussmovies.project.LoggedUser;
 import com.wediscussmovies.project.model.Movie;
 import com.wediscussmovies.project.model.Person;
 import com.wediscussmovies.project.model.User;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -52,8 +54,16 @@ public class MovieController {
           model.addAttribute("likedMovies",this.movieService.findLikedMoviesByUser(user));
           model.addAttribute("user",user);
         }
-
+        List<Movie> movieList = movies;
+        List<List<Movie>> movie_rows = new ArrayList<>();
+        for(int i=0; i<movieList.size(); i+=4){
+            int j = i+4;
+            if(j>movieList.size())
+                j=movieList.size();
+            movie_rows.add(movieList.subList(i, j));
+        }
         model.addAttribute("movies", movies);
+        model.addAttribute("movie_rows", movie_rows);
         model.addAttribute("contentTemplate", "moviesList");
         if (error != null && !error.equals(" "))
             model.addAttribute("error",error);

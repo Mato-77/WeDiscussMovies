@@ -2,6 +2,7 @@ package com.wediscussmovies.project.web.controller;
 
 
 import com.wediscussmovies.project.LoggedUser;
+import com.wediscussmovies.project.model.Movie;
 import com.wediscussmovies.project.model.exception.InvalidArgumentsException;
 import com.wediscussmovies.project.model.exception.PasswordsDoNotMatchException;
 import com.wediscussmovies.project.service.MovieService;
@@ -12,6 +13,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping
@@ -58,7 +62,15 @@ public class UsersController{
     }
     @GetMapping("/favoriteList")
     public String getFavoriteList(Model model){
-        model.addAttribute("movies",this.movieService.findLikedMoviesByUser(LoggedUser.getLoggedUser()));
+        List<Movie> movieList = this.movieService.findLikedMoviesByUser(LoggedUser.getLoggedUser());
+        List<List<Movie>> movie_rows = new ArrayList<>();
+        for(int i=0; i<movieList.size(); i+=4){
+            int j = i+4;
+            if(j>movieList.size())
+                j= movieList.size();
+            movie_rows.add(movieList.subList(i, j));
+        }
+        model.addAttribute("movie_rows", movie_rows);
         model.addAttribute("contentTemplate","favoriteList");
         return "template";
 

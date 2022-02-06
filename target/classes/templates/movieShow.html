@@ -48,10 +48,11 @@
         </div>
     </div>
     <div id="admin-buttons">
+        <a class="btn btn-primary" th:href="@{'/discussions/all/{id}?type=M' (id=${movie.getMovieId()})}" >Прегледај дискусии</a>
         <th:block sec:authorize="isAuthenticated()" >
             <a class="btn btn-success button-add-favourite-list" th:movie-id="${movie.getMovieId()}" th:user-id="${user.getUserId()}" th:if="${!likedMovies.contains(movie)}">Додади во омилена листа</a>
             <a class="btn btn-warning button-remove-favourite-list" th:movie-id="${movie.getMovieId()}" th:user-id="${user.getUserId()}" th:if="${likedMovies.contains(movie)}">Избриши од омилена листа</a>
-            <a class="btn btn-primary button-add-grade-movie" th:movie-id="${movie.getMovieId()}">Остави оценка</a>
+            <a class="btn btn-success button-add-grade-movie" th:movie-id="${movie.getMovieId()}">Остави оценка</a>
             <a class="btn btn-warning" th:href="@{'/movies/{id}/edit' (id=${movie.getMovieId()})}">Промени</a>
             <a class="btn btn-danger button-delete-movie" th:movie-id="${movie.getMovieId()}">Избриши филм</a>
         </th:block>
