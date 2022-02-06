@@ -11,10 +11,12 @@
 
     <div class="container mb-4">
         <div class="row" th:each="row: ${movie_rows}" >
-            <div class="col-md-3" th:each="movie: ${row}" >
+            <div class="col-md-3 elements" th:each="movie: ${row}" >
                     <div class="card-body card bg-image" th:style="'background:url(' + ${movie.getImageUrl()} + ') no-repeat center #eee;'">
                         <a class="card-text-center" style="color: white" th:href="@{'/movies/{id}' (id=${movie.getMovieId()})}" >
                         <h3 class="card-title title" th:text="${movie.getTitle()}"></h3>
+                            <span th:each="genre: ${movie.getGenres()}"  th:text="${genre?.getGenre()?.getGenreType()}" hidden class="card-genre"></span>
+
                         </a>
                         <h3 class="card-text bottom" th:text="${'Rated '+movie.getImdbRating()}"></h3>
                         <th:block sec:authorize="isAuthenticated()">

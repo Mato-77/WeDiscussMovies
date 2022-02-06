@@ -38,9 +38,11 @@ $(document).ready(function (){
 
     $(".search-button-title").on("click",function (){
         let filter = $("#searchTitle").val()
+        console.log(elements)
         for (let item of elements){
-            let title = item.cells[0].innerText
+            let title =  $(item).find(".card-title").text()
             if (title.toLowerCase() === filter.toLowerCase()){
+                console.log("Da")
                 $(item).css("display","block")
             }
             else{
@@ -53,11 +55,13 @@ $(document).ready(function (){
 
    $(".search-button").on("click",function () {
         let filter = $("#searchGenre").val()
-        for (let item of elements) {
-            let genre = item.cells[4].children;
+       console.log(elements)
+
+       for (let item of elements) {
+            let genre = $(item).find(".card-genre")
             let visible = false;
 
-            for (g of genre) {
+            for (let g of genre) {
 
                 if ($(g).text().toLowerCase() === filter.toLowerCase()) {
                     visible = true

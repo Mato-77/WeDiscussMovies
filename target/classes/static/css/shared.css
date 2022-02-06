@@ -39,7 +39,7 @@
 .card:hover a h3{
     transition: 400ms;
     color:black;
-    -webkit-text-stroke-color: gray;
+    -webkit-text-stroke-color: white;
 }
 
 .title{

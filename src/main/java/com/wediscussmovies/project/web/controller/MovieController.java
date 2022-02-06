@@ -7,6 +7,7 @@ import com.wediscussmovies.project.model.User;
 import com.wediscussmovies.project.service.GenreService;
 import com.wediscussmovies.project.service.MovieService;
 import com.wediscussmovies.project.service.PersonService;
+import com.wediscussmovies.project.web.DesignFrontMovies;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -46,22 +47,10 @@ public class MovieController {
             movies = movieService.searchByTitle(titleQuery);
         }
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        addModelPropertiesForUser(model);
 
-        if (!(auth instanceof AnonymousAuthenticationToken)){
-            UserDetails userDetails = (UserDetails) auth.getPrincipal();
-            User user = (User) userDetails;
-          model.addAttribute("likedMovies",this.movieService.findLikedMoviesByUser(user));
-          model.addAttribute("user",user);
-        }
-        List<Movie> movieList = movies;
         List<List<Movie>> movie_rows = new ArrayList<>();
-        for(int i=0; i<movieList.size(); i+=4){
-            int j = i+4;
-            if(j>movieList.size())
-                j=movieList.size();
-            movie_rows.add(movieList.subList(i, j));
-        }
+        DesignFrontMovies.designMovieList(movies,movie_rows);
         model.addAttribute("movies", movies);
         model.addAttribute("movie_rows", movie_rows);
         model.addAttribute("contentTemplate", "moviesList");
@@ -73,15 +62,7 @@ public class MovieController {
     @GetMapping("/{id}")
     public String getMovie(@PathVariable Integer id, Model model){
         model.addAttribute("movie", movieService.findById(id));
-
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (!(auth instanceof AnonymousAuthenticationToken)){
-            UserDetails userDetails = (UserDetails) auth.getPrincipal();
-            User user = (User) userDetails;
-            model.addAttribute("likedMovies",this.movieService.findLikedMoviesByUser(user));
-            model.addAttribute("user",user);
-        }
-
+        addModelPropertiesForUser(model);
         model.addAttribute("contentTemplate", "movieShow");
         return "template";
     }
@@ -183,4 +164,10 @@ public class MovieController {
         model.addAttribute("actors", personService.findAllActors());
         model.addAttribute("genres", genreService.findAll());
     }
+    private void addModelPropertiesForUser(Model model){
+        User user = LoggedUser.getLoggedUser();
+        model.addAttribute("likedMovies",this.movieService.findLikedMoviesByUser(user));
+        model.addAttribute("user",user);
+        }
+
 }

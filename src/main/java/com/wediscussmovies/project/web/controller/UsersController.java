@@ -7,6 +7,7 @@ import com.wediscussmovies.project.model.exception.InvalidArgumentsException;
 import com.wediscussmovies.project.model.exception.PasswordsDoNotMatchException;
 import com.wediscussmovies.project.service.MovieService;
 import com.wediscussmovies.project.service.UserService;
+import com.wediscussmovies.project.web.DesignFrontMovies;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -64,12 +65,7 @@ public class UsersController{
     public String getFavoriteList(Model model){
         List<Movie> movieList = this.movieService.findLikedMoviesByUser(LoggedUser.getLoggedUser());
         List<List<Movie>> movie_rows = new ArrayList<>();
-        for(int i=0; i<movieList.size(); i+=4){
-            int j = i+4;
-            if(j>movieList.size())
-                j= movieList.size();
-            movie_rows.add(movieList.subList(i, j));
-        }
+        DesignFrontMovies.designMovieList(movieList,movie_rows);
         model.addAttribute("movie_rows", movie_rows);
         model.addAttribute("contentTemplate","favoriteList");
         return "template";

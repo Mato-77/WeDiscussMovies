@@ -39,7 +39,7 @@ public class Movie {
 
     @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY)
     private Collection<MovieActors> actors;
-    @OneToMany(mappedBy = "movie")
+    @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY)
     private Collection<MovieGenres> genres;
     @OneToMany(mappedBy = "movie")
     private Collection<MovieLikes> likes;
