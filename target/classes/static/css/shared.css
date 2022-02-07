@@ -69,3 +69,38 @@
     width: 20%;
     text-align: center;
 }
+
+#paging-section{
+    width: 100%;
+    clear: both;
+    margin-bottom: 30px;
+}
+
+#inner-paging{
+    width: fit-content;
+    margin: auto;
+
+}
+
+#button-sub, #button-add{
+    width: 100px;
+}
+
+#pageInput{
+    font-size: 100%;
+    text-align: center;
+    width: 175px;
+    margin: auto;
+}
+
+#button-submit-page{
+    margin: auto;
+    text-align: center;
+    margin-top: 7px;
+    display: none;
+}
+
+.visibility{
+    transition: 200ms;
+    opacity: 0;
+}

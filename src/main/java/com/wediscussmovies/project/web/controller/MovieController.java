@@ -8,6 +8,7 @@ import com.wediscussmovies.project.service.GenreService;
 import com.wediscussmovies.project.service.MovieService;
 import com.wediscussmovies.project.service.PersonService;
 import com.wediscussmovies.project.web.DesignFrontMovies;
+import com.wediscussmovies.project.web.PageFrontMovies;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -36,7 +37,7 @@ public class MovieController {
         this.personService = personService;
     }
 
-    @GetMapping
+    @GetMapping("/old")
     public String getMovies(@RequestParam(required = false) String titleQuery, Model model,
                             @RequestParam(required = false) String error){
         List<Movie> movies;
@@ -54,6 +55,25 @@ public class MovieController {
         model.addAttribute("movies", movies);
         model.addAttribute("movie_rows", movie_rows);
         model.addAttribute("contentTemplate", "moviesList");
+        if (error != null && !error.equals(" "))
+            model.addAttribute("error",error);
+        return "template";
+    }
+
+
+    @GetMapping
+    public String getMoviesAlternative(@RequestParam(required = false) String titleQuery, Model model,
+                            @RequestParam(required = false) String error, @RequestParam(required = false) String page){
+        if (page==null){
+            return "redirect:/movies?page=1";
+        }
+        addModelPropertiesForUser(model);
+        List<Movie> movies = PageFrontMovies.getPagedMovies(page, movieService, model);
+        List<List<Movie>> movie_rows = new ArrayList<>();
+        DesignFrontMovies.designMovieList(movies,movie_rows);
+        model.addAttribute("movies", movies);
+        model.addAttribute("movie_rows", movie_rows);
+        model.addAttribute("contentTemplate", "moviesListPaged");
         if (error != null && !error.equals(" "))
             model.addAttribute("error",error);
         return "template";
@@ -159,8 +179,7 @@ public class MovieController {
 
     }
     private void addModelProperties(Model model){
-
-        model.addAttribute("directors",  personService.findAllDirectors());
+        model.addAttribute("directors", personService.findAllDirectors());
         model.addAttribute("actors", personService.findAllActors());
         model.addAttribute("genres", genreService.findAll());
     }
@@ -168,6 +187,6 @@ public class MovieController {
         User user = LoggedUser.getLoggedUser();
         model.addAttribute("likedMovies",this.movieService.findLikedMoviesByUser(user));
         model.addAttribute("user",user);
-        }
+    }
 
 }

@@ -5,6 +5,35 @@ $(document).ready(function (){
     var elementGrade;
 
 
+    $("#button-add").on("click", function (){
+        itemInput = $("#pageInput")
+        itemInput.val(Number(itemInput.val()) + 1);
+        $("#button-submit-page").click()
+    })
+
+    $("#button-sub").on("click", function (){
+        itemInput = $("#pageInput")
+        if(Number(itemInput.val()) > 1){
+            itemInput.val(Number(itemInput.val()) - 1);
+            $("#button-submit-page").click()
+        }
+    })
+
+    $("#searchTitle").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        console.log(value)
+        $(".elements div a .title").filter(function() {
+            console.log($(this).text())
+            if($(this).text().toLowerCase().indexOf(value) <= -1)
+                $(this).parent().parent().parent().addClass("visibility")
+            else
+                $(this).parent().parent().parent().removeClass("visibility")
+        });
+    });
+
+
+
+
     $("#dialog-rating").dialog({
         autoOpen: false,
         modal: true,
@@ -36,7 +65,7 @@ $(document).ready(function (){
     })
 
 
-    $(".search-button-title").on("click",function (){
+    /*$(".search-button-title").on("click",function (){
         let filter = $("#searchTitle").val()
         console.log(elements)
         for (let item of elements){
@@ -49,28 +78,28 @@ $(document).ready(function (){
                 $(item).css("display","none")
             }
         }
-
-    })
+    })*/
 
 
    $(".search-button").on("click",function () {
         let filter = $("#searchGenre").val()
-       console.log(elements)
-
        for (let item of elements) {
             let genre = $(item).find(".card-genre")
             let visible = false;
 
             for (let g of genre) {
 
-                if ($(g).text().toLowerCase() === filter.toLowerCase()) {
+                if (( $(g).text().toLowerCase() === filter.toLowerCase() && !$(g).hasClass("visibility") && filter.trim().length != 0)) {
                     visible = true
-                    $(item).css("display","block")
+                    $(item).removeClass("visibility")
                     break;
                 }
             }
-            if (!visible)
-                $(item).css("display","none")
+            if (!visible && filter.trim().length != 0)
+                $(item).addClass("visibility")
+            else
+                $(item).removeClass("visibility")
+
         }
     });
 
@@ -117,6 +146,16 @@ $(document).ready(function (){
         let url = "api/movies/unlike/"+ $(this).attr("movie-id")+"?userId="+ $(this).attr("user-id")
         ajaxCallLike(url,button,'unlike','Немате оставено допаѓање на филмот!')
     })
+    $(document.body).on("click",".button-add-genre-liked-list",function (){
+        let button = $(this)
+        let url = "api/genres/like/"+ $(this).attr("genre-id") + "?userId="+ $(this).attr("user-id")
+        ajaxCallLikeGenre(url,button,'like','Веќе ви се допаѓа жанрот!')
+    })
+    $(document.body).on("click",".button-remove-genre-liked-list",function (){
+        let button = $(this)
+        let url = "api/genres/unlike/"+ $(this).attr("genre-id")+"?userId="+ $(this).attr("user-id")
+        ajaxCallLikeGenre(url,button,'unlike','Немате оставено допаѓање на жанрот!')
+    })
     $(".discussion-type").change(function (){
         if (this.value === "M"){
             $(".persons-discussion").hide()
@@ -156,6 +195,7 @@ function ajaxCallLike(url,button,type,message){
                     $(button).parent().append("<a class='bottom-heart btn btn-success button-add-favourite-list' movie-id=" + movieId + " user-id=" + userId + ">❤</a>")
 
                 }
+                $(button).remove()
             }
             else {
                 $(button).parent().append("<div>" + message +" <button class='button-confirm'>Ок</button></div>")
@@ -179,6 +219,49 @@ function ajaxCallDelete(url,button){
         }
     })
 }
+
+
+
+function ajaxCallLikeGenre(url,button,type,message){
+    $.ajax({
+        url:url,
+        success:function (data){
+            if (data){
+                let el = $(button).parent().siblings().eq(3)
+                console.log(el)
+                if (type=="like") {
+                    $(el).html(parseInt($(el).text()) + 1)
+                    console.log("da")
+                }
+                else
+                    $(el).html(parseInt($(el).text()) - 1)
+                $(button).css("display","none")
+                let userId = $(button).attr("user-id")
+                let genreId=$(button).attr("genre-id")
+                if (type==='like') {
+                    $(button).parent().append("<a class='btn btn-danger button-remove-genre-liked-list' genre-id=" + genreId + " user-id=" + userId + ">💔</a>")
+                    console.log("da")
+                }
+                else{
+                    $(button).parent().append("<a class='btn btn-success button-add-genre-liked-list' genre-id=" + genreId + " user-id=" + userId + ">❤</a>")
+                }
+                let likes_sibling = $("#"+genreId+"genre")
+                value_likes = Number(likes_sibling.text())
+                if(type=="like")
+                    value_likes+=1
+                else
+                    value_likes-=1
+                likes_sibling.text(value_likes)
+                $(button).remove()
+            }
+            else {
+                $(button).parent().append("<div>" + message +" <button class='button-confirm'>Ок</button></div>")
+            }
+        }
+    })
+}
+
+
 function  ajaxCallRating(url,button,type){
     model = {
         rating:$("#grade").val(),
