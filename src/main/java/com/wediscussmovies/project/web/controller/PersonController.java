@@ -1,6 +1,8 @@
 package com.wediscussmovies.project.web.controller;
 
+import com.wediscussmovies.project.LoggedUser;
 import com.wediscussmovies.project.model.Person;
+import com.wediscussmovies.project.model.User;
 import com.wediscussmovies.project.service.MovieService;
 import com.wediscussmovies.project.service.PersonService;
 import org.springframework.stereotype.Controller;
@@ -132,6 +134,11 @@ public class PersonController {
         model.addAttribute("moviesActors",this.movieService.listAllByType('A'));
         model.addAttribute("moviesDirectors",this.movieService.listAllByType('D'));
 
+    }
+
+    private void addModelPropertiesForUser(Model model){
+        User user = LoggedUser.getLoggedUser();
+        model.addAttribute("user",user);
     }
 
 

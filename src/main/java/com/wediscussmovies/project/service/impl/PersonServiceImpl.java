@@ -8,12 +8,8 @@ import com.wediscussmovies.project.model.exception.MovieIdNotFoundException;
 import com.wediscussmovies.project.model.exception.PersonNotExistException;
 import com.wediscussmovies.project.model.primarykeys.PersonRatesPK;
 import com.wediscussmovies.project.model.relation.MovieActors;
-import com.wediscussmovies.project.model.relation.MovieRates;
 import com.wediscussmovies.project.model.relation.PersonRates;
-import com.wediscussmovies.project.repository.MovieActorsRepository;
-import com.wediscussmovies.project.repository.MovieRepository;
-import com.wediscussmovies.project.repository.PersonRatesRepository;
-import com.wediscussmovies.project.repository.PersonRepository;
+import com.wediscussmovies.project.repository.*;
 import com.wediscussmovies.project.model.Person;
 import com.wediscussmovies.project.service.PersonService;
 import org.springframework.stereotype.Service;
@@ -31,7 +27,6 @@ public class PersonServiceImpl implements PersonService {
     private final MovieRepository movieRepository;
     private final MovieActorsRepository movieActorsRepository;
     private final PersonRatesRepository personRatesRepository;
-
 
     public PersonServiceImpl(PersonRepository personRepository,
                              MovieRepository movieRepository, MovieActorsRepository movieActorsRepository,
@@ -153,6 +148,8 @@ public class PersonServiceImpl implements PersonService {
         }
 
     }
+
+
 
 
     private void addActorForMovies(Person person, List<Integer> movieIds){

@@ -5,6 +5,7 @@ import com.wediscussmovies.project.model.Genre;
 import com.wediscussmovies.project.model.Movie;
 import com.wediscussmovies.project.model.Person;
 import com.wediscussmovies.project.model.User;
+import org.springframework.data.jpa.repository.Query;
 
 import java.sql.Date;
 import java.util.List;
@@ -15,6 +16,7 @@ public interface MovieService {
      List<Movie> listAllWithoutDirector();
      List<Movie> searchByTitle(String title);
      Movie findById(Integer id);
+     List<Integer> listAllIds();
      Movie save(String title, String description, String imageUrl, Date airingDate,Double  rating,
                 Integer directorId,List<Integer> actorIds,List<Integer> genreIds);
 

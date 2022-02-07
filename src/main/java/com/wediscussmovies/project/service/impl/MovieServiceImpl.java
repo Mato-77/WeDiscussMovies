@@ -75,6 +75,11 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
+    public List<Integer> listAllIds() {
+        return this.movieRepository.findAllMovieIds();
+    }
+
+    @Override
     @Transactional
     public Movie save(String title, String description, String imageUrl,
                       Date airingDate, Double rating, Integer directorId,List<Integer> actorIds,List<Integer> genreIds) {

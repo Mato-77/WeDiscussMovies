@@ -4,25 +4,24 @@ import lombok.Data;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.persistence.Id;
 import java.io.Serializable;
 
-@Data
 @Embeddable
-public class UserGenresPK implements Serializable {
-
-    @Column(name = "user_id")
-    private int userId;
+@Data
+public class GenreLikesPK implements Serializable {
 
     @Column(name = "genre_id")
     private int genreId;
 
-    public UserGenresPK() {
+    @Column(name = "user_id")
+    private int userId;
+
+    public GenreLikesPK() {
     }
 
-    public UserGenresPK(int userId, int genreId) {
-        this.userId = userId;
+    public GenreLikesPK(int genreId, int userId) {
         this.genreId = genreId;
+        this.userId = userId;
     }
 
     @Override
@@ -30,15 +29,15 @@ public class UserGenresPK implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        UserGenresPK that = (UserGenresPK) o;
+        GenreLikesPK that = (GenreLikesPK) o;
 
         return userId == that.userId && genreId == that.genreId;
     }
 
     @Override
     public int hashCode() {
-        int result = userId;
-        result = 31 * result + genreId;
+        int result = genreId;
+        result = 31 * result + userId;
         return result;
     }
 }
