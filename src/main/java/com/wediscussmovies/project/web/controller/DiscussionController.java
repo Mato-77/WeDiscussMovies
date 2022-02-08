@@ -4,6 +4,7 @@ import com.wediscussmovies.project.LoggedUser;
 import com.wediscussmovies.project.model.Discussion;
 import com.wediscussmovies.project.model.Reply;
 import com.wediscussmovies.project.model.User;
+import com.wediscussmovies.project.model.relation.DiscussionLikes;
 import com.wediscussmovies.project.service.DiscussionService;
 import com.wediscussmovies.project.service.MovieService;
 import com.wediscussmovies.project.service.PersonService;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -45,6 +47,8 @@ public class DiscussionController {
         model.addAttribute("discussions", discussions);
         model.addAttribute("contentTemplate", "discussionsList");
         model.addAttribute("user",LoggedUser.getLoggedUser());
+        this.addModelPropertiesForUser(model);
+        this.addModelPropertiesLikes(model,null, discussions);
         return "template";
     }
 
@@ -61,6 +65,8 @@ public class DiscussionController {
             model.addAttribute("contentTemplate", "discussion");
             model.addAttribute("user",LoggedUser.getLoggedUser());
             model.addAttribute("replies",this.replyService.findAllByDiscussion(disc));
+            addModelPropertiesLikes(model, disc, null);
+            addModelPropertiesForUser(model);
 
             return "template";
         }
@@ -169,6 +175,23 @@ public class DiscussionController {
         model.addAttribute("persons",this.personService.findAll());
         model.addAttribute("contentTemplate", "discussionsAdd");
 
+    }
+    private void addModelPropertiesForUser(Model model){
+        User user = LoggedUser.getLoggedUser();
+        model.addAttribute("likedDiscussions",this.discussionService.findLikedDiscussionsByUser(user));
+        model.addAttribute("user",user);
+    }
+    private void addModelPropertiesLikes(Model model, Discussion discussion, List<Discussion> discussions){
+        if(discussion==null){
+            List<com.wediscussmovies.project.querymodels.DiscussionLikes> discussionLikes = new ArrayList<>();
+            for(Discussion d: discussions){
+                discussionLikes.add(discussionService.findLikesForDiscussionWithId(d.getDiscussionId()));
+            }
+            model.addAttribute("likes", discussionLikes);
+        }
+        else{
+            model.addAttribute("likes",discussionService.findLikesForDiscussionWithId(discussion.getDiscussionId()).getLikes());
+        }
     }
 
 

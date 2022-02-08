@@ -28,7 +28,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // TODO: If you are implementing the security requirements, remove this following line
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/movies","/movies/**/","/actors","/persons/**/","/directors","/discussions","/discussions/**/","/discussions/all/**/","/replies","/register","/genres", "/css/**", "/js/**").permitAll()
+                .antMatchers("/movies","/movies/**/","/actors","/persons/**/","/directors","/discussions","/discussions/**/","/discussions/all/**/","/replies","/register","/genres", "/css/**","/img/**", "/js/**").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

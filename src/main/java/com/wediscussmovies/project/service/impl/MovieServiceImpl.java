@@ -12,6 +12,7 @@ import com.wediscussmovies.project.model.relation.MovieActors;
 import com.wediscussmovies.project.model.relation.MovieGenres;
 import com.wediscussmovies.project.model.relation.MovieLikes;
 import com.wediscussmovies.project.model.relation.MovieRates;
+import com.wediscussmovies.project.querymodels.MovieLikesQM;
 import com.wediscussmovies.project.repository.*;
 import com.wediscussmovies.project.model.exception.MovieIdNotFoundException;
 import com.wediscussmovies.project.service.MovieService;
@@ -72,6 +73,16 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public Movie findById(Integer id) {
         return this.movieRepository.findById(id).orElseThrow(() -> new MovieIdNotFoundException(id));
+    }
+
+    @Override
+    public Movie findBasicById(Integer id) {
+        return this.movieRepository.findBasicById(id).orElseThrow(() -> new MovieIdNotFoundException(id));
+    }
+
+    @Override
+    public MovieLikesQM findLikesForMovieById(int movieId) {
+        return this.movieRepository.findLikesForMovie(movieId).get(0);
     }
 
     @Override

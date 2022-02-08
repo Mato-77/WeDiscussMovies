@@ -31,7 +31,10 @@ public class PageFrontMovies {
         movieIds = movieIds.subList(from, to);
 
         for(Integer id: movieIds){
-            movies.add(movieService.findById(id));
+            //Trying to improve load times by not pulling all things from the database, excluding un-needed stuff
+            //
+            //movies.add(movieService.findById(id));
+            movies.add(movieService.findBasicById(id));
         }
         model.addAttribute("page", page);
         return movies;

@@ -4,36 +4,35 @@ import com.wediscussmovies.project.model.exception.DiscussionNotExistException;
 import com.wediscussmovies.project.model.exception.MovieIdNotFoundException;
 import com.wediscussmovies.project.model.exception.PersonNotExistException;
 import com.wediscussmovies.project.model.exception.UserNotExistException;
-import com.wediscussmovies.project.repository.DiscussionRepository;
+import com.wediscussmovies.project.model.primarykeys.DiscussionLikesPK;
+import com.wediscussmovies.project.model.relation.DiscussionLikes;
+import com.wediscussmovies.project.repository.*;
 import com.wediscussmovies.project.model.Discussion;
 import com.wediscussmovies.project.model.Movie;
 import com.wediscussmovies.project.model.Person;
 import com.wediscussmovies.project.model.User;
-import com.wediscussmovies.project.repository.MovieRepository;
-import com.wediscussmovies.project.repository.PersonRepository;
-import com.wediscussmovies.project.repository.UserRepository;
 import com.wediscussmovies.project.service.DiscussionService;
-import com.wediscussmovies.project.service.MovieService;
-import com.wediscussmovies.project.service.PersonService;
-import com.wediscussmovies.project.service.UserService;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class DiscussionServiceImpl implements DiscussionService {
 
     private final DiscussionRepository discussionRepository;
+    private final DiscussionLikesRepository discussionLikesRepository;
     private final UserRepository userRepository;
 
     private final MovieRepository movieRepository;
     private final PersonRepository personRepository;
 
-    public DiscussionServiceImpl(DiscussionRepository discussionRepository, UserRepository userRepository,
+    public DiscussionServiceImpl(DiscussionRepository discussionRepository, DiscussionLikesRepository discussionLikesRepository, UserRepository userRepository,
                                  MovieRepository movieRepository, PersonRepository personRepository) {
         this.discussionRepository = discussionRepository;
+        this.discussionLikesRepository = discussionLikesRepository;
         this.userRepository = userRepository;
         this.movieRepository = movieRepository;
         this.personRepository = personRepository;
@@ -93,13 +92,32 @@ public class DiscussionServiceImpl implements DiscussionService {
 
     @Override
     public void likeDiscussion(Integer discussionId, Integer userId) {
-        //ova fali od dijagram
+        Discussion discussion = discussionRepository.findById(discussionId).orElseThrow(() -> new DiscussionNotExistException(discussionId));
+        User user = userRepository.findById(userId).orElseThrow(() -> new UserNotExistException(userId.toString()));
+        this.discussionLikesRepository.save(new DiscussionLikes(discussion, user));
+    }
+
+    @Override
+    public List<Discussion> findLikedDiscussionsByUser(User user) {
+        List<DiscussionLikes> likes = discussionLikesRepository.findAllByUser(user);
+        List<Discussion> discussions = new ArrayList<>();
+        for(DiscussionLikes dl: likes){
+            discussions.add(dl.getDiscussion());
+        }
+        return discussions;
     }
 
     @Override
     public void unlikeDiscussion(Integer discussionId, Integer userId) {
-        // ova fali od dijagram
+        DiscussionLikesPK pk = new DiscussionLikesPK(discussionId, userId);
+        this.discussionLikesRepository.deleteById(pk);
     }
+
+    @Override
+    public com.wediscussmovies.project.querymodels.DiscussionLikes findLikesForDiscussionWithId(int discussionId) {
+        return discussionRepository.findAllWithLikes().stream().filter(d ->  d.getDiscussionId().equals(discussionId)).findFirst().get();
+    }
+
 
     @Override
     public List<Discussion> findAllForPersonOrMovie(Integer id,Character type) {

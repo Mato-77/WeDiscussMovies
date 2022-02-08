@@ -8,6 +8,7 @@ import com.wediscussmovies.project.model.exception.MovieIdNotFoundException;
 import com.wediscussmovies.project.model.exception.PersonNotExistException;
 import com.wediscussmovies.project.model.primarykeys.PersonRatesPK;
 import com.wediscussmovies.project.model.relation.MovieActors;
+import com.wediscussmovies.project.model.relation.MovieLikes;
 import com.wediscussmovies.project.model.relation.PersonRates;
 import com.wediscussmovies.project.repository.*;
 import com.wediscussmovies.project.model.Person;
@@ -27,7 +28,6 @@ public class PersonServiceImpl implements PersonService {
     private final MovieRepository movieRepository;
     private final MovieActorsRepository movieActorsRepository;
     private final PersonRatesRepository personRatesRepository;
-
     public PersonServiceImpl(PersonRepository personRepository,
                              MovieRepository movieRepository, MovieActorsRepository movieActorsRepository,
                              PersonRatesRepository personRatesRepository) {
@@ -148,7 +148,6 @@ public class PersonServiceImpl implements PersonService {
         }
 
     }
-
 
 
 

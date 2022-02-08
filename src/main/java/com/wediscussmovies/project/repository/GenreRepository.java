@@ -27,4 +27,8 @@ public interface GenreRepository extends JpaRepository<Genre, Integer> {
      @Query(value = "insert into project.user_genres (user_id,genre_id) values(:user_id,:genre_id)",nativeQuery = true)
      @Transactional
      void insertInto(@Param("user_id")Integer userId, @Param("genre_id")Integer genreId);
+
+     @Query(value = "select new com.wediscussmovies.project.model.Genre (g.genreId, g.genreType) from Genre g" +
+     " ORDER BY g.genreType DESC")
+     List<Genre> findAllSorted();
 }

@@ -51,6 +51,10 @@ public class MovieRestController {
     @PostMapping("/grade/{movieId}")
     public ResponseEntity addGrade(@PathVariable Integer movieId, @RequestBody Grade grade){
         try {
+            if(grade.getRating() < 5)
+                grade.setRating(5);
+            else if(grade.getRating()>10)
+                grade.setRating(10);
             this.movieService.addGradeMovie(movieId, LoggedUser.getLoggedUser(),grade);
             return ResponseEntity.ok(true);
         }

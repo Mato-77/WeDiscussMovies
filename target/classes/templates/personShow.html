@@ -1,63 +1,50 @@
 
-<div xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" style="width: 80%; margin: auto">
-    <div>
-
+<div xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" style="width: 70%; margin: auto">
+    <div style="clear: both; margin-bottom: 10px; display:  inline-block">
         <div style="width: 60%; margin-left: 10px; padding:20px; float:left">
             <h1 th:text="${person.getName() + ' ' + person.getSurname()}" style="text-align: center; padding:10px; background-color: rgba(64,64,64,0.5); color:white; border-radius: 10px 0px"></h1>
             <hr>
-            <h3 th:text="${'Born on: ' + person.getDateOfBirth()}"></h3>
+            <h3 th:text="${'Роден на: ' + person.getDateFormatted()}"></h3>
             <div style="background-color: rgba(200,200,200,0.5); border-radius: 10px; padding:15px; ">
-                <h3>Description:</h3>
+                <h3>Краток Опис:</h3>
                 <p th:text="${person.getDescription()}" style="text-align: justify"></p>
             </div>
 
-            <div th:if="${person.getType() == 'D'}">
-                <h3 >Directed movies:</h3>
+            <div th:if="${person.getType().toString().contains('D')}" class="person-movies-list">
+                <h3 >Режисирани филмови:</h3>
+                <hr>
                 <ul>
-                    <li th:each="movie: ${actor.getMovies()}"><a th:text="${movie.getTitle()}" th:href="@{'/movies/{id}' (id=${movie.getMovieId()})}" ></a></li>
+                    <li th:each="movie: ${person.getMovies()}"><a th:text="${movie.getTitle()}" th:href="@{'/movies/{id}' (id=${movie.getMovieId()})}" ></a></li>
                 </ul>
             </div>
-            <div th:if="${person.getType() == 'A'}">
-                <h3 >Acted in movies:</h3>
+            <div th:if="${person.getType().toString().contains('A')}" class="person-movies-list">
+                <h3 >Се појавува во филмовите:</h3>
+                <hr>
                 <ul>
-                    <li th:each="movie: ${actor.getMovieActors()}" ><a th:text="${movie.getMovie().getTitle()}" th:href="@{'/movies/{id}' (id=${movie.getMovie().getMovieId()})}" ></a></li>
+                    <li th:each="movie: ${person.getMovieActors()}" ><a th:text="${movie.getMovie().getTitle()}" th:href="@{'/movies/{id}' (id=${movie.getMovie().getMovieId()})}" ></a></li>
                 </ul>
             </div>
-
         </div>
-        <div style="width: 30%; margin-left: 10px; padding:20px; border-left: 3px solid black; border-radius: 10px; float:left">
+        <div style="width: 30%; margin-left: 10px; padding:20px; border-left: 3px solid black; border-radius: 10px; float:right">
             <img th:src="${person.getImageUrl()}" style="width: 90%; height: auto">
         </div>
     </div>
-    <div style="width: 45%; margin: 25px; float:left; background-color: rgb(200,200,200); padding: 10px; border-radius: 5px">
+    <br>
+    <div style="clear:both; display: inline-block; width: 100%; background-color: rgb(200,200,200); padding: 10px; border-radius: 5px">
         <h2>
-            <span>Бројот на оцени кои филмот ги добил:</span>
-            <span th:text="${movie.getRates().size()}"></span>
+            <span>Бројот на оцени кои личноста ги има добиено:</span>
+            <span th:text="${person.getPersonRates().size()}"></span>
         </h2>
         <hr>
-        <div th:each="rating: ${movie.getRates()}" style="margin-bottom: 10px; border: 2px solid gray; border-radius: 10px; background-color: lightblue; padding: 10px; border-radius: 10px; min-height: 130px;">
+        <div th:each="rating: ${person.getPersonRates()}" style="margin-bottom: 10px; border: 2px solid gray; border-radius: 10px; background-color: lightblue; padding: 10px; border-radius: 10px; min-height: 130px;">
             <div style="width: 60%; float:left;">
                 <p th:text="${rating.getReason()}" style="text-align: justify"></p>
             </div>
             <div style="width: 30%; float:right; background-color: darkorange; border-radius: 10px 30px; color: whitesmoke; padding: 10px;">
-                <h2 style="text-align: center">Rated:</h2>
-                <p th:text="${rating.getStarsRated() + ' out of 10 stars'}" style="text-align: center"></p>
+                <h2 style="text-align: center">Оценет со :</h2>
+                <p th:text="${rating.getStarsRated() + ' од 10'}" style="text-align: center"></p>
             </div>
         </div>
     </div>
-    <div style="width: 45%; margin: 25px; float:left; background-color: rgb(200,200,200); padding: 10px; border-radius: 5px">
-        <h2>
-            <span>Бројот на лајкови кои филмот ги добил:</span>
-            <span th:text="${movie.getLikes().size()}"></span>
-        </h2>
-        <hr>
-        <div th:each="liked: ${movie.getLikes()}" style="margin-bottom: 10px; border: 2px solid gray; border-radius: 10px; background-color: lightblue; padding: 10px; border-radius: 10px; min-height: 60px;">
-            <div style="width: 100%; float:left;">
-                <h3  style="text-align: center">
-                    <span th:text="${liked.getUser().getName() + ' ' + liked.getUser().getSurname()}"></span>
-                    <span style="color: green; font-size: 100%" >✔</span>
-                </h3>
-            </div>
-        </div>
-    </div>
+
 </div>

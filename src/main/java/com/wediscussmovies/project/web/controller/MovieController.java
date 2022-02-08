@@ -4,6 +4,7 @@ import com.wediscussmovies.project.LoggedUser;
 import com.wediscussmovies.project.model.Movie;
 import com.wediscussmovies.project.model.Person;
 import com.wediscussmovies.project.model.User;
+import com.wediscussmovies.project.querymodels.MovieLikesQM;
 import com.wediscussmovies.project.service.GenreService;
 import com.wediscussmovies.project.service.MovieService;
 import com.wediscussmovies.project.service.PersonService;
@@ -22,6 +23,8 @@ import org.springframework.web.bind.annotation.*;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 @Controller
@@ -38,7 +41,7 @@ public class MovieController {
     }
 
     @GetMapping("/old")
-    public String getMovies(@RequestParam(required = false) String titleQuery, Model model,
+    public String getMoviesOld(@RequestParam(required = false) String titleQuery, Model model,
                             @RequestParam(required = false) String error){
         List<Movie> movies;
         if(titleQuery == null ) {
@@ -55,6 +58,7 @@ public class MovieController {
         model.addAttribute("movies", movies);
         model.addAttribute("movie_rows", movie_rows);
         model.addAttribute("contentTemplate", "moviesList");
+        model.addAttribute("genres", genreService.findAll());
         if (error != null && !error.equals(" "))
             model.addAttribute("error",error);
         return "template";
@@ -62,7 +66,7 @@ public class MovieController {
 
 
     @GetMapping
-    public String getMoviesAlternative(@RequestParam(required = false) String titleQuery, Model model,
+    public String getMovies(@RequestParam(required = false) String titleQuery, Model model,
                             @RequestParam(required = false) String error, @RequestParam(required = false) String page){
         if (page==null){
             return "redirect:/movies?page=1";
@@ -71,8 +75,10 @@ public class MovieController {
         List<Movie> movies = PageFrontMovies.getPagedMovies(page, movieService, model);
         List<List<Movie>> movie_rows = new ArrayList<>();
         DesignFrontMovies.designMovieList(movies,movie_rows);
+        //addModelPropertiesForMoviesLikes(model, movies);
         model.addAttribute("movies", movies);
         model.addAttribute("movie_rows", movie_rows);
+        model.addAttribute("genres", genreService.findAll());
         model.addAttribute("contentTemplate", "moviesListPaged");
         if (error != null && !error.equals(" "))
             model.addAttribute("error",error);
@@ -83,6 +89,7 @@ public class MovieController {
     public String getMovie(@PathVariable Integer id, Model model){
         model.addAttribute("movie", movieService.findById(id));
         addModelPropertiesForUser(model);
+        model.addAttribute("likes", movieService.findLikesForMovieById(id).getLikes());
         model.addAttribute("contentTemplate", "movieShow");
         return "template";
     }
@@ -187,6 +194,13 @@ public class MovieController {
         User user = LoggedUser.getLoggedUser();
         model.addAttribute("likedMovies",this.movieService.findLikedMoviesByUser(user));
         model.addAttribute("user",user);
+    }
+    private void addModelPropertiesForMoviesLikes(Model model, List<Movie> movies){
+        HashMap<Integer,MovieLikesQM> movieLikes = new HashMap<>();
+        for(Movie m: movies){
+            movieLikes.put(m.getMovieId(),movieService.findLikesForMovieById(m.getMovieId()));
+        }
+        model.addAttribute("movieLikes", movieLikes);
     }
 
 }
