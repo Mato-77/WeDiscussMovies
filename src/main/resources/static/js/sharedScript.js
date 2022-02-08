@@ -3,7 +3,7 @@ var urlRating;
 $(document).ready(function (){
     var elements = $(".elements")
     var elementGrade;
-
+    var first_time = true;
 
     $("#button-add").on("click", function (){
         itemInput = $("#pageInput")
@@ -55,12 +55,12 @@ $(document).ready(function (){
     });
     $(".button-add-grade-movie").on("click",function (){
         elementGrade = $(this)
-        urlRating ="api/movies/grade/"+$(this).attr("movie-id")
+        urlRating ="/api/movies/grade/"+$(this).attr("movie-id")
         $("#dialog-rating").dialog("open")
     })
     $(".button-add-grade-person").on("click",function (){
         elementGrade = $(this)
-        urlRating ="api/persons/grade/"+$(this).attr("person-id")
+        urlRating ="/api/persons/grade/"+$(this).attr("person-id")
         $("#dialog-rating").dialog("open")
     })
 
@@ -80,42 +80,59 @@ $(document).ready(function (){
         }
     })*/
 
+    $("#button_toggle_filters").on("click", function (){
+        if(first_time){
+            $("#filters_div").removeClass("invisible-search")
+            first_time=false
+        }
+        else
+            $("#filters_div").fadeToggle();
+    })
 
    $(".search-button").on("click",function () {
-        let filter = $("#searchGenre").val()
+       elements = $(".elements")
+       let filter = $("#searchGenre").val()
+       console.log('\''+filter+'\'')
+       console.log(elements)
+       if(filter.length==0){
+           console.log("HERE")
+           for (let item of elements) {
+               $(item).removeClass("visibility")
+           }
+       }
        for (let item of elements) {
-            let genre = $(item).find(".card-genre")
+           $(item).removeClass("visibility")
+            let genre = $(item).children(".card-genre")
             let visible = false;
-
+            console.log(genre.length)
             for (let g of genre) {
-
-                if (( $(g).text().toLowerCase() === filter.toLowerCase() && !$(g).hasClass("visibility") && filter.trim().length != 0)) {
+                if (( $(g).text().toLowerCase() === filter.toLowerCase())){
+                    console.log(item.text + ' ' + $(g).text())
                     visible = true
                     $(item).removeClass("visibility")
                     break;
                 }
             }
-            if (!visible && filter.trim().length != 0)
+            if(!visible){
                 $(item).addClass("visibility")
-            else
-                $(item).removeClass("visibility")
+            }
 
         }
     });
 
     $(".button-delete-movie").on("click",function (){
         let button = $(this)
-        let url = "api/movies/delete/" + $(button).attr("movie-id")
+        let url = "/api/movies/delete/" + $(button).attr("movie-id")
         ajaxCallDelete(url,button)
     })
     $(".button-delete-actor").on("click",function (){
         let button = $(this)
-        let url  = "api/persons/delete/" + $(button).attr("person-id")
+        let url  = "/api/persons/delete/" + $(button).attr("person-id")
         ajaxCallDelete(url,button)
     })
     $(".button-delete-discussion").on("click",function (){
         let button = $(this)
-        let url = "api/discussions/delete/" + $(button).attr("discussion-id")
+        let url = "/api/discussions/delete/" + $(button).attr("discussion-id")
         ajaxCallDelete(url,button)
     })
 
@@ -138,23 +155,43 @@ $(document).ready(function (){
     })
     $(document.body).on("click",".button-add-favourite-list",function (){
         let button = $(this)
-        let url = "api/movies/like/"+ $(this).attr("movie-id") + "?userId="+ $(this).attr("user-id")
+        let url = "/api/movies/like/"+ $(this).attr("movie-id") + "?userId="+ $(this).attr("user-id")
         ajaxCallLike(url,button,'like','Веќе е филмот допаднат!')
     })
     $(document.body).on("click",".button-remove-favourite-list",function (){
         let button = $(this)
-        let url = "api/movies/unlike/"+ $(this).attr("movie-id")+"?userId="+ $(this).attr("user-id")
+        let url = "/api/movies/unlike/"+ $(this).attr("movie-id")+"?userId="+ $(this).attr("user-id")
         ajaxCallLike(url,button,'unlike','Немате оставено допаѓање на филмот!')
     })
     $(document.body).on("click",".button-add-genre-liked-list",function (){
         let button = $(this)
-        let url = "api/genres/like/"+ $(this).attr("genre-id") + "?userId="+ $(this).attr("user-id")
+        let url = "/api/genres/like/"+ $(this).attr("genre-id") + "?userId="+ $(this).attr("user-id")
         ajaxCallLikeGenre(url,button,'like','Веќе ви се допаѓа жанрот!')
     })
     $(document.body).on("click",".button-remove-genre-liked-list",function (){
         let button = $(this)
-        let url = "api/genres/unlike/"+ $(this).attr("genre-id")+"?userId="+ $(this).attr("user-id")
+        let url = "/api/genres/unlike/"+ $(this).attr("genre-id")+"?userId="+ $(this).attr("user-id")
         ajaxCallLikeGenre(url,button,'unlike','Немате оставено допаѓање на жанрот!')
+    })
+    $(document.body).on("click",".button-like-discussion",function (){
+        let button = $(this)
+        let url = "/api/discussions/like/"+ $(this).attr("discussion-id")+"?userId="+ $(this).attr("user-id")
+        ajaxCallLikeDiscussion(url,button,'like','Веќе имате оставено допаѓање на дискусијата!')
+    })
+    $(document.body).on("click",".button-unlike-discussion",function (){
+        let button = $(this)
+        let url = "/api/discussions/unlike/"+ $(this).attr("discussion-id")+"?userId="+ $(this).attr("user-id")
+        ajaxCallLikeDiscussion(url,button,'unlike','Немате оставено допаѓање на дискусијата!')
+    })
+    $(document.body).on("click",".button-like-discussion-alt",function (){
+        let button = $(this)
+        let url = "/api/discussions/like/"+ $(this).attr("discussion-id")+"?userId="+ $(this).attr("user-id")
+        ajaxCallLikeDiscussionAlternative(url,button,'like','Веќе имате оставено допаѓање на дискусијата!')
+    })
+    $(document.body).on("click",".button-unlike-discussion-alt",function (){
+        let button = $(this)
+        let url = "/api/discussions/unlike/"+ $(this).attr("discussion-id")+"?userId="+ $(this).attr("user-id")
+        ajaxCallLikeDiscussionAlternative(url,button,'unlike','Немате оставено допаѓање на дискусијата!')
     })
     $(".discussion-type").change(function (){
         if (this.value === "M"){
@@ -188,13 +225,19 @@ function ajaxCallLike(url,button,type,message){
                 let userId = $(button).attr("user-id")
                 let movieId=$(button).attr("movie-id")
                 if (type==='like') {
-                    $(button).parent().append("<a class='bottom-heart btn btn-danger button-remove-favourite-list' movie-id=" + movieId + " user-id=" + userId + ">💔</a>")
+                    $(button).parent().append("<a class='btn btn-danger button-remove-favourite-list' movie-id=" + movieId + " user-id=" + userId + ">💔</a>")
                     console.log("da")
                 }
                 else{
-                    $(button).parent().append("<a class='bottom-heart btn btn-success button-add-favourite-list' movie-id=" + movieId + " user-id=" + userId + ">❤</a>")
-
+                    $(button).parent().append("<a class='btn btn-success button-add-favourite-list' movie-id=" + movieId + " user-id=" + userId + ">❤</a>")
                 }
+                likes_count = $("#movie_likes_count")
+                count = Number($(likes_count).text())
+                if(type==="like")
+                    count++
+                else
+                    count--
+                likes_count.text(count)
                 $(button).remove()
             }
             else {
@@ -252,6 +295,89 @@ function ajaxCallLikeGenre(url,button,type,message){
                 else
                     value_likes-=1
                 likes_sibling.text(value_likes)
+                $(button).remove()
+            }
+            else {
+                $(button).parent().append("<div>" + message +" <button class='button-confirm'>Ок</button></div>")
+            }
+        }
+    })
+}
+
+
+
+
+function ajaxCallLikeDiscussion(url,button,type,message){
+    $.ajax({
+        url:url,
+        success:function (data){
+            if (data){
+                let el = $(button).parent().siblings().eq(3)
+                console.log(el)
+                if (type=="like") {
+                    $(el).html(parseInt($(el).text()) + 1)
+                    console.log("da")
+                }
+                else
+                    $(el).html(parseInt($(el).text()) - 1)
+                $(button).css("display","none")
+                let userId = $(button).attr("user-id")
+                let discussionId=$(button).attr("discussion-id")
+                if (type==='like') {
+                    $(button).parent().append("<a class='btn btn-danger button-unlike-discussion' discussion-id=" + discussionId + " user-id=" + userId + ">💔</a>")
+                    console.log("da")
+                }
+                else{
+                    $(button).parent().append("<a class='btn btn-success button-like-discussion' discussion-id=" + discussionId + " user-id=" + userId + ">❤</a>")
+                }
+                var likes_count = $("#likes_count")
+                var count = Number($(likes_count).text())
+                if(type==='like')
+                    count += 1
+                else
+                    count -= 1
+                $(likes_count).text(count);
+                $(button).remove()
+            }
+            else {
+                $(button).parent().append("<div>" + message +" <button class='button-confirm'>Ок</button></div>")
+            }
+        }
+    })
+}
+
+
+
+function ajaxCallLikeDiscussionAlternative(url,button,type,message){
+    $.ajax({
+        url:url,
+        success:function (data){
+            if (data){
+                let el = $(button).parent().siblings().eq(3)
+                console.log(el)
+                if (type=="like") {
+                    $(el).html(parseInt($(el).text()) + 1)
+                    console.log("da")
+                }
+                else
+                    $(el).html(parseInt($(el).text()) - 1)
+                $(button).css("display","none")
+                let userId = $(button).attr("user-id")
+                let discussionId=$(button).attr("discussion-id")
+                if (type==='like') {
+                    $(button).parent().append("<a class='btn btn-danger button-unlike-discussion-alt' discussion-id=" + discussionId + " user-id=" + userId + ">💔</a>")
+                    console.log("da")
+                }
+                else{
+                    $(button).parent().append("<a class='btn btn-success button-like-discussion-alt' discussion-id=" + discussionId + " user-id=" + userId + ">❤</a>")
+                }
+                var likes_count = $(button).parent().siblings(".likes_count").first()
+                var count = Number(likes_count.text())
+                if(type==='like')
+                    count += 1
+                else
+                    count -= 1
+                $(likes_count).text(count);
                 $(button).remove()
             }
             else {

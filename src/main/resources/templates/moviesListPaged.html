@@ -1,11 +1,13 @@
 <div xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
-
-    <div style="width: 70%; margin: auto">
-        <div th:replace="fragments/searchBarName"></div>
-        <div th:replace="fragments/searchBarGenre"></div>
-
+    <div style="margin:auto; width: 60%">
+        <div style="width: 30%; margin: auto; height: 100%; margin-bottom: 10px">
+            <a class="btn btn-outline-dark" style="height: 100%; width: 100%; font-size: 125%" id="button_toggle_filters">Прикажи филтрирање</a>
+        </div>
+        <div style="width: 100%; margin: auto; transition: 200ms" id="filters_div" class="invisible-search">
+            <div th:replace="fragments/searchBarName"></div><br>
+            <div th:replace="fragments/searchBarGenre"></div>
+        </div>
     </div>
-
     <div id="paging-section">
         <div id="inner-paging" class="input-group">
             <!--
@@ -24,7 +26,7 @@
                 <button class="btn btn-success" id="button-add" >Next</button>
             </div>
         </div>
-    </div><br><br><br>
+    </div><br>
 
     <div class="container mb-4">
         <a  sec:authorize="isAuthenticated()" th:href="@{/movies/add}">Додади нов филм</a>
@@ -33,13 +35,15 @@
     <div class="container mb-4">
         <div class="row" th:each="row: ${movie_rows}" >
             <div class="col-md-3 elements" th:each="movie: ${row}" >
+                <span th:each="genre: ${movie.getGenres()}"  th:text="${genre?.getGenre()?.getGenreType()}" hidden class="card-genre"></span>
                     <div class="card-body card bg-image" th:style="'background:url(' + ${movie.getImageUrl()} + ') no-repeat center #eee;'">
                         <a class="card-text-center" style="color: white" th:href="@{'/movies/{id}' (id=${movie.getMovieId()})}" >
                         <h3 class="card-title title" th:text="${movie.getTitle()}"></h3>
                             <span th:each="genre: ${movie.getGenres()}"  th:text="${genre?.getGenre()?.getGenreType()}" hidden class="card-genre"></span>
-
                         </a>
-                        <h3 class="card-text bottom" th:text="${'Rated '+movie.getImdbRating()}"></h3>
+                        <span class="card-text bottom">
+                            <h3 th:text="${'Оценет '+movie.getImdbRating() + '/10'}"></h3>
+                        </span>
                         <th:block sec:authorize="isAuthenticated()">
                             <a class="bottom-heart btn btn-success button-add-favourite-list" th:movie-id="${movie.getMovieId()}" th:user-id="${user.getUserId()}" th:if="${!likedMovies.contains(movie)}">❤</a>
                             <a class="bottom-heart btn btn-danger button-remove-favourite-list" th:movie-id="${movie.getMovieId()}" th:user-id="${user.getUserId()}" th:if="${likedMovies.contains(movie)}">💔</a>

@@ -5,7 +5,10 @@ import com.wediscussmovies.project.model.relation.PersonRates;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.swing.text.DateFormatter;
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 
 @Entity
@@ -71,6 +74,12 @@ public class Person {
         return personId * 31;
     }
 
+
+    public String getDateFormatted(){
+        String dob = dateOfBirth.toString();
+        String [] parts = dob.split("-");
+        return parts[2]+"/"+parts[1]+"/"+parts[0];
+    }
 
 
     public Person(String name, String surname, Character type, Date dateOfBirth, String imageUrl, String description) {

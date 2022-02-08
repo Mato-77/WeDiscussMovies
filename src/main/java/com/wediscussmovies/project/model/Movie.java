@@ -65,6 +65,19 @@ public class Movie {
 
     }
 
+    public Movie(int movieId, String title, Double imdbRating, String imageUrl) {
+        this.movieId = movieId;
+        this.title = title;
+        this.imdbRating = imdbRating;
+        this.imageUrl = imageUrl;
+    }
+
+    public String getDateFormatted(){
+        String dob = airingDate.toString();
+        String [] parts = dob.split("-");
+        return parts[2]+"/"+parts[1]+"/"+parts[0];
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
