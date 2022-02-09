@@ -10,10 +10,7 @@ import com.wediscussmovies.project.service.UserService;
 import com.wediscussmovies.project.web.DesignFrontMovies;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +38,12 @@ public class UsersController{
         } catch (InvalidArgumentsException | PasswordsDoNotMatchException exception) {
             return "redirect:/register?error=" + exception.getMessage();
         }
+    }
+    @GetMapping("/profiles/{id}")
+    public String getProfilePage(@PathVariable Integer id, Model model){
+        model.addAttribute("user",userService.findById(id));
+        model.addAttribute("contentTemplate","usersShow");
+        return "template";
     }
     @GetMapping("/register")
     public String getRegisterPage(@RequestParam(required = false) String error, Model model) {

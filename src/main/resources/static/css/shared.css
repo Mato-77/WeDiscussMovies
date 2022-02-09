@@ -163,7 +163,7 @@
 
 .genres-listing ul li{
     background-color: rgba(192,128,128,0.7);
-    text-decoration: none !important;
+    text-decoration: none;
 }
 
 .person-movies-list ul li a{
@@ -212,4 +212,92 @@
 
 .invisible-search{
     display: none;
+}
+
+.user-text{
+    font-size: 95%;
+    text-decoration: none !important;
+    text-decoration-color: transparent;
+    text-align: justify;
+}
+
+.user-text-small{
+    font-size: 85%;
+    text-decoration: none !important;
+    text-decoration-color: transparent;
+    text-align: justify;
+}
+
+
+.user-movies-list{
+    margin: auto;
+    margin-top: 20px;
+    padding: 10px;
+    width: 80%;
+    background-color: rgba(52, 58, 64, 0.7);
+    border-radius: 10px;
+    transition: 200ms;
+    margin-right: 15px;
+    color: white;
+    transition: 200ms;
+}
+
+.user-movies-list:hover{
+    background-color: rgba(52, 58, 64, 1);
+}
+
+.user-movies-list ul{
+    list-style-type: none;
+    width: 99%;
+    margin: auto;
+    display: none;
+}
+
+.hidden-class{
+    background-color: rgba(192,255,192,0.6);
+    color: black;
+}
+
+.hidden-class:hover{
+    background-color: rgba(128,255,128,1) !important;
+
+}
+
+.user-movies-list ul li{
+    color:black;
+    background-color: rgba(255,255,255,0.7);
+    padding: 12px;
+    font-size: 80%;
+    width: 90%;
+    text-align: center;
+    margin: auto;
+    transition: 200ms;
+    border-radius: 10px;
+    margin-bottom: 5px;
+    text-decoration: none;
+    float: left;
+}
+
+.user-movies-list hr{
+    color: white;
+    background-color: white;
+    border-color: white;
+}
+
+
+.user-movies-list ul li:hover{
+    background-color: rgba(255,255,255,1);
+}
+
+.rate-title{
+    font-size: 130%;
+}
+
+#buttons-person{
+    margin-top: 10px;
+}
+
+#buttons-person li{
+    float: left;
+    margin-right: 10px;
 }

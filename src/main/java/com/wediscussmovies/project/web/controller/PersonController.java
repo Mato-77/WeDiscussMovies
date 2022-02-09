@@ -54,7 +54,7 @@ public class PersonController {
         Person person = personService.findById(id);
         //Error handling, could be null!!!!!!!!!
         model.addAttribute("person", person);
-
+        addModelPropertiesForUser(model);
         model.addAttribute("contentTemplate", "personShow");
         return "template";
     }

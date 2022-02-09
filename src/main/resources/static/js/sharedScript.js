@@ -89,6 +89,20 @@ $(document).ready(function (){
             $("#filters_div").fadeToggle();
     })
 
+    $(".user-movies-list").on("click", function (){
+        children = $(this).children()
+        first = true
+        for (let item of children){
+            if(first){
+                first = !first
+            }
+            else{
+                $(item).fadeToggle();
+            }
+        }
+        $(this).toggleClass("hidden-class")
+    })
+
    $(".search-button").on("click",function () {
        elements = $(".elements")
        let filter = $("#searchGenre").val()

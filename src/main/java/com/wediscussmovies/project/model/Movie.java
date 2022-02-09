@@ -94,7 +94,14 @@ public class Movie {
     public static Comparator<Movie> comparatorTitle = Comparator.comparing(Movie::getTitle);
 
 
-
+    public String getShortTitle(){
+        int to = 20;
+        if (title.length() < to)
+            to = title.length();
+        if(to<20)
+            return title;
+        return title.substring(0, to) + "...";
+    }
 
 
 
