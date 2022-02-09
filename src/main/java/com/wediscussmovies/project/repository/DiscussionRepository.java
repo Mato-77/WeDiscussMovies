@@ -3,10 +3,10 @@ package com.wediscussmovies.project.repository;
 import com.wediscussmovies.project.model.Discussion;
 import com.wediscussmovies.project.model.Movie;
 import com.wediscussmovies.project.model.Person;
-import com.wediscussmovies.project.querymodels.DiscussionLikes;
-import com.wediscussmovies.project.querymodels.GenreLikes;
+import com.wediscussmovies.project.querymodels.DiscussionLikesQM;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
@@ -18,10 +18,18 @@ public interface DiscussionRepository extends JpaRepository<Discussion, Integer>
      List<Discussion> findAllByMovie(Movie movie);
      List<Discussion> findAllByPerson (Person person);
 
-     @Query(value = "select new com.wediscussmovies.project.querymodels.DiscussionLikes(d.discussionId, count(dl.id.userId)) from Discussion d" +
+     @Query(value = "select new com.wediscussmovies.project.querymodels.DiscussionLikesQM(d.discussionId, count(dl.id.userId)) from Discussion d" +
              " left join DiscussionLikes dl on dl.id.discussionId = d.discussionId" +
-             " group by d.discussionId" +
+             " where :discussionId = d.discussionId" +
+             " group by d.discussionId"+
              " order by count(dl.id.userId) desc")
      @Transactional
-     List<DiscussionLikes> findAllWithLikes();
+     DiscussionLikesQM findDiscussionWithLikes(@Param("discussionId") Integer discussionId);
+
+     @Query(value = "select new com.wediscussmovies.project.querymodels.DiscussionLikesQM(d.discussionId, count(dl.id.userId)) from Discussion d" +
+             " left join DiscussionLikes dl on dl.id.discussionId = d.discussionId" +
+             " group by d.discussionId"+
+             " order by count(dl.id.userId) desc")
+     @Transactional
+     List<DiscussionLikesQM> findAllDiscussionsWithLikes();
 }

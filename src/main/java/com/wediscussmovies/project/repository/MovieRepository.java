@@ -2,7 +2,6 @@ package com.wediscussmovies.project.repository;
 
 import com.wediscussmovies.project.model.Movie;
 import com.wediscussmovies.project.model.Person;
-import com.wediscussmovies.project.querymodels.GenreLikes;
 import com.wediscussmovies.project.querymodels.MovieLikesQM;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

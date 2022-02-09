@@ -2,20 +2,17 @@ package com.wediscussmovies.project.querymodels;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import java.util.Comparator;
 import java.util.Objects;
 
 @Data
-public class GenreLikes {
+public class GenreLikesQM {
     private Integer genreId;
     private String name;
     private Long likes;
 
-    public static Comparator<GenreLikes> sorter = Comparator.comparing(GenreLikes::getLikes).thenComparing(GenreLikes::getName).reversed();
+    //public static Comparator<GenreLikes> sorter = Comparator.comparing(GenreLikes::getLikes).thenComparing(GenreLikes::getName).reversed();
 
-    public GenreLikes(Integer genreId, String name, Long likes) {
+    public GenreLikesQM(Integer genreId, String name, Long likes) {
         this.genreId = genreId;
         this.name = name;
         this.likes = likes;
@@ -26,7 +23,7 @@ public class GenreLikes {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        GenreLikes that = (GenreLikes) o;
+        GenreLikesQM that = (GenreLikesQM) o;
         return Objects.equals(genreId, that.genreId);
     }
 

@@ -4,7 +4,6 @@ import com.wediscussmovies.project.LoggedUser;
 import com.wediscussmovies.project.model.Genre;
 import com.wediscussmovies.project.model.User;
 import com.wediscussmovies.project.model.relation.UserGenres;
-import com.wediscussmovies.project.querymodels.GenreLikes;
 import com.wediscussmovies.project.repository.GenreLikesRepository;
 import com.wediscussmovies.project.service.GenreService;
 import org.springframework.stereotype.Controller;

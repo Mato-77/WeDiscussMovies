@@ -5,23 +5,23 @@ import lombok.Data;
 import java.util.Objects;
 
 @Data
-public class DiscussionLikes {
+public class DiscussionLikesQM {
     private Integer discussionId;
     private Long likes;
 
-    public DiscussionLikes(Integer discussionId, Long likes) {
+    public DiscussionLikesQM(Integer discussionId, Long likes) {
         this.discussionId = discussionId;
         this.likes = likes;
     }
 
-    public DiscussionLikes() {
+    public DiscussionLikesQM() {
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        DiscussionLikes that = (DiscussionLikes) o;
+        DiscussionLikesQM that = (DiscussionLikesQM) o;
         return Objects.equals(discussionId, that.discussionId) && Objects.equals(likes, that.likes);
     }
 

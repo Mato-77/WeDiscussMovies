@@ -5,6 +5,7 @@ import com.wediscussmovies.project.model.Discussion;
 import com.wediscussmovies.project.model.Reply;
 import com.wediscussmovies.project.model.User;
 import com.wediscussmovies.project.model.relation.DiscussionLikes;
+import com.wediscussmovies.project.querymodels.DiscussionLikesQM;
 import com.wediscussmovies.project.service.DiscussionService;
 import com.wediscussmovies.project.service.MovieService;
 import com.wediscussmovies.project.service.PersonService;
@@ -61,11 +62,10 @@ public class DiscussionController {
          */
         try {
             Discussion disc = discussionService.findById(id);
+            disc.setLikes(discussionService.findLikesForDiscussionWithId(disc.getDiscussionId()).getLikes());
             model.addAttribute("disc", disc);
             model.addAttribute("contentTemplate", "discussion");
-            model.addAttribute("user",LoggedUser.getLoggedUser());
             model.addAttribute("replies",this.replyService.findAllByDiscussion(disc));
-            addModelPropertiesLikes(model, disc, null);
             addModelPropertiesForUser(model);
 
             return "template";
@@ -182,8 +182,10 @@ public class DiscussionController {
         model.addAttribute("user",user);
     }
     private void addModelPropertiesLikes(Model model, Discussion discussion, List<Discussion> discussions){
+        // ispagja kompliciran kod vaka, podobro da dodademe i svojstvo u diskusijata i koga ke se dodade lajk
+        // soodvetno da se zgoleme i obratno
         if(discussion==null){
-            List<com.wediscussmovies.project.querymodels.DiscussionLikes> discussionLikes = new ArrayList<>();
+            List<DiscussionLikesQM> discussionLikes = new ArrayList<>();
             for(Discussion d: discussions){
                 discussionLikes.add(discussionService.findLikesForDiscussionWithId(d.getDiscussionId()));
             }

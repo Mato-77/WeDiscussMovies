@@ -6,6 +6,7 @@ import com.wediscussmovies.project.model.exception.PersonNotExistException;
 import com.wediscussmovies.project.model.exception.UserNotExistException;
 import com.wediscussmovies.project.model.primarykeys.DiscussionLikesPK;
 import com.wediscussmovies.project.model.relation.DiscussionLikes;
+import com.wediscussmovies.project.querymodels.DiscussionLikesQM;
 import com.wediscussmovies.project.repository.*;
 import com.wediscussmovies.project.model.Discussion;
 import com.wediscussmovies.project.model.Movie;
@@ -114,8 +115,18 @@ public class DiscussionServiceImpl implements DiscussionService {
     }
 
     @Override
-    public com.wediscussmovies.project.querymodels.DiscussionLikes findLikesForDiscussionWithId(int discussionId) {
-        return discussionRepository.findAllWithLikes().stream().filter(d ->  d.getDiscussionId().equals(discussionId)).findFirst().get();
+    public DiscussionLikesQM findLikesForDiscussionWithId(Integer discussionId) {
+//        return discussionRepository.findAllWithLikes().stream().filter(d ->  d.getDiscussionId().equals(discussionId)).findFirst().get();
+                return this.discussionRepository.findDiscussionWithLikes(discussionId);
+
+    }
+
+    @Override
+    public void findLikesForAllDiscussions(List<Discussion> discussions) {
+//        this.discussionRepository.findAllDiscussionsWithLikes()
+//                .forEach(el ->{
+//                        if (discussions.)
+//                });
     }
 
 

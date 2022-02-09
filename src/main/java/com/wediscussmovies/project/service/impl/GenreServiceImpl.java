@@ -3,11 +3,9 @@ package com.wediscussmovies.project.service.impl;
 import com.wediscussmovies.project.model.User;
 import com.wediscussmovies.project.model.exception.GenreNotExistException;
 import com.wediscussmovies.project.model.exception.UserNotExistException;
-import com.wediscussmovies.project.model.primarykeys.GenreLikesPK;
 import com.wediscussmovies.project.model.primarykeys.UserGenresPK;
-import com.wediscussmovies.project.model.relation.MovieLikes;
 import com.wediscussmovies.project.model.relation.UserGenres;
-import com.wediscussmovies.project.querymodels.GenreLikes;
+import com.wediscussmovies.project.querymodels.GenreLikesQM;
 import com.wediscussmovies.project.repository.GenreLikesRepository;
 import com.wediscussmovies.project.repository.GenreRepository;
 import com.wediscussmovies.project.model.Genre;
@@ -47,10 +45,10 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Override
-    public List<GenreLikes> findAllWithLikes() {
-        List<GenreLikes> genreLikesList = this.genreRepository.findAllWithLikes();
-        genreLikesList.sort(GenreLikes.sorter);
-        return genreLikesList;
+    public List<GenreLikesQM> findAllWithLikes() {
+        // List<GenreLikes> genreLikesList = this.genreRepository.findAllWithLikes();
+       // genreLikesList.sort(GenreLikes.sorter);
+        return this.genreRepository.findAllWithLikes();
     }
 
     @Override

@@ -90,8 +90,8 @@ $(document).ready(function (){
     })
 
     $(".user-movies-list").on("click", function (){
-        children = $(this).children()
-        first = true
+       let children = $(this).children()
+        let first = true
         for (let item of children){
             if(first){
                 first = !first

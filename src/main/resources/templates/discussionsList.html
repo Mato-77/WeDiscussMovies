@@ -30,7 +30,7 @@
                             <td>
                                 <a th:text="${disc.getTitle()}" th:href="@{'/discussions/{id}' (id=${disc.getDiscussionId()})}"></a>
                             </td>
-                            <td th:each="like : ${likes}" th:if="${like.getDiscussionId().equals(disc.getDiscussionId())}" th:text="${like.getLikes()}" class="likes_count">
+                            <td th:text="${disc.getLikes()}" class="likes_count">
                             </td>
                             <td th:text="${disc.getDate()}"></td>
                             <td th:text="${disc.getUser().getUsername()}"></td>
@@ -40,8 +40,8 @@
                             <th:block sec:authorize="isAuthenticated()">
                             <td th:if="${!disc.getUser().equals(user)}"><a class="btn btn-success" th:href="@{'/replies/add/{discussionId}' (discussionId=${disc.getDiscussionId()})}">Реплицирај</a> </td>
                             <td th:if="${!disc.getUser().equals(user)}">
-                                <a class='btn btn-success button-like-discussion-alt' th:if="${!likedDiscussions.contains(disc)}" th:discussion-id="${disc.getDiscussionId()}" th:user-id="${user.getUserId()}" >❤</a>
-                                <a class='btn btn-danger button-unlike-discussion-alt' th:if="${likedDiscussions.contains(disc)}" th:discussion-id="${disc.getDiscussionId()}" th:user-id="${user.getUserId()}" >💔</a>
+                                <a class='btn btn-success button-like-discussion-alt' th:if="${!likedDiscussions.contains(disc)}" th:discussion-id="${disc?.getDiscussionId()}" th:user-id="${user.getUserId()}" >❤</a>
+                                <a class='btn btn-danger button-unlike-discussion-alt' th:if="${likedDiscussions.contains(disc)}" th:discussion-id="${disc?.getDiscussionId()}" th:user-id="${user.getUserId()}" >💔</a>
                             </td>
                             </th:block>
 

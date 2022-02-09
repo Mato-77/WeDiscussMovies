@@ -2,7 +2,7 @@ package com.wediscussmovies.project.service;
 
 import com.wediscussmovies.project.model.Discussion;
 import com.wediscussmovies.project.model.User;
-import com.wediscussmovies.project.querymodels.DiscussionLikes;
+import com.wediscussmovies.project.querymodels.DiscussionLikesQM;
 
 import java.util.List;
 
@@ -19,6 +19,8 @@ public interface DiscussionService {
 
     List<Discussion> findLikedDiscussionsByUser(User user);
 
-    DiscussionLikes findLikesForDiscussionWithId(int discussionId);
+    DiscussionLikesQM findLikesForDiscussionWithId(Integer discussionId);
+
+    void findLikesForAllDiscussions(List<Discussion> discussions);
 
 }

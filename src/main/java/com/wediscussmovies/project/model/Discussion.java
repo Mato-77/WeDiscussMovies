@@ -1,9 +1,11 @@
 package com.wediscussmovies.project.model;
 
+import com.wediscussmovies.project.model.relation.DiscussionLikes;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -28,6 +30,9 @@ public class Discussion {
     private Date date;
 
 
+
+
+
     @ManyToOne
     @JoinColumn(name = "movie_id")
     private Movie movie;
@@ -40,6 +45,9 @@ public class Discussion {
     @JoinColumn(name = "person_id")
     private Person person;
 
+    @Transient
+    private Long likes;
+
     public Discussion(Character type, String text, String title, Date date, User user) {
         this.type = type;
         this.text = text;
@@ -51,29 +59,6 @@ public class Discussion {
     public Discussion() {
     }
 
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
 
     @Override
     public boolean equals(Object o) {
