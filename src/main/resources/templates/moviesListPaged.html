@@ -29,7 +29,7 @@
     </div><br>
 
     <div class="container mb-4">
-        <a  sec:authorize="isAuthenticated()" th:href="@{/movies/add}">Додади нов филм</a>
+        <a  sec:authorize="isAuthenticated()" th:href="@{/movies/add}" class="btn btn-secondary">Додади нов филм</a>
     </div>
 
     <div class="container mb-4">
@@ -45,8 +45,8 @@
                             <h3 th:text="${'Оценет '+movie.getImdbRating() + '/10'}"></h3>
                         </span>
                         <th:block sec:authorize="isAuthenticated()">
-                            <a class="bottom-heart btn btn-success button-add-favourite-list" th:movie-id="${movie.getMovieId()}" th:user-id="${user.getUserId()}" th:if="${!likedMovies.contains(movie)}">❤</a>
-                            <a class="bottom-heart btn btn-danger button-remove-favourite-list" th:movie-id="${movie.getMovieId()}" th:user-id="${user.getUserId()}" th:if="${likedMovies.contains(movie)}">💔</a>
+                            <button class="bottom-heart btn btn-success button-add-favourite-list" th:movie-id="${movie.getMovieId()}" th:user-id="${user.getUserId()}" th:if="${!likedMovies.contains(movie)}">❤</button>
+                            <button class="bottom-heart btn btn-danger button-remove-favourite-list" th:movie-id="${movie.getMovieId()}" th:user-id="${user.getUserId()}" th:if="${likedMovies.contains(movie)}">💔</button>
                         </th:block>
                     </div>
             </div>

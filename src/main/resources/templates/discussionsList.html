@@ -1,6 +1,6 @@
 <div xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
     <div class="container mb-4">
-        <a sec:authorize="isAuthenticated()" th:href="@{/discussions/add}">Додади нова дискусија</a>
+        <a sec:authorize="isAuthenticated()" th:href="@{/discussions/add}" class="btn btn-secondary">Додади нова дискусија</a>
     </div>
     <div class="container mb-4">
             <div class="col-12" th:if="${discussions.size() > 0}">

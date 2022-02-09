@@ -77,6 +77,9 @@
         <hr>
         <div th:each="rating: ${movie.getRates()}" style="margin-bottom: 10px; border: 2px solid gray; border-radius: 10px; background-color: lightblue; padding: 10px; border-radius: 10px; min-height: 130px;">
                 <div style="width: 60%; float:left;">
+                    <a th:href="@{'/profiles/{id}' (id=${rating.getUser().getUserId()})}">
+                        <h4 th:text="${'Oд: '+rating.getUser().getName() + ' ' + rating.getUser().getSurname()}"> </h4>
+                    </a>
                     <p th:text="${rating.getReason()}" style="text-align: justify"></p>
                 </div>
                 <div style="width: 30%; float:right; background-color: darkorange; border-radius: 10px 30px; color: whitesmoke; padding: 10px;">
@@ -92,10 +95,12 @@
         <hr>
         <div th:each="liked: ${movie.getLikes()}" style="margin-bottom: 10px; border: 2px solid gray; border-radius: 10px; background-color: lightblue; padding: 10px; border-radius: 10px; min-height: 60px;">
             <div style="width: 100%; float:left;">
-                <h3  style="text-align: center">
-                    <span th:text="${liked.getUser().getName() + ' ' + liked.getUser().getSurname()}"></span>
-                    <span style="color: green; font-size: 100%" >✔</span>
-                </h3>
+                <a th:href="@{'/profiles/{id}' (id=${liked.getUser().getUserId()})}" >
+                    <h3  style="text-align: center">
+                        <span th:text="${liked.getUser().getName() + ' ' + liked.getUser().getSurname()}"></span>
+                        <span style="color: green; font-size: 100%" >✔</span>
+                    </h3>
+                </a>
             </div>
         </div>
     </div>

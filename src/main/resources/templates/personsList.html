@@ -1,7 +1,7 @@
 <div xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 
-    <div>
-        <a sec:authorize="isAuthenticated()" th:href="@{'persons/add'}">Додади актер или режисер</a>
+    <div style="width: 70%; margin: auto;">
+        <a sec:authorize="isAuthenticated()" th:href="@{'persons/add'}" class="btn btn-secondary">Додади актер или режисер</a>
     </div>
     <div class="container mb-4">
             <div class="col-12" th:if="${persons.size() > 0}">
@@ -46,7 +46,6 @@
                             <th:block sec:authorize="isAuthenticated()">
                                 <td>
                                     <a class="btn btn-secondary button-add-grade-person" th:person-id="${person.getPersonId()}">Остави оценка</a>
-
                                 </td>
                             <td>
                                 <a class="btn btn-warning" th:href="@{'persons/edit/{personId}' (personId = ${person.getPersonId()})}">Промени</a>

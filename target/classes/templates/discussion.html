@@ -18,7 +18,9 @@
         </h4>
         <br>
         <h6 style="width: 60%; float:left;">
+            <a th:href="@{'/profiles/{id}' (id=${disc.getUser().getUserId()})}" >
             <span th:text="${'Поставено од: '+disc.getUser().getUsername()}"></span>
+            </a>
             <span th:text="${', на датум '+ disc.getDate()}"></span>
             <br>
             <span>Поставено за </span>
@@ -47,7 +49,9 @@
         <tr th:each="reply : ${replies}" class="movie">
             <td th:text="${reply.getText()}"></td>
             <td th:text="${reply.getDate()}"></td>
-            <td th:text="${reply.getUser().getUsername()}"></td>
+            <td >
+                <a th:href="@{'/profiles/{id}' (id=${reply.getUser().getUserId()})}" th:text="${reply.getUser().getUsername()}"></a>
+            </td>
             <td th:if="${reply.getUser().equals(user)}"><a class="btn btn-warning" th:href="@{'/replies/edit/{discussionId}/{replyId}' (discussionId=${disc.getDiscussionId()},replyId=${reply.getReplyId()})}">Промени</a> </td>
             <td th:if="${reply.getUser().equals(user)}"><a class="btn btn-danger button-delete-reply" th:reply-id="${reply.getReplyId()}" th:dicsussion-id="${disc.getDiscussionId()}">Избриши</a> </td>
             <th:block sec:authorize="isAuthenticated()">

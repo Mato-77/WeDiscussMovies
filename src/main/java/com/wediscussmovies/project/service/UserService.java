@@ -9,4 +9,6 @@ import java.util.Optional;
 public interface UserService extends UserDetailsService {
      User findByUsername(String username);
      User register(String email, String username, String password, String confirmPassword, String name, String surname);
+
+    User findById(Integer id);
 }
