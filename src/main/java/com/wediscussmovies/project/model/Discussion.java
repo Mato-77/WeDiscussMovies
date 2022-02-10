@@ -1,11 +1,11 @@
 package com.wediscussmovies.project.model;
 
-import com.wediscussmovies.project.model.relation.DiscussionLikes;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
-import java.sql.Date;
-import java.util.List;
+import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
@@ -27,7 +27,7 @@ public class Discussion {
     private String title;
     @Basic
     @Column(name = "date")
-    private Date date;
+    private LocalDate date;
 
 
 
@@ -46,15 +46,17 @@ public class Discussion {
     private Person person;
 
     @Transient
-    private Long likes;
+    private long likes;
 
-    public Discussion(Character type, String text, String title, Date date, User user) {
+    public Discussion(Character type, String text, String title, LocalDate date, User user) {
         this.type = type;
         this.text = text;
         this.title = title;
         this.date = date;
         this.user = user;
     }
+
+
 
     public Discussion() {
     }

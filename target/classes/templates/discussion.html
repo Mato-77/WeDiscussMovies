@@ -14,7 +14,7 @@
                 <a class='btn btn-danger button-unlike-discussion' th:if="${likedDiscussions.contains(disc)}" th:discussion-id="${disc.getDiscussionId()}" th:user-id="${user.getUserId()}" >💔</a>
             </span>
             <span>Број на допаѓања:</span>
-            <span th:text="${likes}" id="likes_count"></span>
+            <span th:text="${disc.getLikes()}" id="likes_count"></span>
         </h4>
         <br>
         <h6 style="width: 60%; float:left;">

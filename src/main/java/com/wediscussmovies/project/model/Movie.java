@@ -8,6 +8,7 @@ import lombok.Data;
 import org.hibernate.annotations.Fetch;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.Collection;
 import java.util.Comparator;

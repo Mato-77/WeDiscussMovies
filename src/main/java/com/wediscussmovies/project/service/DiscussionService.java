@@ -21,6 +21,6 @@ public interface DiscussionService {
 
     DiscussionLikesQM findLikesForDiscussionWithId(Integer discussionId);
 
-    void findLikesForAllDiscussions(List<Discussion> discussions);
+    List<DiscussionLikesQM> findLikesForAllDiscussions();
 
 }

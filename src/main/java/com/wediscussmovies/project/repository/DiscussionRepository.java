@@ -18,18 +18,18 @@ public interface DiscussionRepository extends JpaRepository<Discussion, Integer>
      List<Discussion> findAllByMovie(Movie movie);
      List<Discussion> findAllByPerson (Person person);
 
-     @Query(value = "select new com.wediscussmovies.project.querymodels.DiscussionLikesQM(d.discussionId, count(dl.id.userId)) from Discussion d" +
+     @Query(value = "select new com.wediscussmovies.project.querymodels.DiscussionLikesQM(d.discussionId, count (dl.user) ) from Discussion d" +
              " left join DiscussionLikes dl on dl.id.discussionId = d.discussionId" +
-             " where :discussionId = d.discussionId" +
-             " group by d.discussionId"+
-             " order by count(dl.id.userId) desc")
+             " where :id = d.discussionId" +
+             " group by d.discussionId")
      @Transactional
-     DiscussionLikesQM findDiscussionWithLikes(@Param("discussionId") Integer discussionId);
+     DiscussionLikesQM findDiscussionWithLikes(@Param("id") Integer discussionId);
 
-     @Query(value = "select new com.wediscussmovies.project.querymodels.DiscussionLikesQM(d.discussionId, count(dl.id.userId)) from Discussion d" +
+     @Query(value = "select new com.wediscussmovies.project.querymodels.DiscussionLikesQM (d.discussionId, count(dl.user))  from Discussion d" +
              " left join DiscussionLikes dl on dl.id.discussionId = d.discussionId" +
              " group by d.discussionId"+
-             " order by count(dl.id.userId) desc")
+               " order by d.discussionId asc")
      @Transactional
-     List<DiscussionLikesQM> findAllDiscussionsWithLikes();
+     List<DiscussionLikesQM
+             > findAllDiscussionsWithLikes();
 }

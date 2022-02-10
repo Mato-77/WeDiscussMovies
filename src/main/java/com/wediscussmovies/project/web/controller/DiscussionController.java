@@ -44,12 +44,13 @@ public class DiscussionController {
          da ne se preoptovaruva serverot so baranja za titleSearch koga e null!
 
          */
-        List<Discussion> discussions = discussionService.listAllByTitle(titleSearch);
+        //List<Discussion> discussions = discussionService.listAllByTitle(titleSearch);
+        List<Discussion> discussions = discussionService.listAll();
         model.addAttribute("discussions", discussions);
         model.addAttribute("contentTemplate", "discussionsList");
         model.addAttribute("user",LoggedUser.getLoggedUser());
         this.addModelPropertiesForUser(model);
-        this.addModelPropertiesLikes(model,null, discussions);
+       // this.addModelPropertiesLikes(model,null, discussions);
         return "template";
     }
 
@@ -62,7 +63,6 @@ public class DiscussionController {
          */
         try {
             Discussion disc = discussionService.findById(id);
-            disc.setLikes(discussionService.findLikesForDiscussionWithId(disc.getDiscussionId()).getLikes());
             model.addAttribute("disc", disc);
             model.addAttribute("contentTemplate", "discussion");
             model.addAttribute("replies",this.replyService.findAllByDiscussion(disc));
@@ -184,16 +184,16 @@ public class DiscussionController {
     private void addModelPropertiesLikes(Model model, Discussion discussion, List<Discussion> discussions){
         // ispagja kompliciran kod vaka, podobro da dodademe i svojstvo u diskusijata i koga ke se dodade lajk
         // soodvetno da se zgoleme i obratno
-        if(discussion==null){
-            List<DiscussionLikesQM> discussionLikes = new ArrayList<>();
-            for(Discussion d: discussions){
-                discussionLikes.add(discussionService.findLikesForDiscussionWithId(d.getDiscussionId()));
-            }
-            model.addAttribute("likes", discussionLikes);
-        }
-        else{
-            model.addAttribute("likes",discussionService.findLikesForDiscussionWithId(discussion.getDiscussionId()).getLikes());
-        }
+//        if(discussion==null){
+//            List<DiscussionLikesQM> discussionLikes = new ArrayList<>();
+//            for(Discussion d: discussions){
+//                discussionLikes.add(discussionService.findLikesForDiscussionWithId(d.getDiscussionId()));
+//            }
+//            model.addAttribute("likes", discussionLikes);
+//        }
+//        else{
+//            model.addAttribute("likes",discussionService.findLikesForDiscussionWithId(discussion.getDiscussionId()).getLikes());
+//        }
     }
 
 

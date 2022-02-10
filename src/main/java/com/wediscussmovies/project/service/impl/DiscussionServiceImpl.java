@@ -15,10 +15,10 @@ import com.wediscussmovies.project.model.User;
 import com.wediscussmovies.project.service.DiscussionService;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class DiscussionServiceImpl implements DiscussionService {
@@ -44,12 +44,17 @@ public class DiscussionServiceImpl implements DiscussionService {
 
     @Override
     public List<Discussion> listAll() {
-        return this.discussionRepository.findAll();
+        List<Discussion> discussions = this.discussionRepository.findAll();
+        List<DiscussionLikesQM> discussionLikes  = this.discussionRepository.findAllDiscussionsWithLikes();
+        for (int i = 0; i < discussionLikes.size(); i++){
+            discussions.get(i).setLikes(discussionLikes.get(i).getLikes());
+        }
+        return discussions;
     }
 
     @Override
     public void save(Character type,Integer id,String title, String text,User user) {
-        Date date = Date.valueOf(LocalDate.now());
+        LocalDate date = LocalDate.now();
         Discussion discussion;
 
         if (type.equals('M')) {
@@ -122,11 +127,9 @@ public class DiscussionServiceImpl implements DiscussionService {
     }
 
     @Override
-    public void findLikesForAllDiscussions(List<Discussion> discussions) {
-//        this.discussionRepository.findAllDiscussionsWithLikes()
-//                .forEach(el ->{
-//                        if (discussions.)
-//                });
+    public List<DiscussionLikesQM> findLikesForAllDiscussions() {
+           // return this.discussionRepository.findAllDiscussionsWithLikes();
+        return this.discussionRepository.findAllDiscussionsWithLikes();
     }
 
 
@@ -144,7 +147,9 @@ public class DiscussionServiceImpl implements DiscussionService {
 
     @Override
     public Discussion findById(Integer id) {
-        return discussionRepository.findById(id).orElseThrow(() -> new DiscussionNotExistException(id));
+        Discussion disc =  discussionRepository.findById(id).orElseThrow(() -> new DiscussionNotExistException(id));
+        disc.setLikes(this.discussionRepository.findDiscussionWithLikes(id).getLikes());
+        return disc;
     }
 
     @Override

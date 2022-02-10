@@ -1,21 +1,23 @@
 package com.wediscussmovies.project.querymodels;
 
+import com.wediscussmovies.project.model.Movie;
+import com.wediscussmovies.project.model.Person;
+import com.wediscussmovies.project.model.User;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.Objects;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class DiscussionLikesQM {
+
     private Integer discussionId;
     private Long likes;
-
-    public DiscussionLikesQM(Integer discussionId, Long likes) {
-        this.discussionId = discussionId;
-        this.likes = likes;
-    }
-
-    public DiscussionLikesQM() {
-    }
 
     @Override
     public boolean equals(Object o) {
