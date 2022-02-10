@@ -18,29 +18,24 @@ import java.util.List;
 @RequestMapping("/genres")
 public class GenreController {
     private final GenreService genreService;
-    private final GenreLikesRepository genreLikesRepository;
 
-    public GenreController(GenreService genreService, GenreLikesRepository genreLikesRepository) {
+    public GenreController(GenreService genreService) {
         this.genreService = genreService;
-        this.genreLikesRepository = genreLikesRepository;
     }
     @GetMapping
     public String getGenres(Model model){
         model.addAttribute("genres",genreService.findAllWithLikes());
         model.addAttribute("allGenres", genreService.findAll());
         model.addAttribute("contentTemplate","genres");
-        addModelPropertiesForUser(model);
+
+        User user = LoggedUser.getLoggedUser();
+
+        if (user != null) {
+            model.addAttribute("likedGenres", this.genreService.findAllByUser(user));
+            model.addAttribute("user",user);
+
+        }
         return "template";
     }
 
-    private void addModelPropertiesForUser(Model model){
-        User user = LoggedUser.getLoggedUser();
-        List<UserGenres> genreLikesList = this.genreLikesRepository.findAllByUser(user);
-        List<Genre> genres = new ArrayList<>();
-        for(UserGenres g: genreLikesList){
-            genres.add(genreService.findById(g.getId().getGenreId()));
-        }
-        model.addAttribute("likedGenres",genres);
-        model.addAttribute("user",user);
-    }
 }

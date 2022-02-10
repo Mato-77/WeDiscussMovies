@@ -6,6 +6,7 @@ import com.wediscussmovies.project.model.Movie;
 import com.wediscussmovies.project.model.User;
 import com.wediscussmovies.project.model.primarykeys.DiscussionLikesPK;
 import com.wediscussmovies.project.model.primarykeys.MovieLikesPK;
+import io.leangen.graphql.annotations.GraphQLQuery;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -20,12 +21,14 @@ public class DiscussionLikes {
     @ManyToOne
     @MapsId("discussion_id")
     @JoinColumn(name = "discussion_id")
+    @GraphQLQuery(name = "discussion",description = "Дискусија")
     private Discussion discussion;
 
 
     @ManyToOne
     @MapsId("user_id")
     @JoinColumn(name = "user_id")
+    @GraphQLQuery(name = "user",description = "Корисник")
     private User user;
 
     public DiscussionLikes(Discussion discussion, User user) {

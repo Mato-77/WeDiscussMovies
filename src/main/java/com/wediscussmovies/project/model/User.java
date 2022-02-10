@@ -4,6 +4,7 @@ import com.wediscussmovies.project.model.relation.MovieLikes;
 import com.wediscussmovies.project.model.relation.UserGenres;
 import com.wediscussmovies.project.model.relation.MovieRates;
 import com.wediscussmovies.project.model.relation.PersonRates;
+import io.leangen.graphql.annotations.GraphQLQuery;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,18 +22,23 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "user_id")
+    @GraphQLQuery(name = "id",description = "Идентификатор на корисник")
     private int userId;
     @Basic
     @Column(name = "username")
+    @GraphQLQuery(name = "username",description = "Корисничко име")
     private String username;
     @Basic
     @Column(name = "name")
+    @GraphQLQuery(name = "name",description = "Име")
     private String name;
     @Basic
     @Column(name = "surname")
+    @GraphQLQuery(name = "surname",description = "Презиме")
     private String surname;
     @Basic
     @Column(name = "email")
+    @GraphQLQuery(name = "email",description = "Емаил")
     private String email;
     @Basic
     @Column(name = "password")

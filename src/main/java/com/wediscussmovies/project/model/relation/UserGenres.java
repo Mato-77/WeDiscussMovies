@@ -3,6 +3,7 @@ package com.wediscussmovies.project.model.relation;
 import com.wediscussmovies.project.model.Genre;
 import com.wediscussmovies.project.model.User;
 import com.wediscussmovies.project.model.primarykeys.UserGenresPK;
+import io.leangen.graphql.annotations.GraphQLQuery;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -19,11 +20,13 @@ public class UserGenres {
     @ManyToOne
     @MapsId("genre_id")
     @JoinColumn(name = "genre_id")
+    @GraphQLQuery(name = "genre",description = "Жанр")
     private Genre genre;
 
     @ManyToOne
     @MapsId("user_id")
     @JoinColumn(name = "user_id")
+    @GraphQLQuery(name = "user",description = "Корисник")
     private User user;
 
     public UserGenres() {

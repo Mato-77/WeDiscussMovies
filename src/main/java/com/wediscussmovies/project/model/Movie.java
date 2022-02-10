@@ -4,6 +4,7 @@ import com.wediscussmovies.project.model.relation.MovieLikes;
 import com.wediscussmovies.project.model.relation.MovieActors;
 import com.wediscussmovies.project.model.relation.MovieGenres;
 import com.wediscussmovies.project.model.relation.MovieRates;
+import io.leangen.graphql.annotations.GraphQLQuery;
 import lombok.Data;
 import org.hibernate.annotations.Fetch;
 
@@ -21,21 +22,27 @@ public class Movie {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "movie_id")
+    @GraphQLQuery(name = "id",description = "Идентификатор")
     private int movieId;
     @Basic
     @Column(name = "title")
+    @GraphQLQuery(name = "title",description = "Наслов")
     private String title;
     @Basic
     @Column(name = "description")
+    @GraphQLQuery(name = "description",description = "Опис")
     private String description;
     @Basic
     @Column(name = "image_url")
+    @GraphQLQuery(name = "image",description = "Линк кон слика")
     private String imageUrl;
     @Basic
     @Column(name = "airing_date")
+    @GraphQLQuery(name = "date",description = "Датум на издавање")
     private Date airingDate;
     @Basic
     @Column(name = "imdb_rating")
+    @GraphQLQuery(name = "imbdRating",description = "Рејтинг според останати организации")
     private Double imdbRating;
 
     @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY)
@@ -49,6 +56,7 @@ public class Movie {
 
     @ManyToOne
     @JoinColumn(name = "director_id")
+    @GraphQLQuery(name = "director",description = "Режисер")
     private Person director;
 
     public Movie() {

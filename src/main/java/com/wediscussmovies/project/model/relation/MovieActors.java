@@ -3,6 +3,7 @@ package com.wediscussmovies.project.model.relation;
 import com.wediscussmovies.project.model.Movie;
 import com.wediscussmovies.project.model.Person;
 import com.wediscussmovies.project.model.primarykeys.MovieActorsPK;
+import io.leangen.graphql.annotations.GraphQLQuery;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -20,12 +21,14 @@ public class MovieActors {
     @ManyToOne
     @MapsId("movie_id")
     @JoinColumn(name = "movie_id")
+    @GraphQLQuery(name = "movie",description = "Филм")
     private Movie movie;
 
 
     @ManyToOne
     @MapsId("actor_id")
     @JoinColumn(name = "actor_id")
+    @GraphQLQuery(name = "person",description = "Актер")
     private Person person;
 
     public MovieActors(Movie movie, Person person) {

@@ -52,6 +52,11 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Override
+    public List<Genre> findAllByUser(User user) {
+        return this.genreLikesRepository.findAllByUser(user);
+    }
+
+    @Override
     public List<Genre> findAll() {
         return this.genreRepository.findAllSorted();
     }

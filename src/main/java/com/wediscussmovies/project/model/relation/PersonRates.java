@@ -3,6 +3,7 @@ package com.wediscussmovies.project.model.relation;
 import com.wediscussmovies.project.model.Person;
 import com.wediscussmovies.project.model.User;
 import com.wediscussmovies.project.model.primarykeys.PersonRatesPK;
+import io.leangen.graphql.annotations.GraphQLQuery;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -18,9 +19,11 @@ public class PersonRates {
 
     @Basic
     @Column(name = "reason")
+    @GraphQLQuery(name = "reason",description = "Причина")
     private String reason;
     @Basic
     @Column(name = "stars_rated")
+    @GraphQLQuery(name = "stars",description = "Оцена")
     private int starsRated;
 
 

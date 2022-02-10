@@ -1,4 +1,4 @@
-package com.wediscussmovies.project.model;
+package com.wediscussmovies.project.configuration;
 
 
 import java.math.BigInteger;

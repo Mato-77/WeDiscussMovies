@@ -16,6 +16,7 @@ import com.wediscussmovies.project.querymodels.MovieLikesQM;
 import com.wediscussmovies.project.repository.*;
 import com.wediscussmovies.project.model.exception.MovieIdNotFoundException;
 import com.wediscussmovies.project.service.MovieService;
+import io.leangen.graphql.annotations.GraphQLQuery;
 import org.springframework.stereotype.Service;
 
 import javax.swing.text.html.Option;
@@ -54,6 +55,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
+    @GraphQLQuery(name = "movies")
     public List<Movie> listAll() {
         return this.movieRepository.findAll();
     }

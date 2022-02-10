@@ -2,6 +2,7 @@ package com.wediscussmovies.project.model;
 
 import com.wediscussmovies.project.model.relation.MovieActors;
 import com.wediscussmovies.project.model.relation.PersonRates;
+import io.leangen.graphql.annotations.GraphQLQuery;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -24,24 +25,31 @@ public class Person {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "person_id")
+    @GraphQLQuery(name = "id",description = "Идентификатор")
     private int personId;
     @Basic
     @Column(name = "name")
+    @GraphQLQuery(name = "name",description = "Име")
     private String name;
     @Basic
     @Column(name = "surname")
+    @GraphQLQuery(name = "surname",description = "Презиме")
     private String surname;
     @Basic
     @Column(name = "type")
+    @GraphQLQuery(name = "type",description = "Тип")
     private Character type;
     @Basic
     @Column(name = "date_of_birth")
+    @GraphQLQuery(name = "date",description = "Датум раѓање")
     private Date dateOfBirth;
     @Basic
     @Column(name = "image_url")
+    @GraphQLQuery(name = "image",description = "Слика")
     private String imageUrl;
     @Basic
     @Column(name = "description")
+    @GraphQLQuery(name = "description",description = "Опис")
     private String description;
     @OneToMany(mappedBy = "person")
     private Collection<Discussion> discussions;

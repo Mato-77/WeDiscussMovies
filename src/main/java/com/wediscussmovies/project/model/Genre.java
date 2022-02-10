@@ -1,5 +1,6 @@
 package com.wediscussmovies.project.model;
 
+import io.leangen.graphql.annotations.GraphQLQuery;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -12,9 +13,11 @@ public class Genre {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "genre_id")
+    @GraphQLQuery(name = "id",description = "Идентификатор")
     private int genreId;
     @Basic
     @Column(name = "genre_type")
+    @GraphQLQuery(name = "type",description = "Име")
     private String genreType;
 
     public Genre() {

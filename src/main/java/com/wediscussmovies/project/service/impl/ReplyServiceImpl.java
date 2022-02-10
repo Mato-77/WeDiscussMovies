@@ -65,8 +65,10 @@ public class ReplyServiceImpl implements ReplyService {
     }
 
     @Override
-    public void delete(Integer discussionId, Integer replyId) {
-        this.replyRepository.deleteById(new ReplyPK(discussionId,replyId));
+    public Reply delete(Integer discussionId, Integer replyId) {
+        Reply reply = this.findById(discussionId,replyId);
+        this.replyRepository.delete(reply);
+        return reply;
     }
 
     @Override
@@ -74,5 +76,10 @@ public class ReplyServiceImpl implements ReplyService {
         ReplyPK replyPK  = new ReplyPK(discussionId,replyId);
         return this.replyRepository.findById(replyPK).orElseThrow(() -> new ReplyNotExistException(replyPK));
 
+    }
+
+    @Override
+    public Reply saveReply(Integer discussionId, String text, User user) {
+        return null;
     }
 }

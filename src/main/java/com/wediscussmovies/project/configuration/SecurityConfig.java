@@ -21,6 +21,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers("/*.png");
         web.ignoring().antMatchers("/*.css");
         web.ignoring().antMatchers("/*.js");
+
+
     }
 
     @Override
@@ -29,8 +31,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/movies","/movies/**/","/actors","/persons/**/","/directors","/discussions","/profiles/**","/discussions/**/","/discussions/all/**/","/replies","/register","/genres", "/css/**","/img/**", "/js/**").permitAll()
+                .antMatchers("/graphql")
+                .permitAll()
                 .anyRequest()
                 .authenticated()
+
                 .and()
                 .formLogin()
                 .loginPage("/login")
