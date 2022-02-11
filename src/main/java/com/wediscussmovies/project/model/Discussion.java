@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.Objects;
 
 @Entity
@@ -52,13 +53,17 @@ public class Discussion {
     @ManyToOne
     @JoinColumn(name = "user_id")
     @GraphQLNonNull
-    @GraphQLQuery(name = "userForum",description = "Корисник")
+    @GraphQLQuery(name = "user",description = "Корисник")
     private User user;
 
     @ManyToOne
     @JoinColumn(name = "person_id")
     @GraphQLQuery(name = "person",description = "Личност")
     private Person person;
+
+    @OneToMany(mappedBy = "discussion")
+    @GraphQLQuery(name = "replies",description = "Реплики")
+    private Collection<Reply> replies;
 
     @Transient
     private long likes;

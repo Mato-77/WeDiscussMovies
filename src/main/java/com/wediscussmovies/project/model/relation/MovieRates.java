@@ -41,7 +41,7 @@ public class MovieRates {
     @MapsId("user_id")
     @JoinColumn(name = "user_id")
     @GraphQLNonNull
-    @GraphQLQuery(name = "userForum",description = "Корисник")
+    @GraphQLQuery(name = "user",description = "Корисник")
     private User user;
 
     public MovieRates() {

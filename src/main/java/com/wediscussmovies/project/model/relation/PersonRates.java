@@ -42,7 +42,7 @@ public class PersonRates {
     @JoinColumn(name = "user_id")
     @MapsId("user_id")
     @GraphQLNonNull
-    @GraphQLQuery(name = "userForum",description = "Оцена")
+    @GraphQLQuery(name = "user",description = "Оцена")
     private User user;
 
 

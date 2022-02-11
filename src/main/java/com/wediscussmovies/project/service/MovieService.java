@@ -5,6 +5,10 @@ import com.wediscussmovies.project.model.Genre;
 import com.wediscussmovies.project.model.Movie;
 import com.wediscussmovies.project.model.Person;
 import com.wediscussmovies.project.model.User;
+import com.wediscussmovies.project.model.relation.MovieActors;
+import com.wediscussmovies.project.model.relation.MovieGenres;
+import com.wediscussmovies.project.model.relation.MovieLikes;
+import com.wediscussmovies.project.model.relation.MovieRates;
 import com.wediscussmovies.project.querymodels.MovieLikesQM;
 import io.leangen.graphql.annotations.GraphQLArgument;
 import io.leangen.graphql.annotations.GraphQLMutation;
@@ -54,5 +58,14 @@ public interface MovieService {
      void addGradeMovie(Integer movieId, User user, Grade grade);
 
     MovieLikesQM findLikesForMovieById(int movieId);
+
+    List<MovieActors> findAllMoviesActors();
+
+     List<MovieGenres> findAllMovieGenres();
+
+     List<MovieRates> findAllMovieRates();
+
+     List<MovieLikes> findAllMovieLikes();
+
 
 }

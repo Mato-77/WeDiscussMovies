@@ -5,6 +5,7 @@ import com.wediscussmovies.project.model.Movie;
 import com.wediscussmovies.project.model.Person;
 import com.wediscussmovies.project.model.User;
 import com.wediscussmovies.project.model.relation.MovieLikes;
+import com.wediscussmovies.project.model.relation.PersonRates;
 import io.leangen.graphql.annotations.GraphQLArgument;
 import io.leangen.graphql.annotations.GraphQLMutation;
 import io.leangen.graphql.annotations.GraphQLQuery;
@@ -39,4 +40,6 @@ public interface PersonService {
 
 
     void addGradePerson( Integer personId, User user, Grade grade);
+
+    List<PersonRates> listAllPersonRates();
 }

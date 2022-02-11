@@ -22,7 +22,7 @@ public class UserReplies {
     @ManyToOne
     @MapsId("user_id")
     @JoinColumn(name = "user_id")
-    @GraphQLQuery(name = "userForum",description = "Корисник")
+    @GraphQLQuery(name = "user",description = "Корисник")
     private User user;
 
     public UserReplies(Integer discussionId, Integer replyId, Integer userId){

@@ -53,18 +53,21 @@ public class Movie {
     private Double imdbRating;
 
     @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY)
-    @GraphQLQuery(name = "MovieActors",description = "Актери")
+    @GraphQLQuery(name = "actors",description = "Актери")
     private Collection<MovieActors> actors;
     @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY)
-    @GraphQLQuery(name = "movieGenres",description = "Актери")
+    @GraphQLQuery(name = "genres",description = "Актери")
     private Collection<MovieGenres> genres;
     @OneToMany(mappedBy = "movie")
-    @GraphQLQuery(name = "movieLikes",description = "Лајкови")
+    @GraphQLQuery(name = "likes",description = "Лајкови")
     private Collection<MovieLikes> likes;
     @OneToMany(mappedBy = "movie")
-    @GraphQLQuery(name = "movieRates",description = "Лајкови")
+    @GraphQLQuery(name = "rates",description = "Лајкови")
     private Collection<MovieRates> rates;
 
+    @OneToMany(mappedBy = "movie")
+    @GraphQLQuery(name = "discussions",description = "Дискусии")
+    private Collection<Discussion> discussions;
     @ManyToOne
     @JoinColumn(name = "director_id")
     @GraphQLQuery(name = "director",description = "Режисер")

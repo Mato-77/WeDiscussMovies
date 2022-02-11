@@ -49,11 +49,11 @@ public class User implements UserDetails {
     private String password;
 
     @OneToMany(mappedBy = "user")
-    @GraphQLQuery(name = "discussionsUser",description = "Име")
+    @GraphQLQuery(name = "discussions",description = "Име")
     private Collection<Discussion> discussions;
 
     @OneToMany(mappedBy = "user")
-    @GraphQLQuery(name = "userLikes",description = "Име")
+    @GraphQLQuery(name = "movieLikes",description = "Име")
     private Collection<MovieLikes> movieLikes;
 
     @OneToMany(mappedBy = "user")
@@ -65,14 +65,15 @@ public class User implements UserDetails {
     private Collection<PersonRates> personRates;
 
     @OneToMany(mappedBy = "user")
-    @GraphQLQuery(name = "repliesUser",description = "Име")
+    @GraphQLQuery(name = "replies",description = "Име")
     private Collection<Reply> replies;
+
     @OneToMany(mappedBy = "user")
     @GraphQLQuery(name = "userGenres",description = "Име")
     private Collection<UserGenres> userGenres;
 
     @OneToMany(mappedBy = "user")
-    @GraphQLQuery(name = "repliesUserLikes",description = "Име")
+    @GraphQLQuery(name = "userReplies",description = "Име")
     private Collection<UserReplies> userReplies;
 
     @OneToMany(mappedBy = "user")

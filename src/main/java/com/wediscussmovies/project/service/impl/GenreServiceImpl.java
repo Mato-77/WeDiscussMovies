@@ -9,6 +9,7 @@ import com.wediscussmovies.project.querymodels.GenreLikesQM;
 import com.wediscussmovies.project.repository.GenreLikesRepository;
 import com.wediscussmovies.project.repository.GenreRepository;
 import com.wediscussmovies.project.model.Genre;
+import com.wediscussmovies.project.repository.UserGenresRepository;
 import com.wediscussmovies.project.repository.UserRepository;
 import com.wediscussmovies.project.service.GenreService;
 import io.leangen.graphql.annotations.GraphQLArgument;
@@ -23,12 +24,15 @@ public class GenreServiceImpl implements GenreService {
     private final GenreRepository genreRepository;
     private final UserRepository userRepository;
     private final GenreLikesRepository genreLikesRepository;
+    private final UserGenresRepository userGenresRepository;
 
 
-    public GenreServiceImpl(GenreRepository genreRepository, UserRepository userRepository, GenreLikesRepository genreLikesRepository) {
+    public GenreServiceImpl(GenreRepository genreRepository, UserRepository userRepository,
+                            GenreLikesRepository genreLikesRepository, UserGenresRepository userGenresRepository) {
         this.genreRepository = genreRepository;
         this.userRepository = userRepository;
         this.genreLikesRepository = genreLikesRepository;
+        this.userGenresRepository = userGenresRepository;
     }
 
     @Override
@@ -83,6 +87,12 @@ public class GenreServiceImpl implements GenreService {
                      @GraphQLArgument(name = "userId") Integer userId) {
         UserGenresPK movieLikesPK = new UserGenresPK(userId, genreId);
         this.genreLikesRepository.deleteById(movieLikesPK);
+    }
+
+    @Override
+    @GraphQLMutation(name = "usersGenres")
+    public List<UserGenres> findAllUserGenres() {
+        return this.userGenresRepository.findAll();
     }
 
 }

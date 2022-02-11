@@ -120,7 +120,7 @@ public class DiscussionServiceImpl implements DiscussionService {
     }
 
     @Override
-    @GraphQLMutation(name = "likedDiscussionsByUser")
+    @GraphQLQuery(name = "likedDiscussionsByUser")
     public List<Discussion> findLikedDiscussionsByUser(@GraphQLArgument(name = "user") User user) {
         List<DiscussionLikes> likes = discussionLikesRepository.findAllByUser(user);
         List<Discussion> discussions = new ArrayList<>();
@@ -149,6 +149,12 @@ public class DiscussionServiceImpl implements DiscussionService {
     public List<DiscussionLikesQM> findLikesForAllDiscussions() {
            // return this.discussionRepository.findAllDiscussionsWithLikes();
         return this.discussionRepository.findAllDiscussionsWithLikes();
+    }
+
+    @Override
+    @GraphQLQuery(name = "discussionsLikes")
+    public List<DiscussionLikes> findAllDiscussionLikes() {
+        return this.discussionLikesRepository.findAll();
     }
 
 

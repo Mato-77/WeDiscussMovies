@@ -2,6 +2,7 @@ package com.wediscussmovies.project.service;
 
 import com.wediscussmovies.project.model.Genre;
 import com.wediscussmovies.project.model.User;
+import com.wediscussmovies.project.model.relation.UserGenres;
 import com.wediscussmovies.project.querymodels.GenreLikesQM;
 import io.leangen.graphql.annotations.GraphQLArgument;
 import io.leangen.graphql.annotations.GraphQLMutation;
@@ -26,5 +27,7 @@ public interface GenreService {
     void likeGenre( Integer genreId, Integer userId);
 
     void unlikeGenre( Integer genreId, Integer userId);
+
+    List<UserGenres> findAllUserGenres();
 
 }

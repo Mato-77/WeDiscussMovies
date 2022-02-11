@@ -59,17 +59,17 @@ public class Person {
     @GraphQLQuery(name = "description",description = "Опис")
     private String description;
     @OneToMany(mappedBy = "person")
-    @GraphQLQuery(name = "discussionsPerson",description = "Оцена")
+    @GraphQLQuery(name = "discussions",description = "Оцена")
     private Collection<Discussion> discussions;
     @OneToMany(mappedBy = "person")
-    @GraphQLQuery(name = "personActors",description = "Оцена")
-    private Collection<MovieActors> movieActors;
+    @GraphQLQuery(name = "actors",description = "Оцена")
+    private Collection<MovieActors> actors;
     @OneToMany(mappedBy = "director")
-    @GraphQLQuery(name = "moviesDirector",description = "Оцена")
+    @GraphQLQuery(name = "movies",description = "Оцена")
     private Collection<Movie> movies;
     @OneToMany(mappedBy = "person")
-    @GraphQLQuery(name = "personRates",description = "Оцена")
-    private Collection<PersonRates> personRates;
+    @GraphQLQuery(name = "rates",description = "Оцена")
+    private Collection<PersonRates> rates;
 
 
 
@@ -111,12 +111,12 @@ public class Person {
         this.description = description;
     }
 
-    public boolean hasGradeFromUser(User user){
-        for(PersonRates p: personRates){
-            if(p.getUser().getUserId() == user.getUserId())
-                return true;
-        }
-        return false;
-    }
+//    public boolean hasGradeFromUser(User user){
+//        for(PersonRates p: personRates){
+//            if(p.getUser().getUserId() == user.getUserId())
+//                return true;
+//        }
+//        return false;
+//    }
 
 }

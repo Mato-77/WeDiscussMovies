@@ -52,7 +52,7 @@ public class Reply implements Serializable {
     @JoinColumn(name = "user_id")
     @MapsId("user_id")
     @GraphQLNonNull
-    @GraphQLQuery(name = "userForum",description = "Креатор на дискусија")
+    @GraphQLQuery(name = "user",description = "Креатор на дискусија")
     private User user;
 
     public Reply() {

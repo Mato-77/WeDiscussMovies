@@ -1,6 +1,7 @@
 package com.wediscussmovies.project.service;
 
 import com.wediscussmovies.project.model.User;
+import com.wediscussmovies.project.model.relation.UserReplies;
 import io.leangen.graphql.annotations.GraphQLArgument;
 import io.leangen.graphql.annotations.GraphQLQuery;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,4 +19,6 @@ public interface UserService extends UserDetailsService {
     User findById(Integer id);
 
      List<User> findAll();
+
+     List<UserReplies> findAllUserReplies();
 }

@@ -94,6 +94,30 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
+    @GraphQLQuery(name = "moviesActors")
+    public List<MovieActors> findAllMoviesActors() {
+        return this.movieActorsRepository.findAll();
+    }
+
+    @Override
+    @GraphQLQuery(name = "moviesGenres")
+    public List<MovieGenres> findAllMovieGenres() {
+        return this.movieGenresRepository.findAll();
+    }
+
+    @Override
+    @GraphQLQuery(name = "moviesRates")
+    public List<MovieRates> findAllMovieRates() {
+        return this.movieRatesRepository.findAll();
+    }
+
+    @Override
+    @GraphQLQuery(name = "moviesLikes")
+    public List<MovieLikes> findAllMovieLikes() {
+        return this.movieLikesRepository.findAll();
+    }
+
+    @Override
     public List<Integer> listAllIds() {
         return this.movieRepository.findAllMovieIds();
     }

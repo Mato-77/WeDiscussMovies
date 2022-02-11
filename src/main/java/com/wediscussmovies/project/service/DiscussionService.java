@@ -2,6 +2,7 @@ package com.wediscussmovies.project.service;
 
 import com.wediscussmovies.project.model.Discussion;
 import com.wediscussmovies.project.model.User;
+import com.wediscussmovies.project.model.relation.DiscussionLikes;
 import com.wediscussmovies.project.querymodels.DiscussionLikesQM;
 import io.leangen.graphql.annotations.GraphQLArgument;
 import io.leangen.graphql.annotations.GraphQLMutation;
@@ -35,5 +36,7 @@ public interface DiscussionService {
     DiscussionLikesQM findLikesForDiscussionWithId(Integer discussionId);
 
     List<DiscussionLikesQM> findLikesForAllDiscussions();
+
+    List<DiscussionLikes> findAllDiscussionLikes();
 
 }

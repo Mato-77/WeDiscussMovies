@@ -175,6 +175,11 @@ public class PersonServiceImpl implements PersonService {
         }
 
     }
+    @Override
+    @GraphQLMutation(name="personRates")
+    public List<PersonRates> listAllPersonRates(){
+        return this.personRatesRepository.findAll();
+    }
 
 
 
