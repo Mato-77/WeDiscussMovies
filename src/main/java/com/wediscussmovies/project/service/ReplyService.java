@@ -11,34 +11,21 @@ import io.leangen.graphql.annotations.GraphQLQuery;
 import java.util.List;
 
 public interface ReplyService {
-    @GraphQLMutation(name = "editReply")
-    Reply edit(@GraphQLArgument(name = "replyId") Integer replyId,
-               @GraphQLArgument(name = "discussionId") Integer discussionId,
-               @GraphQLArgument(name = "text") String text);
+    Reply edit(Integer replyId, Integer discussionId, String text);
 
-    @GraphQLMutation(name = "deleteReply")
-    Reply delete(@GraphQLArgument(name = "discussionId") Integer discussionId,
-                @GraphQLArgument(name = "replyId") Integer replyId);
+    Reply delete(Integer discussionId, Integer replyId);
 
-    @GraphQLQuery(name = "reply")
-    Reply findById(@GraphQLArgument(name = "discussionId") Integer discussionId,@GraphQLArgument(name = "replyId") Integer replyId);
+    Reply findById(Integer discussionId, Integer replyId);
 
-    @GraphQLMutation(name = "saveReply")
-    Reply saveReply(@GraphQLArgument(name = "discussionId")Integer discussionId,
-              @GraphQLArgument(name = "text") String text, @GraphQLArgument(name = "user")User user);
+    Reply saveReply(Integer discussionId, String text,User user);
 
      void save(Integer discussionId, String text,User user);
 
-    @GraphQLMutation(name = "likeReply")
-    void likeReply(@GraphQLArgument(name = "replyId") Integer replyId,
-                   @GraphQLArgument(name = "userId") Integer userId);
+    void likeReply( Integer replyId,Integer discussionId, Integer userId);
 
-    @GraphQLMutation(name = "unlikeReply")
-    void unlikeReply(@GraphQLArgument(name = "replyId") Integer replyId,
-                     @GraphQLArgument(name = "userId") Integer userId);
+    void unlikeReply(Integer replyId,Integer discussionId, Integer userId);
 
-    @GraphQLQuery(name = "discussionReplies")
-    List<Reply> findAllByDiscussion(@GraphQLArgument(name = "discussion") Discussion discussion);
+    List<Reply> findAllByDiscussion (Discussion discussion);
 
 
 

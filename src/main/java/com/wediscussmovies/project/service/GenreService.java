@@ -10,31 +10,21 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
 public interface GenreService {
-    @GraphQLQuery(name = "genres")
     List<Genre> findAll();
 
-    @GraphQLQuery(name = "genre")
-    Genre findById(@GraphQLArgument(name = "id") Integer id);
+    Genre findById( Integer id);
 
-    @GraphQLQuery(name = "genresType")
-    List<Genre> findAllByType(@GraphQLArgument(name ="genre") String genre);
+    List<Genre> findAllByType( String genre);
 
-    @GraphQLMutation(name = "saveGenre")
-    Genre save(@GraphQLArgument(name = "genre") String genreName);
+    Genre save( String genreName);
 
     List<GenreLikesQM> findAllWithLikes();
 
-    @GraphQLQuery(name = "userGenres")
-    List<Genre> findAllByUser(@GraphQLArgument(name = "user") User user);
+    List<Genre> findAllByUser( User user);
 
-    @GraphQLMutation(name = "likeGenre")
-    void likeGenre(@GraphQLArgument(name = "genreId") Integer genreId,
-                   @GraphQLArgument(name = "userId") Integer userId);
+    void likeGenre( Integer genreId, Integer userId);
 
-    @GraphQLMutation(name = "unlikeGenre")
-    void unlikeGenre(@GraphQLArgument(name = "genreId") Integer genreId,
-                     @GraphQLArgument(name = "userId") Integer userId);
+    void unlikeGenre( Integer genreId, Integer userId);
 
 }

@@ -132,7 +132,7 @@ public class MovieController {
                             ){
 
         try {
-            Movie movie = this.movieService.save(title,description,imageUrl,Date.valueOf(airingDate),rating,directorId,actors,genres);
+            Movie movie = this.movieService.save(title,description,imageUrl,airingDate,rating,directorId,actors,genres);
 
             return "redirect:/movies";
         }
@@ -156,7 +156,7 @@ public class MovieController {
     ){
 
         try {
-            Movie movie = this.movieService.edit(movieId,title,description,imageUrl,Date.valueOf(airingDate),rating,directorId,actors,genres);
+            Movie movie = this.movieService.edit(movieId,title,description,imageUrl,airingDate,rating,directorId,actors,genres);
 
             return "redirect:/movies";
         }

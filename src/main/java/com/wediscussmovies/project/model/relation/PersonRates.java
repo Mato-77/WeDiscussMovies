@@ -3,6 +3,7 @@ package com.wediscussmovies.project.model.relation;
 import com.wediscussmovies.project.model.Person;
 import com.wediscussmovies.project.model.User;
 import com.wediscussmovies.project.model.primarykeys.PersonRatesPK;
+import io.leangen.graphql.annotations.GraphQLNonNull;
 import io.leangen.graphql.annotations.GraphQLQuery;
 import lombok.Data;
 
@@ -19,10 +20,12 @@ public class PersonRates {
 
     @Basic
     @Column(name = "reason")
+    @GraphQLNonNull
     @GraphQLQuery(name = "reason",description = "Причина")
     private String reason;
     @Basic
     @Column(name = "stars_rated")
+    @GraphQLNonNull
     @GraphQLQuery(name = "stars",description = "Оцена")
     private int starsRated;
 
@@ -30,12 +33,16 @@ public class PersonRates {
     @ManyToOne
     @JoinColumn(name = "person_id")
     @MapsId("person_id")
+    @GraphQLNonNull
+    @GraphQLQuery(name = "person",description = "Оцена")
     private Person person;
 
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     @MapsId("user_id")
+    @GraphQLNonNull
+    @GraphQLQuery(name = "userForum",description = "Оцена")
     private User user;
 
 

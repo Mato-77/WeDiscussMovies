@@ -77,10 +77,11 @@
             <version>0.1.55</version>
         </dependency>
 <!--        <dependency>-->
-<!--            <groupId>com.graphql-java</groupId>-->
-<!--            <artifactId>graphql-java</artifactId>-->
-<!--            <version>17.3</version>-->
+<!--            <groupId>com.netflix.graphql.dgs</groupId>-->
+<!--            <artifactId>graphql-dgs-spring-boot-starter</artifactId>-->
+<!--            <version>14.0</version>-->
 <!--        </dependency>-->
+
         <dependency>
             <groupId>io.leangen.graphql</groupId>
             <artifactId>spqr</artifactId>

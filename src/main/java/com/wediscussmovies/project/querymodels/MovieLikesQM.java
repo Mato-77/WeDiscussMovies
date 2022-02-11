@@ -1,12 +1,15 @@
 package com.wediscussmovies.project.querymodels;
 
+import io.leangen.graphql.annotations.GraphQLQuery;
 import lombok.Data;
 
 import java.util.Objects;
 
 @Data
 public class MovieLikesQM {
+    @GraphQLQuery(name = "id",description = "Идентификатор")
     private Integer movieId;
+    @GraphQLQuery(name = "likes",description = "Број на лајкови")
     private Long likes;
 
     public MovieLikesQM(Integer movieId, Long likes) {

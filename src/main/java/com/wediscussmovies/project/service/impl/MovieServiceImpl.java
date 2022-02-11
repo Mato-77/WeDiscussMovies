@@ -16,12 +16,14 @@ import com.wediscussmovies.project.querymodels.MovieLikesQM;
 import com.wediscussmovies.project.repository.*;
 import com.wediscussmovies.project.model.exception.MovieIdNotFoundException;
 import com.wediscussmovies.project.service.MovieService;
+import io.leangen.graphql.annotations.GraphQLArgument;
+import io.leangen.graphql.annotations.GraphQLMutation;
 import io.leangen.graphql.annotations.GraphQLQuery;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import javax.transaction.Transactional;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -60,31 +62,35 @@ public class MovieServiceImpl implements MovieService {
         return this.movieRepository.findAll();
     }
 
-    @Override
-    public List<Movie> listAllByType(Character type) {
+    @GraphQLQuery(name = "moviesByType")
+    public List<Movie> listAllByType(@GraphQLArgument(name = "type") Character type) {
         if (type.equals('A'))
             return this.listAll();
         return this.listAllWithoutDirector();
     }
 
     @Override
+    @GraphQLQuery(name = "moviesWithoutDirector")
     public List<Movie> listAllWithoutDirector() {
         return this.movieRepository.findAllByDirectorIsNull();
     }
 
     @Override
-    public Movie findById(Integer id) {
+    @GraphQLQuery(name = "movie")
+    public Movie findById(@GraphQLArgument(name = "id") Integer id) {
         return this.movieRepository.findById(id).orElseThrow(() -> new MovieIdNotFoundException(id));
     }
 
     @Override
-    public Movie findBasicById(Integer id) {
+    @GraphQLQuery(name = "movieBasic")
+    public Movie findBasicById(@GraphQLArgument(name = "id") Integer id) {
         return this.movieRepository.findBasicById(id).orElseThrow(() -> new MovieIdNotFoundException(id));
     }
 
     @Override
-    public MovieLikesQM findLikesForMovieById(int movieId) {
-        return this.movieRepository.findLikesForMovie(movieId).get(0);
+    @GraphQLQuery(name = "likesForMovie")
+   public MovieLikesQM findLikesForMovieById(@GraphQLArgument(name = "movieId") int movieId) {
+        return this.movieRepository.findLikesForMovie(movieId);
     }
 
     @Override
@@ -94,8 +100,15 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     @Transactional
-    public Movie save(String title, String description, String imageUrl,
-                      Date airingDate, Double rating, Integer directorId,List<Integer> actorIds,List<Integer> genreIds) {
+    @GraphQLMutation(name = "saveMovie")
+    public Movie save(@GraphQLArgument(name = "title") String title,
+               @GraphQLArgument(name = "description") String description,
+               @GraphQLArgument(name = "image") String imageUrl,
+               @GraphQLArgument(name = "airingDate") LocalDate airingDate,
+               @GraphQLArgument(name = "rating") Double  rating,
+               @GraphQLArgument(name = "director") Integer directorId,
+               @GraphQLArgument(name = "actorIds") List<Integer> actorIds,
+               @GraphQLArgument(name = "genreIds") List<Integer> genreIds) {
 
 
         Person director =getDirector(directorId);
@@ -106,11 +119,18 @@ public class MovieServiceImpl implements MovieService {
     }
 
 
-    @Transactional
     @Override
-    public Movie edit(Integer movieId, String title, String description,
-                      String imageUrl, Date airingDate, Double rating,
-                      Integer directorId, List<Integer> actorIds,List<Integer> genreIds) {
+    @Transactional
+    @GraphQLMutation(name = "editMovie")
+    public Movie edit(@GraphQLArgument(name = "id") Integer movieId,
+               @GraphQLArgument(name = "title") String title,
+               @GraphQLArgument(name = "description") String description,
+               @GraphQLArgument(name = "image") String imageUrl,
+               @GraphQLArgument(name = "airingDate") LocalDate airingDate,
+               @GraphQLArgument(name = "rating") Double  rating,
+               @GraphQLArgument(name = "director") Integer directorId,
+               @GraphQLArgument(name = "actorIds") List<Integer> actorIds,
+               @GraphQLArgument(name = "genreIds") List<Integer> genreIds) {
 
 
         Person director =getDirector(directorId);
@@ -133,7 +153,8 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public List<Person> findAllActorsForMovie(Movie movie) {
+    @GraphQLQuery(name = "movieActors")
+    public List<Person> findAllActorsForMovie(@GraphQLArgument(name = "movie") Movie movie) {
         return this.movieActorsRepository.findAllByMovie(movie)
                 .stream()
                 .map(MovieActors::getPerson)
@@ -141,7 +162,8 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public List<Genre> findAllGenresForMovie(Movie movie) {
+    @GraphQLQuery(name = "movieGenres")
+    public List<Genre> findAllGenresForMovie(@GraphQLArgument(name = "movie") Movie movie){
         return this.movieGenresRepository.findAllByMovie(movie)
                 .stream()
                 .map(MovieGenres::getGenre)
@@ -149,7 +171,9 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public void likeMovie(Integer movieId, Integer userId) {
+    @GraphQLMutation(name = "likeMovie")
+    public void likeMovie(@GraphQLArgument(name = "movieId") Integer movieId,
+                   @GraphQLArgument(name = "userId") Integer userId) {
         User user = this.userRepository.findById(userId).orElseThrow(() -> new UserNotExistException(userId.toString()));
         Movie movie = this.findById(movieId);
 
@@ -157,13 +181,16 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public void unlikeMovie(Integer movieId, Integer userId) {
+    @GraphQLMutation(name = "unlikeMovie")
+   public void unlikeMovie(@GraphQLArgument(name = "movieId") Integer movieId,
+                     @GraphQLArgument(name = "userId") Integer userId) {
         MovieLikesPK movieLikesPK = new MovieLikesPK(movieId,userId);
         this.movieLikesRepository.deleteById(movieLikesPK);
     }
 
     @Override
-    public List<Movie> findLikedMoviesByUser(User user) {
+    @GraphQLQuery(name = "likedMoviesByUser")
+    public List<Movie> findLikedMoviesByUser(@GraphQLArgument(name = "user") User user) {
         return
                 this.movieLikesRepository
                         .findAllByUser(user)
@@ -174,12 +201,16 @@ public class MovieServiceImpl implements MovieService {
 
 
     @Override
-    public void deleteById(Integer id) {
+    @GraphQLMutation(name = "deleteMovie")
+    public void deleteById(@GraphQLArgument(name = "id") Integer id) {
         this.movieRepository.deleteById(id);
     }
 
     @Override
-    public void addGradeMovie(Integer movieId, User user, Grade grade) {
+    @GraphQLMutation(name = "addGradeMovie")
+    public void addGradeMovie(@GraphQLArgument(name = "movieId") Integer movieId,
+                              @GraphQLArgument(name = "user") User user,
+                              @GraphQLArgument(name = "grade") Grade grade) {
         MovieRatesPK key =  new MovieRatesPK(movieId, user.getUserId());
         Optional<MovieRates> movieRates = this.movieRatesRepository.findById(key);
         if (movieRates.isPresent()){
@@ -196,12 +227,13 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public List<Movie> searchByTitle(String title) {
+    @GraphQLQuery(name = "movieByTitle")
+    public List<Movie> searchByTitle(@GraphQLArgument(name = "title") String title) {
         return this.movieRepository.findAllByTitleLike("%"+title+"%");
     }
 
     @Transactional
-    void addActorsAndGenresForMovie(Movie movie, List<Integer> actorIds, List<Integer> genreIds)
+    protected void addActorsAndGenresForMovie(Movie movie, List<Integer> actorIds, List<Integer> genreIds)
     {
 
         actorIds.stream()

@@ -3,6 +3,7 @@ package com.wediscussmovies.project.querymodels;
 import com.wediscussmovies.project.model.Movie;
 import com.wediscussmovies.project.model.Person;
 import com.wediscussmovies.project.model.User;
+import io.leangen.graphql.annotations.GraphQLQuery;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,7 +17,9 @@ import java.util.Objects;
 @NoArgsConstructor
 public class DiscussionLikesQM {
 
+    @GraphQLQuery(name = "id",description = "Идентификатор")
     private Integer discussionId;
+    @GraphQLQuery(name = "likes",description = "Број на лајкови")
     private Long likes;
 
     @Override

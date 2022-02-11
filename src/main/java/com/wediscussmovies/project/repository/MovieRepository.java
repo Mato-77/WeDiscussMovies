@@ -14,6 +14,7 @@ import java.util.Optional;
 
 @Repository
 public interface MovieRepository extends JpaRepository<Movie, Integer> {
+
      List<Movie> findAllByTitleLike(String Title);
      List<Movie> findAllByDirector(Person director);
      List<Movie> findAllByDirectorIsNull();
@@ -34,10 +35,10 @@ public interface MovieRepository extends JpaRepository<Movie, Integer> {
 
      @Query(value = "select new com.wediscussmovies.project.querymodels.MovieLikesQM(m.movieId, count(ml.id.userId)) from Movie m" +
              " left join MovieLikes ml on ml.id.movieId = m.movieId" +
-             " group by m.movieId" +
-             " having m.movieId = :id")
+             " where m.movieId = :id "+
+             " group by m.movieId")
      @Transactional
-     List<MovieLikesQM> findLikesForMovie(@Param("id") Integer movie_id);
+     MovieLikesQM findLikesForMovie(@Param("id") Integer movie_id);
 
 
 }

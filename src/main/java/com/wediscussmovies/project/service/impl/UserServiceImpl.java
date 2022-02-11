@@ -7,10 +7,14 @@ import com.wediscussmovies.project.model.User;
 import com.wediscussmovies.project.model.exception.UsernameAlreadyExistsException;
 import com.wediscussmovies.project.repository.UserRepository;
 import com.wediscussmovies.project.service.UserService;
+import io.leangen.graphql.annotations.GraphQLArgument;
+import io.leangen.graphql.annotations.GraphQLQuery;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -25,7 +29,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findByUsername(String username) {
+    @GraphQLQuery(name = "userByUsername")
+    public User findByUsername(@GraphQLArgument(name = "username") String username) {
         return this.userRepository.findByUsername(username).orElseThrow(() -> new UserNotExistException(username));
     }
 
@@ -42,13 +47,20 @@ public class UserServiceImpl implements UserService {
         if(this.userRepository.findByUsername(username).isPresent())
             throw new UsernameAlreadyExistsException(username);
         User user = new User(email,username,passwordEncoder.encode(password),name,surname);
-        return userRepository.save(user);
+        return this.userRepository.save(user);
 
     }
 
     @Override
-    public User findById(Integer id) {
-        return userRepository.findById(id).orElseThrow(() -> new UserNotExistException(id.toString()));
+    @GraphQLQuery(name = "userForum")
+    public User findById(@GraphQLArgument(name = "id") Integer id) {
+        return this.userRepository.findById(id).orElseThrow(() -> new UserNotExistException(id.toString()));
+    }
+
+    @Override
+    @GraphQLQuery(name = "userForums")
+    public List<User> findAll() {
+        return this.userRepository.findAll();
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.wediscussmovies.project.model;
 
+import io.leangen.graphql.annotations.GraphQLNonNull;
 import io.leangen.graphql.annotations.GraphQLQuery;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,18 +21,22 @@ public class Discussion {
     private int discussionId;
     @Basic
     @Column(name = "type")
+    @GraphQLNonNull
     @GraphQLQuery(name = "type",description = "Тип")
     private Character type;
     @Basic
     @Column(name = "text")
+    @GraphQLNonNull
     @GraphQLQuery(name = "text",description = "Текст")
     private String text;
     @Basic
     @Column(name = "title")
+    @GraphQLNonNull
     @GraphQLQuery(name = "title",description = "Наслов")
     private String title;
     @Basic
     @Column(name = "date")
+    @GraphQLNonNull
     @GraphQLQuery(name = "date",description = "Датум")
     private LocalDate date;
 
@@ -46,7 +51,8 @@ public class Discussion {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @GraphQLQuery(name = "user",description = "Корисник")
+    @GraphQLNonNull
+    @GraphQLQuery(name = "userForum",description = "Корисник")
     private User user;
 
     @ManyToOne

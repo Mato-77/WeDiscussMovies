@@ -4,13 +4,16 @@ import com.wediscussmovies.project.model.relation.MovieLikes;
 import com.wediscussmovies.project.model.relation.MovieActors;
 import com.wediscussmovies.project.model.relation.MovieGenres;
 import com.wediscussmovies.project.model.relation.MovieRates;
+import io.leangen.graphql.annotations.GraphQLNonNull;
 import io.leangen.graphql.annotations.GraphQLQuery;
 import lombok.Data;
+import org.apache.tomcat.jni.Local;
 import org.hibernate.annotations.Fetch;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Objects;
@@ -26,32 +29,40 @@ public class Movie {
     private int movieId;
     @Basic
     @Column(name = "title")
+    @GraphQLNonNull()
     @GraphQLQuery(name = "title",description = "Наслов")
     private String title;
     @Basic
     @Column(name = "description")
+    @GraphQLNonNull()
     @GraphQLQuery(name = "description",description = "Опис")
     private String description;
     @Basic
     @Column(name = "image_url")
+    @GraphQLNonNull()
     @GraphQLQuery(name = "image",description = "Линк кон слика")
     private String imageUrl;
     @Basic
     @Column(name = "airing_date")
+    @GraphQLNonNull()
     @GraphQLQuery(name = "date",description = "Датум на издавање")
-    private Date airingDate;
+    private LocalDate airingDate;
     @Basic
     @Column(name = "imdb_rating")
     @GraphQLQuery(name = "imbdRating",description = "Рејтинг според останати организации")
     private Double imdbRating;
 
     @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY)
+    @GraphQLQuery(name = "MovieActors",description = "Актери")
     private Collection<MovieActors> actors;
     @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY)
+    @GraphQLQuery(name = "movieGenres",description = "Актери")
     private Collection<MovieGenres> genres;
     @OneToMany(mappedBy = "movie")
+    @GraphQLQuery(name = "movieLikes",description = "Лајкови")
     private Collection<MovieLikes> likes;
     @OneToMany(mappedBy = "movie")
+    @GraphQLQuery(name = "movieRates",description = "Лајкови")
     private Collection<MovieRates> rates;
 
     @ManyToOne
@@ -63,7 +74,7 @@ public class Movie {
 
     }
 
-    public Movie(String title, String description, String imageUrl, Date airingDate,
+    public Movie(String title, String description, String imageUrl, LocalDate airingDate,
                  Double imdbRating, Person director) {
         this.title = title;
         this.description = description;

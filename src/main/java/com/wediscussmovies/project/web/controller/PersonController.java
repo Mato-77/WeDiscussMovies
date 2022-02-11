@@ -5,6 +5,7 @@ import com.wediscussmovies.project.model.Person;
 import com.wediscussmovies.project.model.User;
 import com.wediscussmovies.project.service.MovieService;
 import com.wediscussmovies.project.service.PersonService;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -85,7 +87,7 @@ public class PersonController {
             @RequestParam String name,
             @RequestParam String surname,
             @RequestParam Character type,
-            @RequestParam Date birthDate,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate birthDate,
             @RequestParam String imageUrl,
             @RequestParam String description,
             @RequestParam(required = false) List<Integer> movieIds){
@@ -108,7 +110,7 @@ public class PersonController {
             @RequestParam String name,
             @RequestParam String surname,
             @RequestParam Character type,
-            @RequestParam Date birthDate,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate birthDate,
             @RequestParam String imageUrl,
             @RequestParam String description,
             @RequestParam(required = false) List<Integer> movieIds){

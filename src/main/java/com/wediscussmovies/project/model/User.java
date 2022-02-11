@@ -1,9 +1,7 @@
 package com.wediscussmovies.project.model;
 
-import com.wediscussmovies.project.model.relation.MovieLikes;
-import com.wediscussmovies.project.model.relation.UserGenres;
-import com.wediscussmovies.project.model.relation.MovieRates;
-import com.wediscussmovies.project.model.relation.PersonRates;
+import com.wediscussmovies.project.model.relation.*;
+import io.leangen.graphql.annotations.GraphQLNonNull;
 import io.leangen.graphql.annotations.GraphQLQuery;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
@@ -19,6 +17,7 @@ import java.util.Objects;
 @Table(name = "users", schema = "project", catalog = "db_202122z_va_prj_wediscussmovies")
 @Data
 public class User implements UserDetails {
+
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "user_id")
@@ -26,35 +25,59 @@ public class User implements UserDetails {
     private int userId;
     @Basic
     @Column(name = "username")
+    @GraphQLNonNull
     @GraphQLQuery(name = "username",description = "Корисничко име")
     private String username;
     @Basic
     @Column(name = "name")
     @GraphQLQuery(name = "name",description = "Име")
+    @GraphQLNonNull
     private String name;
     @Basic
     @Column(name = "surname")
     @GraphQLQuery(name = "surname",description = "Презиме")
+    @GraphQLNonNull
     private String surname;
     @Basic
     @Column(name = "email")
+    @GraphQLNonNull
     @GraphQLQuery(name = "email",description = "Емаил")
     private String email;
     @Basic
     @Column(name = "password")
+    @GraphQLNonNull
     private String password;
+
     @OneToMany(mappedBy = "user")
+    @GraphQLQuery(name = "discussionsUser",description = "Име")
     private Collection<Discussion> discussions;
+
     @OneToMany(mappedBy = "user")
+    @GraphQLQuery(name = "userLikes",description = "Име")
     private Collection<MovieLikes> movieLikes;
+
     @OneToMany(mappedBy = "user")
+    @GraphQLQuery(name = "userMovieRates",description = "Име")
     private Collection<MovieRates> movieRates;
+
     @OneToMany(mappedBy = "user")
+    @GraphQLQuery(name = "userPersonRates",description = "Име")
     private Collection<PersonRates> personRates;
+
     @OneToMany(mappedBy = "user")
+    @GraphQLQuery(name = "repliesUser",description = "Име")
     private Collection<Reply> replies;
     @OneToMany(mappedBy = "user")
+    @GraphQLQuery(name = "userGenres",description = "Име")
     private Collection<UserGenres> userGenres;
+
+    @OneToMany(mappedBy = "user")
+    @GraphQLQuery(name = "repliesUserLikes",description = "Име")
+    private Collection<UserReplies> userReplies;
+
+    @OneToMany(mappedBy = "user")
+    @GraphQLQuery(name = "discussionLikes",description = "Име")
+    private Collection<DiscussionLikes> discussionLikes;
 
     public User() {
 

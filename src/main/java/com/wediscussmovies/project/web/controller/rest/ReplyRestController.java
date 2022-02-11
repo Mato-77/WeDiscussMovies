@@ -28,9 +28,10 @@ public class ReplyRestController {
     }
     @GetMapping("/like/{replyId}")
     public ResponseEntity likeReply(@PathVariable Integer replyId,
+                                    @RequestParam Integer discussionId,
                                     @RequestParam Integer userId){
         try {
-            this.replyService.likeReply(replyId,userId);
+            this.replyService.likeReply(replyId,discussionId,userId);
             return ResponseEntity.ok(true);
         }
         catch (RuntimeException exception){
@@ -39,9 +40,10 @@ public class ReplyRestController {
     }
     @GetMapping("/unlike/{replyId}")
     public ResponseEntity unlikeReply(@PathVariable Integer replyId,
-                                 @RequestParam Integer userId){
+                                      @RequestParam Integer discussionId,
+                                      @RequestParam Integer userId){
         try {
-            this.replyService.unlikeReply(replyId,userId);
+            this.replyService.unlikeReply(replyId,discussionId,userId);
             return ResponseEntity.ok(true);
         }
         catch (RuntimeException exception){

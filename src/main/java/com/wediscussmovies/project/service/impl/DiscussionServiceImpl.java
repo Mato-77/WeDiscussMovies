@@ -13,6 +13,9 @@ import com.wediscussmovies.project.model.Movie;
 import com.wediscussmovies.project.model.Person;
 import com.wediscussmovies.project.model.User;
 import com.wediscussmovies.project.service.DiscussionService;
+import io.leangen.graphql.annotations.GraphQLArgument;
+import io.leangen.graphql.annotations.GraphQLMutation;
+import io.leangen.graphql.annotations.GraphQLQuery;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -42,6 +45,7 @@ public class DiscussionServiceImpl implements DiscussionService {
 
 
     @Override
+    @GraphQLQuery(name = "discussions")
     public List<Discussion> listAll() {
         List<Discussion> discussions = this.discussionRepository.findAll();
         List<DiscussionLikesQM> discussionLikes  = this.discussionRepository.findAllDiscussionsWithLikes();
@@ -52,7 +56,12 @@ public class DiscussionServiceImpl implements DiscussionService {
     }
 
     @Override
-    public void save(Character type,Integer id,String title, String text,User user) {
+    @GraphQLMutation(name = "saveDiscussion")
+   public void save(@GraphQLArgument(name = "type") Character type,
+              @GraphQLArgument(name = "id") Integer id,
+              @GraphQLArgument(name = "title") String title,
+              @GraphQLArgument(name = "text") String text,
+              @GraphQLArgument(name = "user") User user) {
         LocalDate date = LocalDate.now();
         Discussion discussion;
 
@@ -71,7 +80,12 @@ public class DiscussionServiceImpl implements DiscussionService {
     }
 
     @Override
-    public void edit(Integer discussionId, Character type, Integer id, String title, String text) {
+    @GraphQLMutation(name = "editDiscussion")
+    public void edit(@GraphQLArgument(name = "id") Integer discussionId,
+              @GraphQLArgument(name = "type") Character type,
+              @GraphQLArgument(name = "userId") Integer id,
+              @GraphQLArgument(name = "title") String title,
+              @GraphQLArgument(name = "text") String text) {
         Discussion discussion = this.findById(discussionId);
 
         discussion.setText(text);
@@ -91,19 +105,23 @@ public class DiscussionServiceImpl implements DiscussionService {
     }
 
     @Override
-    public void deleteById(Integer discussionId) {
+    @GraphQLMutation(name = "deleteDiscussion")
+    public void deleteById(@GraphQLArgument(name = "id") Integer discussionId) {
         this.discussionRepository.deleteById(discussionId);
     }
 
     @Override
-    public void likeDiscussion(Integer discussionId, Integer userId) {
+    @GraphQLMutation(name = "likeDiscussion")
+    public void likeDiscussion(@GraphQLArgument(name = "discussionId") Integer discussionId,
+                               @GraphQLArgument(name="userId")Integer userId) {
         Discussion discussion = discussionRepository.findById(discussionId).orElseThrow(() -> new DiscussionNotExistException(discussionId));
         User user = userRepository.findById(userId).orElseThrow(() -> new UserNotExistException(userId.toString()));
         this.discussionLikesRepository.save(new DiscussionLikes(discussion, user));
     }
 
     @Override
-    public List<Discussion> findLikedDiscussionsByUser(User user) {
+    @GraphQLMutation(name = "likedDiscussionsByUser")
+    public List<Discussion> findLikedDiscussionsByUser(@GraphQLArgument(name = "user") User user) {
         List<DiscussionLikes> likes = discussionLikesRepository.findAllByUser(user);
         List<Discussion> discussions = new ArrayList<>();
         for(DiscussionLikes dl: likes){
@@ -113,7 +131,9 @@ public class DiscussionServiceImpl implements DiscussionService {
     }
 
     @Override
-    public void unlikeDiscussion(Integer discussionId, Integer userId) {
+    @GraphQLMutation(name = "unlikeDiscussion")
+    public void unlikeDiscussion(@GraphQLArgument(name = "discussionId") Integer discussionId,
+    @GraphQLArgument(name="userId")Integer userId) {
         DiscussionLikesPK pk = new DiscussionLikesPK(discussionId, userId);
         this.discussionLikesRepository.deleteById(pk);
     }
@@ -152,7 +172,8 @@ public class DiscussionServiceImpl implements DiscussionService {
     }
 
     @Override
-    public List<Discussion> listAllByTitle(String title) {
+    @GraphQLQuery(name = "filter")
+    public List<Discussion> listAllByTitle(@GraphQLArgument(name = "title") String title) {
         if(title == null || title.isEmpty())
          return this.listAll();
         return discussionRepository.findAllByTitleLike("%"+title+"%");

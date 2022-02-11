@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -21,6 +21,6 @@ public interface ReplyRepository extends JpaRepository<Reply, ReplyPK> {
     @Modifying
     @Query(value = "insert into project.replies (text,date,user_id,discussion_id) values(:text,:date,:user_id,:discussion_id)",nativeQuery = true)
     @Transactional
-    void insertInto(@Param("text") String text, @Param("date")Date date,
+    void insertInto(@Param("text") String text, @Param("date") LocalDate date,
                     @Param("user_id")Integer userId,@Param("discussion_id")Integer discussionId);
 }

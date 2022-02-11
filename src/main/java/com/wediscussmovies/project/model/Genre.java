@@ -1,5 +1,6 @@
 package com.wediscussmovies.project.model;
 
+import io.leangen.graphql.annotations.GraphQLNonNull;
 import io.leangen.graphql.annotations.GraphQLQuery;
 import lombok.Data;
 
@@ -17,6 +18,7 @@ public class Genre {
     private int genreId;
     @Basic
     @Column(name = "genre_type")
+    @GraphQLNonNull
     @GraphQLQuery(name = "type",description = "Име")
     private String genreType;
 

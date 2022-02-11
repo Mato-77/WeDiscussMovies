@@ -3,6 +3,7 @@ package com.wediscussmovies.project.model.relation;
 import com.wediscussmovies.project.model.Movie;
 import com.wediscussmovies.project.model.User;
 import com.wediscussmovies.project.model.primarykeys.MovieRatesPK;
+import io.leangen.graphql.annotations.GraphQLNonNull;
 import io.leangen.graphql.annotations.GraphQLQuery;
 import lombok.Data;
 
@@ -19,16 +20,19 @@ public class MovieRates {
     @Basic
     @Column(name = "reason")
     @GraphQLQuery(name = "reason",description = "Опис")
+    @GraphQLNonNull
     private String reason;
     @Basic
     @Column(name = "stars_rated")
     @GraphQLQuery(name = "stars",description = "Оцена")
+    @GraphQLNonNull
     private int starsRated;
 
 
     @ManyToOne
     @MapsId("movie_id")
     @JoinColumn(name = "movie_id")
+    @GraphQLNonNull
     @GraphQLQuery(name = "movie",description = "Филм")
     private Movie movie;
 
@@ -36,7 +40,8 @@ public class MovieRates {
     @ManyToOne
     @MapsId("user_id")
     @JoinColumn(name = "user_id")
-    @GraphQLQuery(name = "user",description = "Корисник")
+    @GraphQLNonNull
+    @GraphQLQuery(name = "userForum",description = "Корисник")
     private User user;
 
     public MovieRates() {

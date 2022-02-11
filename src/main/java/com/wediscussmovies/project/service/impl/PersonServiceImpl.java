@@ -13,10 +13,14 @@ import com.wediscussmovies.project.model.relation.PersonRates;
 import com.wediscussmovies.project.repository.*;
 import com.wediscussmovies.project.model.Person;
 import com.wediscussmovies.project.service.PersonService;
+import io.leangen.graphql.annotations.GraphQLArgument;
+import io.leangen.graphql.annotations.GraphQLMutation;
+import io.leangen.graphql.annotations.GraphQLQuery;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -38,31 +42,40 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
+    @GraphQLQuery(name = "persons")
     public List<Person> findAll() {
         return this.personRepository.findAll();
     }
 
     @Override
+    @GraphQLQuery(name = "directors")
     public List<Person> findAllDirectors() {
         return this.personRepository.findAllByType('D');
     }
 
     @Override
-    public Person findById(Integer id) {
+    @GraphQLQuery(name = "person")
+    public Person findById(@GraphQLArgument(name = "id") Integer id) {
         return this.personRepository.findById(id).orElseThrow(() -> new PersonNotExistException(id));
     }
 
 
 
     @Override
+    @GraphQLQuery(name = "actors")
     public List<Person> findAllActors() {
         return this.personRepository.findAllByType('A');
     }
 
     @Override
     @Transactional
-    public Person save(String name, String surname, Character type, Date birthDate, String image_url,
-                       String description,List<Integer> movieIds) {
+    @GraphQLMutation(name = "savePerson")
+    public Person  save(@GraphQLArgument(name = "name") String name, @GraphQLArgument(name="surname") String surname,
+                 @GraphQLArgument(name = "type") Character type,
+                 @GraphQLArgument(name = "birthDate") LocalDate birthDate,
+                 @GraphQLArgument(name = "image") String image_url,
+                 @GraphQLArgument(name = "description") String description,
+                 @GraphQLArgument(name = "movieIds") List<Integer> movieIds) {
 
         Person person = this.personRepository.saveAndFlush(new Person(name,surname,type,birthDate,image_url,description));
 
@@ -78,8 +91,15 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     @Transactional
-    public Person edit(Integer personId, String name, String surname,
-                       Character type, Date birthDate, String image_url, String description, List<Integer> movieIds) {
+    @GraphQLMutation(name = "editPerson")
+   public Person edit(@GraphQLArgument(name = "id") Integer personId,
+                @GraphQLArgument(name = "name") String name,
+                @GraphQLArgument(name = "surname") String surname,
+                @GraphQLArgument(name = "type") Character type,
+                @GraphQLArgument(name = "birthDate") LocalDate birthDate,
+                @GraphQLArgument(name = "image") String image_url,
+                @GraphQLArgument(name = "description") String description,
+                @GraphQLArgument(name = "movieIds") List<Integer> movieIds) {
         Person person = this.findById(personId);
 
         person.setName(name);
@@ -106,7 +126,9 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public List<Person> findPersonsByNameOrSurname(Character type,String searchQuery) {
+    @GraphQLQuery(name = "personsByNameOrSurname")
+    public List<Person> findPersonsByNameOrSurname(@GraphQLArgument(name = "type") Character type,
+                                            @GraphQLArgument(name = "name") String searchQuery) {
         if (searchQuery != null && searchQuery.isEmpty())
             return this.personRepository.findAllByTypeAndNameLikeOrSurnameLike(type,searchQuery,searchQuery);
         if (type.equals('D'))
@@ -116,7 +138,8 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public List<Movie> findAllMoviesByPerson(Person person) {
+    @GraphQLQuery(name = "moviesPerson")
+    public List<Movie> findAllMoviesByPerson(@GraphQLArgument(name = "person") Person person){
         if (person.getType().equals('A'))
             return this.movieActorsRepository
                 .findAllByPerson(person)
@@ -127,12 +150,16 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public void deleteById(Integer id) {
+    @GraphQLMutation(name = "deletePerson")
+    public  void deleteById(@GraphQLArgument(name = "id") Integer id) {
         this.personRepository.deleteById(id);
     }
 
     @Override
-    public void addGradePerson(Integer personId, User user, Grade grade) {
+    @GraphQLMutation(name = "gradePerson")
+    public void addGradePerson(@GraphQLArgument(name = "id") Integer personId,
+                        @GraphQLArgument(name = "user") User user,
+                        @GraphQLArgument(name = "grade") Grade grade) {
         PersonRatesPK key =  new PersonRatesPK(personId, user.getUserId());
         Optional<PersonRates> personRates = this.personRatesRepository.findById(key);
         if (personRates.isPresent()){

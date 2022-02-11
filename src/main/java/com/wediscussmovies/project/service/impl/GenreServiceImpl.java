@@ -11,6 +11,9 @@ import com.wediscussmovies.project.repository.GenreRepository;
 import com.wediscussmovies.project.model.Genre;
 import com.wediscussmovies.project.repository.UserRepository;
 import com.wediscussmovies.project.service.GenreService;
+import io.leangen.graphql.annotations.GraphQLArgument;
+import io.leangen.graphql.annotations.GraphQLMutation;
+import io.leangen.graphql.annotations.GraphQLQuery;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,17 +32,20 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Override
-    public Genre findById(Integer id) {
+    @GraphQLQuery(name = "genre")
+    public Genre findById(@GraphQLArgument(name = "id") Integer id) {
         return this.genreRepository.findById(id).orElseThrow(() -> new GenreNotExistException(id));
     }
 
     @Override
-    public List<Genre> findAllByType(String genre) {
+    @GraphQLQuery(name = "genresType")
+    public List<Genre> findAllByType(@GraphQLArgument(name ="genre") String genre) {
         return this.genreRepository.findAllByGenreType(genre);
     }
 
     @Override
-    public Genre save(String genreName) {
+    @GraphQLMutation(name = "saveGenre")
+   public Genre save(@GraphQLArgument(name = "genre") String genreName) {
        Genre genre = new Genre(genreName);
         return this.genreRepository.save(genre);
     }
@@ -52,25 +58,31 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Override
-    public List<Genre> findAllByUser(User user) {
+    @GraphQLQuery(name = "userGenres")
+   public List<Genre> findAllByUser(@GraphQLArgument(name = "user") User user) {
         return this.genreLikesRepository.findAllByUser(user);
     }
 
     @Override
+    @GraphQLQuery(name = "genres")
     public List<Genre> findAll() {
         return this.genreRepository.findAllSorted();
     }
 
-    @Override
-    public void likeGenre(Integer genreId, Integer userId) {
+    @GraphQLMutation(name = "likeGenre")
+   public void likeGenre(@GraphQLArgument(name = "genreId") Integer genreId,
+                   @GraphQLArgument(name = "userId") Integer userId) {
         User user = this.userRepository.findById(userId).orElseThrow(() -> new UserNotExistException(userId.toString()));
         Genre genre = this.genreRepository.findById(genreId).orElseThrow(() -> new GenreNotExistException(genreId));
         this.genreLikesRepository.save(new UserGenres(genre, user));
     }
 
     @Override
-    public void unlikeGenre(Integer genreId, Integer userId) {
+    @GraphQLMutation(name = "unlikeGenre")
+    public void unlikeGenre(@GraphQLArgument(name = "genreId") Integer genreId,
+                     @GraphQLArgument(name = "userId") Integer userId) {
         UserGenresPK movieLikesPK = new UserGenresPK(userId, genreId);
         this.genreLikesRepository.deleteById(movieLikesPK);
     }
+
 }

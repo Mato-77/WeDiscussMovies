@@ -26,7 +26,7 @@ public class MovieLikes {
     @ManyToOne
     @MapsId("user_id")
     @JoinColumn(name = "user_id")
-    @GraphQLQuery(name = "user",description = "Корисник")
+    @GraphQLQuery(name = "userForum",description = "Корисник")
     private User user;
 
     public MovieLikes(Movie movie, User user) {
