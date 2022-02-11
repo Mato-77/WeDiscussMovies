@@ -1,0 +1,124 @@
+<div id="test-movie" style="display: none" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<script type="text/javascript" th:src="@{/js/graphqlmovie.js}"></script>
+    <div style="width: 70%; margin: auto">
+        <div th:replace="fragments/searchBarName"></div><br>
+        <div th:replace="fragments/searchBarGenre"></div>
+    </div>
+
+    <div class="container mb-4">
+        <a  sec:authorize="isAuthenticated()" th:href="@{/movies/add}">Додади нов филм</a>
+    </div>
+
+    <div class="container mb-4" style="display: none">
+        <div class="row">
+            <div class="col-md-3 elements">
+                <div class="card-body card bg-image">
+                    <a class="card-text-center" style="color: white" >
+                        <h3 class="card-title title" ></h3>
+                        <span  hidden class="card-genre"></span>
+
+                    </a>
+                    <h3 class="card-text bottom" ></h3>
+                    <th:block sec:authorize="isAuthenticated()">
+                        <a class="bottom-heart btn btn-success button-add-favourite-list" >❤</a>
+                        <a class="bottom-heart btn btn-danger button-remove-favourite-list">💔</a>
+                    </th:block>
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-3 elements">
+                <div class="card-body card bg-image">
+                    <a class="card-text-center" style="color: white" >
+                        <h3 class="card-title title" ></h3>
+                        <span  hidden class="card-genre"></span>
+
+                    </a>
+                    <h3 class="card-text bottom" ></h3>
+                    <th:block sec:authorize="isAuthenticated()">
+                        <a class="bottom-heart btn btn-success button-add-favourite-list" >❤</a>
+                        <a class="bottom-heart btn btn-danger button-remove-favourite-list">💔</a>
+                    </th:block>
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-3 elements">
+                <div class="card-body card bg-image">
+                    <a class="card-text-center" style="color: white" >
+                        <h3 class="card-title title" ></h3>
+                        <span  hidden class="card-genre"></span>
+
+                    </a>
+                    <h3 class="card-text bottom" ></h3>
+                    <th:block sec:authorize="isAuthenticated()">
+                        <a class="bottom-heart btn btn-success button-add-favourite-list" >❤</a>
+                        <a class="bottom-heart btn btn-danger button-remove-favourite-list">💔</a>
+                    </th:block>
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-3 elements">
+                <div class="card-body card bg-image">
+                    <a class="card-text-center" style="color: white" >
+                        <h3 class="card-title title" ></h3>
+                        <span  hidden class="card-genre"></span>
+
+                    </a>
+                    <h3 class="card-text bottom" ></h3>
+                    <th:block sec:authorize="isAuthenticated()">
+                        <a class="bottom-heart btn btn-success button-add-favourite-list" >❤</a>
+                        <a class="bottom-heart btn btn-danger button-remove-favourite-list">💔</a>
+                    </th:block>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="container mb-4" style="display: none">
+        <div class="row">
+            <div class="col-md-3 elements">
+                <div class="card-body card bg-image">
+                    <a class="card-text-center" style="color: white" >
+                        <h3 class="card-title title" ></h3>
+                        <span  hidden class="card-genre"></span>
+
+                    </a>
+                    <h3 class="card-text bottom" ></h3>
+                    <th:block sec:authorize="isAuthenticated()">
+                        <a class="bottom-heart btn btn-success button-add-favourite-list" >❤</a>
+                        <a class="bottom-heart btn btn-danger button-remove-favourite-list">💔</a>
+                    </th:block>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="container mb-4" style="display: none">
+        <div class="row">
+            <div class="col-md-3 elements">
+                <div class="card-body card bg-image">
+                    <a class="card-text-center" style="color: white" >
+                        <h3 class="card-title title" ></h3>
+                        <span  hidden class="card-genre"></span>
+
+                    </a>
+                    <h3 class="card-text bottom" ></h3>
+                    <th:block sec:authorize="isAuthenticated()">
+                        <a class="bottom-heart btn btn-success button-add-favourite-list" >❤</a>
+                        <a class="bottom-heart btn btn-danger button-remove-favourite-list">💔</a>
+                    </th:block>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+</div>

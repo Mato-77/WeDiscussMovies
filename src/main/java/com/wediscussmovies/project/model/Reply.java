@@ -64,6 +64,7 @@ public class Reply implements Serializable {
         this.text = text;
         this.date = date;
         this.user = user;
+
     }
 
 

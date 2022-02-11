@@ -111,12 +111,12 @@ public class Person {
         this.description = description;
     }
 
-//    public boolean hasGradeFromUser(User user){
-//        for(PersonRates p: personRates){
-//            if(p.getUser().getUserId() == user.getUserId())
-//                return true;
-//        }
-//        return false;
-//    }
+    public boolean hasGradeFromUser(User user){
+        for(PersonRates p: rates){
+            if(p.getUser().getUserId() == user.getUserId())
+                return true;
+        }
+        return false;
+    }
 
 }

@@ -19,6 +19,7 @@ import com.wediscussmovies.project.service.MovieService;
 import io.leangen.graphql.annotations.GraphQLArgument;
 import io.leangen.graphql.annotations.GraphQLMutation;
 import io.leangen.graphql.annotations.GraphQLQuery;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -128,7 +129,7 @@ public class MovieServiceImpl implements MovieService {
     public Movie save(@GraphQLArgument(name = "title") String title,
                @GraphQLArgument(name = "description") String description,
                @GraphQLArgument(name = "image") String imageUrl,
-               @GraphQLArgument(name = "airingDate") LocalDate airingDate,
+               @GraphQLArgument(name = "airingDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate airingDate,
                @GraphQLArgument(name = "rating") Double  rating,
                @GraphQLArgument(name = "director") Integer directorId,
                @GraphQLArgument(name = "actorIds") List<Integer> actorIds,
@@ -150,7 +151,7 @@ public class MovieServiceImpl implements MovieService {
                @GraphQLArgument(name = "title") String title,
                @GraphQLArgument(name = "description") String description,
                @GraphQLArgument(name = "image") String imageUrl,
-               @GraphQLArgument(name = "airingDate") LocalDate airingDate,
+               @GraphQLArgument(name = "airingDate")  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate airingDate,
                @GraphQLArgument(name = "rating") Double  rating,
                @GraphQLArgument(name = "director") Integer directorId,
                @GraphQLArgument(name = "actorIds") List<Integer> actorIds,

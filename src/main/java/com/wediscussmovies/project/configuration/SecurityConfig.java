@@ -28,9 +28,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         // TODO: If you are implementing the security requirements, remove this following line
+//        http.csrf().disable()
+//                .authorizeRequests()
+//                .antMatchers("/")
+//                .permitAll()
+//                .anyRequest()
+//                .permitAll();
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/movies","/movies/**/","/actors","/persons/**/","/directors","/discussions","/profiles/**","/discussions/**/","/discussions/all/**/","/replies","/register","/genres", "/css/**","/img/**", "/js/**").permitAll()
+                .antMatchers("/movies","/movies/**/",
+                        "/actors","/persons/**/","/directors","/discussions",
+                        "/profiles/**","/discussions/**/","/discussions/all/**/","/replies",
+                        "/register","/genres", "/css/**","/img/**", "/js/**","/graphql/**/**").permitAll()
                 .antMatchers("/graphql")
                 .permitAll()
                 .anyRequest()

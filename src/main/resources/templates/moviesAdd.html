@@ -45,10 +45,11 @@
                     <div class="form-group">
                         <label for="rating">Рејтинг</label>
                         <input type="number"
-                               step="0.01"
                                class="form-control"
                                id="rating"
                                name="rating"
+                               max="10"
+                               min="0"
                                th:value="${movie?.getImdbRating()}"
                                placeholder="Рејтинг">
                     </div>
