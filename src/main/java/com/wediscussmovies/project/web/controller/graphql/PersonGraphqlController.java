@@ -5,7 +5,9 @@ import com.wediscussmovies.project.service.PersonService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/graphql/person")
@@ -34,6 +36,18 @@ public class PersonGraphqlController {
 
         return "template";
 
+    }
+    @GetMapping("/add")
+    public String getForm(Model model){
+        model.addAttribute("contentTemplate","testPersonsAdd");
+        return "template";
+    }
+    @GetMapping("/add/{id}")
+    public String getForm(@PathVariable Integer id, Model model, @RequestParam Character type){
+        model.addAttribute("id",id);
+        model.addAttribute("type",type);
+        model.addAttribute("contentTemplate","testPersonsAdd");
+        return "template";
     }
     private  void addModelPropertiesCommon(Model model){
         model.addAttribute("user",LoggedUser.getLoggedUser());

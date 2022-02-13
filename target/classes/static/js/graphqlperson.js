@@ -2,6 +2,7 @@
 var filters = {}
 var user
 var type
+var typePerson
 var button
 $(document).ready(function (){
     $("#discussions").toggle()
@@ -182,6 +183,9 @@ $(document).ready(function (){
             '} '
         ajaxCall(button,string,"delete")
     })
+    $(document.body).on("click",".btn-еdit-person",function (){
+        ajaxCall($(this),"{ person(id: " + $(this).attr("personId") + " ){ personId type } } " ,"getType")
+    })
     $("#dialog-rating-person").dialog({
         autoOpen: false,
         modal: true,
@@ -228,8 +232,13 @@ function ajaxCall(button,string,type){
                 $(button).text("Промени оцена")
             }
             else if (type == "delete"){
-                window.alert("Личност со име " + data.data.deletedPerson.Name + " е успешно избришана!")
-                $(button).parent().parent().fadeOut(2000)
+                window.alert("Личност со име " + data.data.deletePerson.name + " е успешно избришана!")
+                $(button).parent().parent().parent().fadeOut(2000)
+            }
+            else if (type==="getType"){
+                typePerson = data.data.person.type
+                id = data.data.person.personId
+                window.location = "/graphql/person/add/" + id + "?type="+typePerson
             }
         }
         })

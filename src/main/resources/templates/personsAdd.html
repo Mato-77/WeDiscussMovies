@@ -75,13 +75,12 @@
                             <option th:each="movie:${moviesActors}" th:value="${movie.getMovieId()}"
                                     th:text="${movie.getTitle()}"
                                     th:selected="${movieActors?.contains(movie)}"
-                                    th:hidden="${person != null && person.getType().toString()=='D'}"
+
                             class="movies-actors"></option>
 
                             <option th:each="movie:${moviesDirectors}" th:value="${movie.getMovieId()}"
                                     th:text="${movie.getTitle()}"
                                     th:selected="${movieActors?.contains(movie)}"
-                                    th:hidden="${person != null && person.getType().toString()=='A'}"
                             class="movie-directors"></option>
 
                         </select>

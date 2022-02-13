@@ -160,15 +160,16 @@ $(document).ready(function (){
     })
     $(".person-movies").change(function (){
         if (this.value === "A"){
-            $(".movie-directors").attr("hidden",true).prop("selected",false)
+            $(".movie-directors").attr("hidden",true)
 
 
             $(".movies-actors").attr("hidden",false)
 
         }
         else{
-            $(".movies-dialog-rating").attr("hidden",true).prop("selected",false)
             $(".movie-directors").attr("hidden",false)
+            $(".movies-actors").attr("hidden",true)
+
         }
     })
     $(document.body).on("click",".button-add-favourite-list",function (){

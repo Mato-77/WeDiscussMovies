@@ -20,7 +20,7 @@ $(document).ready(function () {
     $("#description").on("keyup", function () {
         $("#description-val").hide()
     })
-    $("date").on("keyup", function () {
+    $("#date").on("keyup", function () {
         $("#date-val").hide()
     })
     $(".btn-test-add-movie").on("click", function () {
@@ -117,7 +117,6 @@ function callAjax(query,type,text){
 
 }
 function displayBody() {
-    //initial query - no ne e potrebno
     callAjax( '{ actors{ '+
         ' personId name surname } '+
         'directors{ personId name surname }' +

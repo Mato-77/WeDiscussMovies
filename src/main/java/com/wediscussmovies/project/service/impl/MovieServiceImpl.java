@@ -312,6 +312,7 @@ public class MovieServiceImpl implements MovieService {
     private User findUserByIdForGraphQl(Integer userId){
         return this.userRepository.findById(userId).orElseThrow(() -> new UserNotExistException(userId.toString()));
     }
+
 }
 
 

@@ -50,7 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/login")
                 .permitAll()
                 .failureUrl("/login?error=BadCredentials")
-                //.defaultSuccessUrl("/movies", true)
+                .defaultSuccessUrl("/movies")
                 .and()
                 .logout()
                 .logoutUrl("/logout")
