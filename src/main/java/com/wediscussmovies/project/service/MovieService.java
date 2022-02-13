@@ -53,9 +53,12 @@ public interface MovieService {
 
      List<Movie> findLikedMoviesByUser(User user);
 
-     void deleteById(Integer id);
+     Movie deleteById(Integer id);
 
      void addGradeMovie(Integer movieId, User user, Grade grade);
+
+    MovieRates addGradeMovieGraphQl(Integer movieId, Integer userId, Grade grade);
+
 
     MovieLikesQM findLikesForMovieById(int movieId);
 

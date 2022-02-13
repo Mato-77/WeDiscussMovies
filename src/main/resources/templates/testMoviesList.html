@@ -1,123 +1,239 @@
-<div id="test-movie" style="display: none" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<div  xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <script type="text/javascript" th:src="@{/js/graphqlmovie.js}"></script>
-    <div style="width: 70%; margin: auto">
-        <div th:replace="fragments/searchBarName"></div><br>
-        <div th:replace="fragments/searchBarGenre"></div>
-    </div>
-
-    <div class="container mb-4">
-        <a  sec:authorize="isAuthenticated()" th:href="@{/movies/add}">Додади нов филм</a>
-    </div>
-
-    <div class="container mb-4" style="display: none">
-        <div class="row">
-            <div class="col-md-3 elements">
-                <div class="card-body card bg-image">
-                    <a class="card-text-center" style="color: white" >
-                        <h3 class="card-title title" ></h3>
-                        <span  hidden class="card-genre"></span>
-
-                    </a>
-                    <h3 class="card-text bottom" ></h3>
-                    <th:block sec:authorize="isAuthenticated()">
-                        <a class="bottom-heart btn btn-success button-add-favourite-list" >❤</a>
-                        <a class="bottom-heart btn btn-danger button-remove-favourite-list">💔</a>
-                    </th:block>
-                </div>
-            </div>
-
+<div style="margin:auto; width: 60%">
+        <div style="width: 30%; margin: auto; height: 100%; margin-bottom: 10px">
+            <a class="btn btn-outline-dark" style="height: 100%; width: 100%; font-size: 125%" id="button_toggle_filters">Прикажи филтрирање</a>
         </div>
-        <div class="row">
-            <div class="col-md-3 elements">
-                <div class="card-body card bg-image">
-                    <a class="card-text-center" style="color: white" >
-                        <h3 class="card-title title" ></h3>
-                        <span  hidden class="card-genre"></span>
-
-                    </a>
-                    <h3 class="card-text bottom" ></h3>
-                    <th:block sec:authorize="isAuthenticated()">
-                        <a class="bottom-heart btn btn-success button-add-favourite-list" >❤</a>
-                        <a class="bottom-heart btn btn-danger button-remove-favourite-list">💔</a>
-                    </th:block>
-                </div>
-            </div>
-
-        </div>
-        <div class="row">
-            <div class="col-md-3 elements">
-                <div class="card-body card bg-image">
-                    <a class="card-text-center" style="color: white" >
-                        <h3 class="card-title title" ></h3>
-                        <span  hidden class="card-genre"></span>
-
-                    </a>
-                    <h3 class="card-text bottom" ></h3>
-                    <th:block sec:authorize="isAuthenticated()">
-                        <a class="bottom-heart btn btn-success button-add-favourite-list" >❤</a>
-                        <a class="bottom-heart btn btn-danger button-remove-favourite-list">💔</a>
-                    </th:block>
-                </div>
-            </div>
-
-        </div>
-        <div class="row">
-            <div class="col-md-3 elements">
-                <div class="card-body card bg-image">
-                    <a class="card-text-center" style="color: white" >
-                        <h3 class="card-title title" ></h3>
-                        <span  hidden class="card-genre"></span>
-
-                    </a>
-                    <h3 class="card-text bottom" ></h3>
-                    <th:block sec:authorize="isAuthenticated()">
-                        <a class="bottom-heart btn btn-success button-add-favourite-list" >❤</a>
-                        <a class="bottom-heart btn btn-danger button-remove-favourite-list">💔</a>
-                    </th:block>
-                </div>
-            </div>
-
+        <div style="width: 100%; margin: auto; transition: 200ms" id="filters_div" class="invisible-search">
+            <div th:replace="fragments/searchBarName"></div><br>
+            <div th:replace="fragments/searchBarGenre"></div>
         </div>
     </div>
-    <div class="container mb-4" style="display: none">
-        <div class="row">
-            <div class="col-md-3 elements">
-                <div class="card-body card bg-image">
-                    <a class="card-text-center" style="color: white" >
-                        <h3 class="card-title title" ></h3>
-                        <span  hidden class="card-genre"></span>
+    <div id="paging-section">
+        <div id="inner-paging" class="input-group">
+            <!--
+            <a class="btn btn-danger" id="button-sub" style="float: left; display: block">Previous</a>
+            <a class="btn btn-success" id="button-add" style="float: left; display: block">Next</a>
+            -->
+            <div class="input-group-prepend">
+                <button class="btn btn-danger" id="button-sub" >Previous</button>
+            </div>
+            <form method="get" action="" style="float: left; display: block">
+                <input type="number" class="form-control" min="1" name="page" th:value="${page!= null ? page : 1}" id="pageInput">
+                <button type="submit" id="button-submit-page" class="btn btn-primary">Check page</button>
+            </form>
 
+            <div class="input-group-append">
+                <button class="btn btn-success" id="button-add" >Next</button>
+            </div>
+        </div>
+    </div><br>
+
+    <div sec:authorize="isAuthenticated()">
+        <a class="btn btn-secondary btn-add" href="/graphql/movie/add">Додади нов филм</a>
+        <div id="dialog-rating-qraphql" style="display: none">
+            <label for="reason-graph">Причина</label><textarea id="reason-graph"></textarea>
+            <label for="grade-graph">Рејтинг</label><input type="number" id="grade-graph" max="10" min="5">
+        </div>
+    </div>
+<!--    <div sec:authorize="isAuthenticated()">-->
+<!--        <a class="btn btn-secondary аdd-form">Додади нов филм</a>-->
+<!--    </div>-->
+
+
+    <div class="container mb-4" id="user-info" th:user="${user?.getUserId()}" th:likedMovies="${likedMovies}">
+        <h1>Изберете потребни филтри за податоци на филм:</h1>
+        <div>
+            <h3>Филм: </h3>
+            <label for="movieId">Идентификатор</label>
+            <input type="checkbox" value="Да" id="movieId">
+
+            <label for="movieTitle">Наслов</label>
+            <input type="checkbox" value="Да" id="movieTitle">
+
+            <label for="movieDesc">Опис</label>
+            <input type="checkbox" value="Да" id="movieDesc">
+
+            <label for="movieImageUrl">Линк за слика</label>
+            <input type="checkbox" value="Да" id="movieImageUrl">
+
+            <label for="movieAiringDate">Датум на издавање</label>
+            <input type="checkbox" value="Да" id="movieAiringDate">
+
+            <label for="imdbRating">Рејтинг</label>
+            <input type="checkbox" value="Да" id="imdbRating">
+
+            <div>
+            <label for="movieActors">Актери</label>
+            <input type="checkbox" value="Да" id="movieActors">
+
+            <label for="movieDirector">Режисер</label>
+            <input type="checkbox" value="Да" id="movieDirector">
+
+            <label for="movieDiscussions">Дискусии</label>
+            <input type="checkbox" value="Да" id="movieDiscussions">
+
+            <label for="movieLikes">Лајкови</label>
+            <input type="checkbox" value="Да" id="movieLikes">
+
+            <label for="movieGenres">Жанрови</label>
+            <input type="checkbox" value="Да" id="movieGenres">
+
+            <label for="movieRates">Оцени</label>
+            <input type="checkbox" value="Да" id="movieRates">
+            </div>
+        </div>
+        <div id="actors">
+            <h3>Актери на филмот: </h3>
+            <label for="actorId">Идентификатор</label>
+            <input type="checkbox" value="Да" id="actorId">
+
+            <label for="actorName">Име</label>
+            <input type="checkbox" value="Да" id="actorName">
+
+            <label for="actorSurname">Презиме</label>
+            <input type="checkbox" value="Да" id="actorSurname">
+
+            <label for="actorBirth">Датум раѓање</label>
+            <input type="checkbox" value="Да" id="actorBirth">
+
+            <label for="actorImage">Слика</label>
+            <input type="checkbox" value="Да" id="actorImage">
+
+            <label for="actorDesc">Опис</label>
+            <input type="checkbox" value="Да" id="actorDesc">
+        </div>
+        <div id="director">
+            <h3>Режисер на филмот: </h3>
+            <label for="directorId">Идентификатор</label>
+            <input type="checkbox" value="Да" id="directorId">
+
+            <label for="directorName">Име</label>
+            <input type="checkbox" value="Да" id="directorName">
+
+            <label for="directorSurname">Презиме</label>
+            <input type="checkbox" value="Да" id="directorSurname">
+
+            <label for="directorBirth">Датум раѓање</label>
+            <input type="checkbox" value="Да" id="directorBirth">
+
+            <label for="directorImage">Слика</label>
+            <input type="checkbox" value="Да" id="directorImage">
+
+            <label for="directorDesc">Опис</label>
+            <input type="checkbox" value="Да" id="directorDesc">
+        </div>
+        <div id="discussions">
+            <h3>Дискусии на филмот: </h3>
+            <label for="discussionId">Идентификатор</label>
+            <input type="checkbox" value="Да" id="discussionId">
+
+            <label for="discussionText">Текст</label>
+            <input type="checkbox" value="Да" id="discussionText">
+
+            <label for="discussionDate">Датум</label>
+            <input type="checkbox" value="Да" id="discussionDate">
+
+            <label for="discussionTitle">Наслов</label>
+            <input type="checkbox" value="Да" id="discussionTitle">
+
+            <label for="discussionReplies">Реплики</label>
+            <input type="checkbox" value="Да" id="discussionReplies">
+
+            <label for="discussionUser">Корисник</label>
+            <input type="checkbox" value="Да" id="discussionUser">
+
+            <div id="discussion-user">
+                <h3>Креатор на дискусија</h3>
+                <label for="discussion-userId">Идентификатор</label>
+                <input type="checkbox" value="Да" id="discussion-userId">
+
+                <label for="discussion-userName">Име</label>
+                <input type="checkbox" value="Да" id="discussion-userName">
+
+                <label for="discussion-userSurname">Презиме</label>
+                <input type="checkbox" value="Да" id="discussion-userSurname">
+
+                <label for="discussion-userUserName">Корисничко име</label>
+                <input type="checkbox" value="Да" id="discussion-userUserName">
+            </div>
+            <div id="replies">
+                <h3>Реплика</h3>
+                <label for="replyText">Текст</label>
+                <input type="checkbox" value="Да" id="replyText">
+
+                <label for="replyDate">Датум</label>
+                <input type="checkbox" value="Да" id="replyDate">
+
+                <label for="replyUser">Корисник</label>
+                <input type="checkbox" value="Да" id="replyUser">
+                <div id="reply-user">
+                    <h3>Креатор на реплика</h3>
+                    <label for="replyUserId">Идентификатор</label>
+                    <input type="checkbox" value="Да" id="replyUserId">
+
+                    <label for="replyUserName">Корисничко име</label>
+                    <input type="checkbox" value="Да" id="replyUserName">
+                </div>
+            </div>
+        </div>
+        <div id="likes">
+            <h3>Допаѓања на филмот: </h3>
+
+            <div id="like-user">
+
+                <label for="like-userId">Идентификатор</label>
+                <input type="checkbox" value="Да" id="like-userId">
+
+                <label for="like-userUserName">Корисничко име</label>
+                <input type="checkbox" value="Да" id="like-userUserName">
+            </div>
+        </div>
+
+        <div id="rates">
+            <h3>Оцени на филмот: </h3>
+
+            <label for="rates-grade">Оцена</label>
+            <input type="checkbox" value="Да" id="rates-grade">
+
+            <label for="rates-reason">Причина</label>
+            <input type="checkbox" value="Да" id="rates-reason">
+
+            <label for="rates-show-user">Корисник</label>
+            <input type="checkbox" value="Да" id="rates-show-user">
+
+            <div  id="rates-user">
+
+                <label for="rates-userId">Идентификатор</label>
+                <input type="checkbox" value="Да" id="rates-userId">
+
+                <label for="rates-userUserName">Корисничко име</label>
+                <input type="checkbox" value="Да" id="rates-userUserName">
+            </div>
+        </div>
+
+    </div>
+    <button id="okay-button">Во ред</button>
+    <div class="container mb-4 cont">
+        <div class="row" th:each="row: ${movie_rows}" >
+            <div class="col-md-3 elements" th:each="movie: ${row}" >
+                <span th:each="genre: ${movie.getGenres()}"  th:text="${genre?.getGenre()?.getGenreType()}" hidden class="card-genre"></span>
+                <div class="card-body card bg-image" th:style="'background:url(' + ${movie.getImageUrl()} + ') no-repeat center #eee;'">
+                    <a class="card-text-center" style="color: white" th:href="@{'/movies/{id}' (id=${movie.getMovieId()})}" >
+                        <h3 class="card-title title" th:text="${movie.getTitle()}"></h3>
+                        <span th:each="genre: ${movie.getGenres()}"  th:text="${genre?.getGenre()?.getGenreType()}" hidden class="card-genre"></span>
                     </a>
-                    <h3 class="card-text bottom" ></h3>
+                    <span class="card-text bottom">
+                            <h3 th:text="${'Оценет '+movie.getImdbRating() + '/10'}"></h3>
+                        </span>
                     <th:block sec:authorize="isAuthenticated()">
-                        <a class="bottom-heart btn btn-success button-add-favourite-list" >❤</a>
-                        <a class="bottom-heart btn btn-danger button-remove-favourite-list">💔</a>
+                        <button class="bottom-heart btn btn-success button-add-favourite-list" th:movie-id="${movie.getMovieId()}" th:user-id="${user.getUserId()}" th:if="${!likedMovies.contains(movie)}">❤</button>
+                        <button class="bottom-heart btn btn-danger button-remove-favourite-list" th:movie-id="${movie.getMovieId()}" th:user-id="${user.getUserId()}" th:if="${likedMovies.contains(movie)}">💔</button>
                     </th:block>
                 </div>
             </div>
-
         </div>
     </div>
-    <div class="container mb-4" style="display: none">
-        <div class="row">
-            <div class="col-md-3 elements">
-                <div class="card-body card bg-image">
-                    <a class="card-text-center" style="color: white" >
-                        <h3 class="card-title title" ></h3>
-                        <span  hidden class="card-genre"></span>
-
-                    </a>
-                    <h3 class="card-text bottom" ></h3>
-                    <th:block sec:authorize="isAuthenticated()">
-                        <a class="bottom-heart btn btn-success button-add-favourite-list" >❤</a>
-                        <a class="bottom-heart btn btn-danger button-remove-favourite-list">💔</a>
-                    </th:block>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
 
 
 

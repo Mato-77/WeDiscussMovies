@@ -7,6 +7,7 @@ import com.wediscussmovies.project.model.relation.MovieRates;
 import io.leangen.graphql.annotations.GraphQLNonNull;
 import io.leangen.graphql.annotations.GraphQLQuery;
 import lombok.Data;
+import lombok.ToString;
 import org.apache.tomcat.jni.Local;
 import org.hibernate.annotations.Fetch;
 
@@ -14,9 +15,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
 import java.time.LocalDate;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Table(name = "movies", schema = "project", catalog = "db_202122z_va_prj_wediscussmovies")
@@ -45,11 +44,11 @@ public class Movie {
     @Basic
     @Column(name = "airing_date")
     @GraphQLNonNull()
-    @GraphQLQuery(name = "date",description = "Датум на издавање")
+    @GraphQLQuery(name = "",description = "Датум на издавање")
     private LocalDate airingDate;
     @Basic
     @Column(name = "imdb_rating")
-    @GraphQLQuery(name = "imbdRating",description = "Рејтинг според останати организации")
+    @GraphQLQuery(name = "imdRating",description = "Рејтинг според останати организации")
     private Double imdbRating;
 
     @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY)
@@ -76,6 +75,8 @@ public class Movie {
     public Movie() {
 
     }
+    @Transient
+        Collection<Genre> genreList;
 
     public Movie(String title, String description, String imageUrl, LocalDate airingDate,
                  Double imdbRating, Person director) {
@@ -88,11 +89,12 @@ public class Movie {
 
     }
 
-    public Movie(int movieId, String title, Double imdbRating, String imageUrl) {
+    public Movie(Integer movieId, String title, Double imdbRating, String imageUrl,Collection<Genre> genre) {
         this.movieId = movieId;
         this.title = title;
         this.imdbRating = imdbRating;
         this.imageUrl = imageUrl;
+        this.genreList = genre;
     }
 
     public String getDateFormatted(){
@@ -112,6 +114,11 @@ public class Movie {
     @Override
     public int hashCode() {
         return Objects.hash(movieId);
+    }
+
+    @Override
+    public String toString(){
+        return "movieId:" + movieId;
     }
 
     public static Comparator<Movie> comparatorTitle = Comparator.comparing(Movie::getTitle);

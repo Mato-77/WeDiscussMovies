@@ -227,28 +227,25 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     @GraphQLMutation(name = "deleteMovie")
-    public void deleteById(@GraphQLArgument(name = "id") Integer id) {
+    public Movie deleteById(@GraphQLArgument(name = "id") Integer id) {
+        Movie movie = this.findById(id);
         this.movieRepository.deleteById(id);
+        return movie;
     }
 
+
+
+    @Override
+    public void addGradeMovie( Integer movieId,User user,Grade grade) {
+         this.saveMovieRates(movieId,user,grade);
+    }
     @Override
     @GraphQLMutation(name = "addGradeMovie")
-    public void addGradeMovie(@GraphQLArgument(name = "movieId") Integer movieId,
-                              @GraphQLArgument(name = "user") User user,
+    public MovieRates addGradeMovieGraphQl(@GraphQLArgument(name = "movieId") Integer movieId,
+                              @GraphQLArgument(name = "userId") Integer userId,
                               @GraphQLArgument(name = "grade") Grade grade) {
-        MovieRatesPK key =  new MovieRatesPK(movieId, user.getUserId());
-        Optional<MovieRates> movieRates = this.movieRatesRepository.findById(key);
-        if (movieRates.isPresent()){
-           MovieRates rates = movieRates.get();
-            rates.setReason(grade.getReason());
-            rates.setStarsRated(grade.getRating());
-            this.movieRatesRepository.save(rates);
-        }
-        else{
-            Movie movie = this.findById(movieId);
-            MovieRates rates = new MovieRates(user,movie,grade.getReason(),grade.getRating());
-            this.movieRatesRepository.save(rates);
-        }
+        User user = this.findUserByIdForGraphQl(userId);
+        return this.saveMovieRates(movieId,user,grade);
     }
 
     @Override
@@ -261,14 +258,16 @@ public class MovieServiceImpl implements MovieService {
     protected void addActorsAndGenresForMovie(Movie movie, List<Integer> actorIds, List<Integer> genreIds)
     {
 
-        actorIds.stream()
-                .map(this::findPersonById)
-                .forEach(actor -> this.movieActorsRepository.save(new MovieActors(movie,actor)));
-
-        genreIds.stream()
-                .map(this::findGenreById)
-                .forEach(genre -> this.movieGenresRepository.save(new MovieGenres(movie,genre)));
-
+        if (actorIds != null) {
+            actorIds.stream()
+                    .map(this::findPersonById)
+                    .forEach(actor -> this.movieActorsRepository.save(new MovieActors(movie, actor)));
+        }
+        if (genreIds != null) {
+            genreIds.stream()
+                    .map(this::findGenreById)
+                    .forEach(genre -> this.movieGenresRepository.save(new MovieGenres(movie, genre)));
+        }
     }
     private Person getDirector(Integer directorId){
 
@@ -277,11 +276,29 @@ public class MovieServiceImpl implements MovieService {
         return null;
 
     }
+    private MovieRates saveMovieRates(Integer movieId, User user, Grade grade){
+        MovieRatesPK key =  new MovieRatesPK(movieId, user.getUserId());
+        Optional<MovieRates> movieRates = this.movieRatesRepository.findById(key);
+        if (movieRates.isPresent()){
+            MovieRates rates = movieRates.get();
+            rates.setReason(grade.getReason());
+            rates.setStarsRated(grade.getRating());
+           return this.movieRatesRepository.save(rates);
+        }
+        else{
+            Movie movie = this.findById(movieId);
+            MovieRates rates = new MovieRates(user,movie,grade.getReason(),grade.getRating());
+            return this.movieRatesRepository.save(rates);
+        }
+    }
     private Person findPersonById(Integer id){
         return this.personRepository.findById(id).orElseThrow(() -> new PersonNotExistException(id));
     }
     private Genre findGenreById(Integer id){
         return this.genreRepository.findById(id).orElseThrow(() -> new GenreNotExistException(id));
+    }
+    private User findUserByIdForGraphQl(Integer userId){
+        return this.userRepository.findById(userId).orElseThrow(() -> new UserNotExistException(userId.toString()));
     }
 }
 

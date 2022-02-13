@@ -15,9 +15,9 @@
                     <div class="card-body card bg-image" th:style="'background:url(' + ${movie.getImageUrl()} + ') no-repeat center #eee;'">
                         <a class="card-text-center" style="color: white" th:href="@{'/movies/{id}' (id=${movie.getMovieId()})}" >
                         <h3 class="card-title title" th:text="${movie.getTitle()}"></h3>
-                            <span th:each="genre: ${movie.getGenres()}"  th:text="${genre?.getGenre()?.getGenreType()}" hidden class="card-genre"></span>
 
                         </a>
+                        <span th:each="genre: ${movie.getGenres()}"  th:text="${genre?.getGenre()?.getGenreType()}"></span>
                         <h3 class="card-text bottom" th:text="${'Rated '+movie.getImdbRating()}"></h3>
                         <th:block sec:authorize="isAuthenticated()">
                             <a class="bottom-heart btn btn-success button-add-favourite-list" th:movie-id="${movie.getMovieId()}" th:user-id="${user.getUserId()}" th:if="${!likedMovies.contains(movie)}">❤</a>
@@ -27,79 +27,6 @@
             </div>
         </div>
     </div>
-    <!--<div class="container mb-4">
-        <div class="row">
-            <div class="col-12" th:if="${movies.size() > 0}">
-                <div class="table-responsive">
-                    <table class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th scope="col">Наслов</th>
-                            <th scope="col">Опис</th>
-                            <th scope="col">Датум издавање</th>
-                            <th scope="col">Допаѓања</th>
-                            <th scope="col">Жанрови</th>
-                            <th scope="col">Актери</th>
-                            <th scope="col">Режисер</th>
-                            <th  scope="col"></th>
 
-                            <th:block sec:authorize="isAuthenticated()">
-                            <th scope="col"></th>
-                            <th scope="col"></th>
-                            <th scope="col"></th>
-                            <th scope="col"></th>
-                            </th:block>
-
-
-
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="movie : ${movies}" class="elements">
-                            <td><a th:text="${movie.getTitle()}" th:href="@{'/movies/{id}' (id=${movie.getMovieId()})}"></a></td>
-                            <td th:text="${movie.getDescription()}"></td>
-                            <td th:text="${movie.getAiringDate()}"></td>
-                            <td th:text="${movie.getLikes() != null  ? movie.getLikes().size() : 0}">
-
-                            </td>
-                            <td class="genre">
-                                <div th:each="g: ${movie.getGenres()}" th:text="${g.getGenre().genreType }"></div>
-                            </td>
-                            <td>
-                                <div th:each="ac: ${movie.getActors()}">
-                                    <a th:href="@{'/persons/{id}' (id=${ac.getPerson().getPersonId()})}" th:text="${ac.getPerson().getName() + ' ' + ac.getPerson().getSurname()}"></a>
-                                </div>
-                            </td>
-                            <td th:if="${movie.getDirector() != null}">
-                                <a th:href="@{'/persons/{id}' (id=${movie.getDirector().getPersonId()})}" th:text="${movie.getDirector().getName() + ' ' + movie.getDirector().getSurname()}"></a>
-                            </td>
-                            <td th:if="${movie.getDirector() == null}">
-                                Филмот нема режисер.
-                            </td>
-                            <td>
-                                <a class="btn btn-primary" th:href="@{'discussions/all/{id}?type=M' (id=${movie.getMovieId()})}" >Прегледај дискусии</a>
-                            </td>
-                            <th:block sec:authorize="isAuthenticated()">
-                            <td>
-                                <a class="btn btn-success button-add-favourite-list" th:movie-id="${movie.getMovieId()}" th:user-id="${user.getUserId()}" th:if="${!likedMovies.contains(movie)}">Додади во омилена листа</a>
-                                <a class="btn btn-warning button-remove-favourite-list" th:movie-id="${movie.getMovieId()}" th:user-id="${user.getUserId()}" th:if="${likedMovies.contains(movie)}">Избриши од омилена листа</a>
-                            </td>
-                            <td>
-                                <a class="btn btn-success button-add-grade-movie" th:movie-id="${movie.getMovieId()}">Остави оценка</a>
-                            </td>
-                            <td>
-                                <a class="btn btn-warning" th:href="@{'/movies/{id}/edit' (id=${movie.getMovieId()})}">Измени</a>
-                            </td>
-                            <td>
-                                <a class="btn btn-danger button-delete-movie" th:movie-id="${movie.getMovieId()}">Избриши филм</a>
-                            </td>
-                            </th:block>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>-->
 
 </div>

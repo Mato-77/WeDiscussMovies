@@ -111,7 +111,9 @@
 .visibility{
     transition: 200ms;
     opacity: 0;
+    display: none;
 }
+
 
 .person-movies-list{
     margin: auto;
@@ -300,4 +302,14 @@
 #buttons-person li{
     float: left;
     margin-right: 10px;
+}
+#cont{
+    display: flex;
+    height: auto;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+.elem-graphql{
+    height: 300px;
 }

@@ -22,12 +22,12 @@ $(document).ready(function (){
     $("#searchTitle").on("keyup", function() {
         var value = $(this).val().toLowerCase();
         console.log(value)
+        //$(this).text().toLowerCase().indexOf(value) <= -1
         $(".elements div a .title").filter(function() {
-            console.log($(this).text())
-            if($(this).text().toLowerCase().indexOf(value) <= -1)
-                $(this).parent().parent().parent().addClass("visibility")
-            else
+            if($(this).text().toLowerCase().includes(value) || $(this).text().toLowerCase() === value)
                 $(this).parent().parent().parent().removeClass("visibility")
+            else
+                $(this).parent().parent().parent().addClass("visibility")
         });
     });
 
@@ -65,20 +65,20 @@ $(document).ready(function (){
     })
 
 
-    /*$(".search-button-title").on("click",function (){
-        let filter = $("#searchTitle").val()
-        console.log(elements)
-        for (let item of elements){
-            let title =  $(item).find(".card-title").text()
-            if (title.toLowerCase() === filter.toLowerCase()){
-                console.log("Da")
-                $(item).css("display","block")
-            }
-            else{
-                $(item).css("display","none")
-            }
-        }
-    })*/
+    // $(".search-button-title").on("click",function (){
+    //     let filter = $("#searchTitle").val()
+    //     console.log(elements)
+    //     for (let item of elements){
+    //         let title =  $(item).find(".card-title").text()
+    //         if (title.toLowerCase() === filter.toLowerCase()){
+    //             console.log("Da")
+    //             $(item).css("display","block")
+    //         }
+    //         else{
+    //             $(item).css("display","none")
+    //         }
+    //     }
+    // })
 
     $("#button_toggle_filters").on("click", function (){
         if(first_time){
@@ -108,30 +108,34 @@ $(document).ready(function (){
        let filter = $("#searchGenre").val()
        console.log('\''+filter+'\'')
        console.log(elements)
-       if(filter.length==0){
+       if(filter === ''){
            console.log("HERE")
            for (let item of elements) {
                $(item).removeClass("visibility")
            }
+           console.log(elements)
        }
-       for (let item of elements) {
-           $(item).removeClass("visibility")
-            let genre = $(item).children(".card-genre")
-            let visible = false;
-            console.log(genre.length)
-            for (let g of genre) {
-                if (( $(g).text().toLowerCase() === filter.toLowerCase())){
-                    console.log(item.text + ' ' + $(g).text())
-                    visible = true
-                    $(item).removeClass("visibility")
-                    break;
-                }
-            }
-            if(!visible){
-                $(item).addClass("visibility")
-            }
+       else {
+           for (let item of elements) {
+               $(item).removeClass("visibility")
+               let genre = $(item).find("span")
+               let visible = false;
+             console.log(genre)
+               for (let g of genre) {
+                   console.log(g)
+                   if (($(g).text().toLowerCase() === filter.toLowerCase())) {
+                     //  console.log(item.text + ' ' + $(g).text())
+                       visible = true
+                       $(item).removeClass("visibility")
+                       break;
+                   }
+               }
+               if (!visible) {
+                   $(item).addClass("visibility")
+               }
 
-        }
+           }
+       }
     });
 
     $(".button-delete-movie").on("click",function (){
@@ -163,7 +167,7 @@ $(document).ready(function (){
 
         }
         else{
-            $(".movies-actors").attr("hidden",true).prop("selected",false)
+            $(".movies-dialog-rating").attr("hidden",true).prop("selected",false)
             $(".movie-directors").attr("hidden",false)
         }
     })

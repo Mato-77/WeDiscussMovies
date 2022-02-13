@@ -21,7 +21,9 @@ public interface MovieRepository extends JpaRepository<Movie, Integer> {
      @Query(value="select m.movieId from Movie m")
      List<Integer> findAllMovieIds();
 
-     @Query(value="select new com.wediscussmovies.project.model.Movie(m.movieId, m.title, m.imdbRating, m.imageUrl) from Movie m" +
+     @Query(value="select new com.wediscussmovies.project.model.Movie (m.movieId, m.title, m.imdbRating, m.imageUrl, m.genres) from Movie m " +
+             " join MovieGenres mg on mg.id.movieId = m.movieId "+
+             " join Genre g on g.genreId = mg.id.genreId "+
                " where m.movieId = :index")
      Optional<Movie> findBasicById(@Param("index")Integer index);
 

@@ -34,7 +34,7 @@ public class PageFrontMovies {
             //Trying to improve load times by not pulling all things from the database, excluding un-needed stuff
             //
             //movies.add(movieService.findById(id));
-            movies.add(movieService.findBasicById(id));
+            movies.add(movieService.findById(id));
         }
         model.addAttribute("page", page);
         return movies;
