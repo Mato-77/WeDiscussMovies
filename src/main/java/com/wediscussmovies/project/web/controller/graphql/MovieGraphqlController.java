@@ -44,6 +44,7 @@ public class MovieGraphqlController {
         model.addAttribute("movies", movies);
         model.addAttribute("movie_rows", movie_rows);
         model.addAttribute("genres", genreService.findAll());
+        model.addAttribute("movieTops",this.movieService.findAllTopByYears());
         model.addAttribute("contentTemplate", "testMoviesList");
         if (error != null && !error.equals(" "))
             model.addAttribute("error",error);

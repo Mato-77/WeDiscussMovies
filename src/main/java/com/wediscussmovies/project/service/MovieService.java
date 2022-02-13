@@ -10,11 +10,9 @@ import com.wediscussmovies.project.model.relation.MovieGenres;
 import com.wediscussmovies.project.model.relation.MovieLikes;
 import com.wediscussmovies.project.model.relation.MovieRates;
 import com.wediscussmovies.project.querymodels.MovieLikesQM;
-import io.leangen.graphql.annotations.GraphQLArgument;
-import io.leangen.graphql.annotations.GraphQLMutation;
-import io.leangen.graphql.annotations.GraphQLQuery;
+import com.wediscussmovies.project.querymodels.MovieSuggest;
+import com.wediscussmovies.project.querymodels.MovieYear;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -69,6 +67,10 @@ public interface MovieService {
      List<MovieRates> findAllMovieRates();
 
      List<MovieLikes> findAllMovieLikes();
+
+     List<MovieYear> findAllTopByYears();
+
+     List<MovieSuggest> proposeMovie(Integer userId);
 
 
 }

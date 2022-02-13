@@ -4,9 +4,8 @@ $(document).ready(function () {
     $("#title-val").toggle()
     $("#date-val").toggle()
     $("#description-val").toggle()
+
     let id = $(".granka").attr("granka")
-
-
     displayBody()
     if ($(".granka").attr("granka")){
         displayInfoMovie($(".granka").attr("granka"))

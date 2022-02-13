@@ -9,6 +9,9 @@
             <div th:replace="fragments/searchBarGenre"></div>
         </div>
     </div>
+    <div>
+        <h2 th:each="mov: ${movieTops}" th:text="${mov.getYear()} + ' ' + ${mov.getTitle()} + ' ' + ${mov.getDiscussions()}"></h2>
+    </div>
     <div id="paging-section">
         <div id="inner-paging" class="input-group">
             <!--

@@ -3,6 +3,7 @@ package com.wediscussmovies.project.web.controller;
 
 import com.wediscussmovies.project.LoggedUser;
 import com.wediscussmovies.project.model.Movie;
+import com.wediscussmovies.project.model.User;
 import com.wediscussmovies.project.model.exception.InvalidArgumentsException;
 import com.wediscussmovies.project.model.exception.PasswordsDoNotMatchException;
 import com.wediscussmovies.project.service.MovieService;
@@ -66,11 +67,14 @@ public class UsersController{
     }
     @GetMapping("/favoriteList")
     public String getFavoriteList(Model model){
-        List<Movie> movieList = this.movieService.findLikedMoviesByUser(LoggedUser.getLoggedUser());
+        User user = LoggedUser.getLoggedUser();
+        List<Movie> movieList = this.movieService.findLikedMoviesByUser(user);
         List<List<Movie>> movie_rows = new ArrayList<>();
         DesignFrontMovies.designMovieList(movieList,movie_rows);
         model.addAttribute("movie_rows", movie_rows);
         model.addAttribute("contentTemplate","favoriteList");
+        if (user != null)
+        model.addAttribute("movie_proposeds",this.movieService.proposeMovie(user.getUserId()));
         return "template";
 
     }

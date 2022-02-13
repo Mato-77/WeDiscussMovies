@@ -13,6 +13,8 @@ import com.wediscussmovies.project.model.relation.MovieGenres;
 import com.wediscussmovies.project.model.relation.MovieLikes;
 import com.wediscussmovies.project.model.relation.MovieRates;
 import com.wediscussmovies.project.querymodels.MovieLikesQM;
+import com.wediscussmovies.project.querymodels.MovieSuggest;
+import com.wediscussmovies.project.querymodels.MovieYear;
 import com.wediscussmovies.project.repository.*;
 import com.wediscussmovies.project.model.exception.MovieIdNotFoundException;
 import com.wediscussmovies.project.service.MovieService;
@@ -23,7 +25,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -116,6 +117,17 @@ public class MovieServiceImpl implements MovieService {
     @GraphQLQuery(name = "moviesLikes")
     public List<MovieLikes> findAllMovieLikes() {
         return this.movieLikesRepository.findAll();
+    }
+
+    @Override
+    public List<MovieYear> findAllTopByYears() {
+        return this.movieRepository.findAllTopByYears();
+    }
+
+    @Override
+    public List<MovieSuggest> proposeMovie(Integer id) {
+        User user = this.findUserByIdForGraphQl(id);
+        return this.movieRepository.proposeMovie(id);
     }
 
     @Override
