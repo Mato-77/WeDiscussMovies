@@ -3,114 +3,117 @@
     <div style="width: 70%; margin: auto;">
         <a sec:authorize="isAuthenticated()" th:href="@{'persons/add'}" class="btn btn-secondary">Додади актер или режисер</a>
     </div>
-
+    <div id="dialog-rating-person" style="display: none">
+        <label for="reason-person">Причина</label><textarea id="reason-person"></textarea>
+        <label for="grade-person">Рејтинг</label><input type="number" id="grade-person" max="10" min="5">
+    </div>
     <div class="container mb-4" id="user-info" th:user="${user?.getUserId()}" th:type="${type}">
         <h1>Изберете потребни филтри за податоци на <span th:text="${type}"></span> </h1>
         <div>
             <h3 th:text="${type}"></h3>
             <label for="personId">Идентификатор</label>
-            <input type="checkbox" value="Да" id="personId">
+            <input type="checkbox" value="personId" id="personId">
 
-            <label for="personName">Наслов</label>
-            <input type="checkbox" value="Да" id="personName">
+            <label for="personName">Име</label>
+            <input type="checkbox" value="personName" id="personName">
 
-            <label for="personSurname">Опис</label>
-            <input type="checkbox" value="Да" id="personSurname">
+            <label for="personSurname">Презиме</label>
+            <input type="checkbox" value="personSurname" id="personSurname">
 
             <label for="personImage">Линк за слика</label>
-            <input type="checkbox" value="Да" id="personImage">
+            <input type="checkbox" value="personImage" id="personImage">
 
             <label for="personDate">Датум на издавање</label>
-            <input type="checkbox" value="Да" id="personDate">
+            <input type="checkbox" value="personDate" id="personDate">
 
             <label for="personDescription">Рејтинг</label>
-            <input type="checkbox" value="Да" id="personDescription">
+            <input type="checkbox" value="personDescription" id="personDescription">
 
             <div>
                 <label for="personDiscussions">Дискусии</label>
-                <input type="checkbox" value="Да" id="personDiscussions">
+                <input type="checkbox" value="personDiscussions" id="personDiscussions">
 
 
                 <label for="personActor" th:if="${type == 'актер'}">Актерство</label>
-                <input type="checkbox" th:if="${type == 'актер'}" value="Да" id="personActor">
+                <input type="checkbox" th:if="${type == 'актер'}" value="personActor" id="personActor">
 
                 <label for="personDirector" th:if="${type == 'режисер'}">Режисер</label>
-                <input type="checkbox" th:if="${type == 'режисер'}" value="Да" id="personDirector">
+                <input type="checkbox" th:if="${type == 'режисер'}" value="personDirector" id="personDirector">
 
                 <label for="personRates">Оцени</label>
-                <input type="checkbox" value="Да" id="personRates">
+                <input type="checkbox" value="personRates" id="personRates">
             </div>
         </div>
         <div id="movies">
-            <h3>Актери на филмот: </h3>
+            <h3><span th:text="${type}"></span> на филмот: </h3>
             <label for="movieId">Идентификатор</label>
-            <input type="checkbox" value="Да" id="movieId">
+            <input type="checkbox" value="movieId" id="movieId">
 
             <label for="movieTitle">Наслов</label>
-            <input type="checkbox" value="Да" id="movieTitle">
+            <input type="checkbox" value="movieTitle" id="movieTitle">
 
             <label for="movieDescription">Опис</label>
-            <input type="checkbox" value="Да" id="movieDescription">
+            <input type="checkbox" value="movieDescription" id="movieDescription">
 
             <label for="movieAiringDate">Датум</label>
-            <input type="checkbox" value="Да" id="movieAiringDate">
+            <input type="checkbox" value="movieAiringDate" id="movieAiringDate">
 
             <label for="movieImage">Слика</label>
-            <input type="checkbox" value="Да" id="movieImage">
+            <input type="checkbox" value="movieImage" id="movieImage">
 
         </div>
 
         <div id="discussions">
             <h3>Дискусии на филмот: </h3>
             <label for="discussionId">Идентификатор</label>
-            <input type="checkbox" value="Да" id="discussionId">
+            <input type="checkbox" value="discussionId" id="discussionId">
 
             <label for="discussionText">Текст</label>
-            <input type="checkbox" value="Да" id="discussionText">
+            <input type="checkbox" value="discussionText" id="discussionText">
 
             <label for="discussionDate">Датум</label>
-            <input type="checkbox" value="Да" id="discussionDate">
+            <input type="checkbox" value="discussionDate" id="discussionDate">
 
             <label for="discussionTitle">Наслов</label>
-            <input type="checkbox" value="Да" id="discussionTitle">
+            <input type="checkbox" value="discussionTitle" id="discussionTitle">
 
             <label for="discussionReplies">Реплики</label>
-            <input type="checkbox" value="Да" id="discussionReplies">
+            <input type="checkbox" value="discussionReplies" id="discussionReplies">
 
             <label for="discussionUser">Корисник</label>
-            <input type="checkbox" value="Да" id="discussionUser">
+            <input type="checkbox" value="discussionUser" id="discussionUser">
 
             <div id="discussion-user">
                 <h3>Креатор на дискусија</h3>
                 <label for="discussion-userId">Идентификатор</label>
-                <input type="checkbox" value="Да" id="discussion-userId">
+                <input type="checkbox" value="discussion-userId" id="discussion-userId">
 
                 <label for="discussion-userName">Име</label>
-                <input type="checkbox" value="Да" id="discussion-userName">
+                <input type="checkbox" value="discussion-userName" id="discussion-userName">
 
                 <label for="discussion-userSurname">Презиме</label>
-                <input type="checkbox" value="Да" id="discussion-userSurname">
+                <input type="checkbox" value="discussion-userSurname" id="discussion-userSurname">
 
                 <label for="discussion-userUserName">Корисничко име</label>
-                <input type="checkbox" value="Да" id="discussion-userUserName">
+                <input type="checkbox" value="discussion-userUserName" id="discussion-userUserName">
             </div>
             <div id="replies">
                 <h3>Реплика</h3>
                 <label for="replyText">Текст</label>
-                <input type="checkbox" value="Да" id="replyText">
+                <input type="checkbox" value="replyText" id="replyText">
 
                 <label for="replyDate">Датум</label>
-                <input type="checkbox" value="Да" id="replyDate">
+                <input type="checkbox" value="replyDate" id="replyDate">
 
                 <label for="replyUser">Корисник</label>
-                <input type="checkbox" value="Да" id="replyUser">
+                <input type="checkbox" value="replyUser" id="replyUser">
                 <div id="reply-user">
                     <h3>Креатор на реплика</h3>
                     <label for="replyUserId">Идентификатор</label>
-                    <input type="checkbox" value="Да" id="replyUserId">
+                    <input type="checkbox" value="replyUserId" id="replyUserId">
 
                     <label for="replyUserName">Корисничко име</label>
-                    <input type="checkbox" value="Да" id="replyUserName">
+                    <input type="checkbox" value="replyUserName" id="replyUserName">
                 </div>
             </div>
         </div>
@@ -120,24 +123,24 @@
             <h3>Оцени на <span th:text="${type}"></span> </h3>
 
             <label for="rates-grade">Оцена</label>
-            <input type="checkbox" value="Да" id="rates-grade">
+            <input type="checkbox" value="rates-grade" id="rates-grade">
 
             <label for="rates-reason">Причина</label>
-            <input type="checkbox" value="Да" id="rates-reason">
+            <input type="checkbox" value="rates-reason" id="rates-reason">
 
             <label for="rates-show-user">Корисник</label>
-            <input type="checkbox" value="Да" id="rates-show-user">
+            <input type="checkbox" value="rates-show-user" id="rates-show-user">
 
             <div  id="rates-user">
 
                 <label for="rates-userId">Идентификатор</label>
-                <input type="checkbox" value="Да" id="rates-userId">
+                <input type="checkbox" value="rates-userId" id="rates-userId">
 
                 <label for="rates-userUserName">Корисничко име</label>
-                <input type="checkbox" value="Да" id="rates-userUserName">
+                <input type="checkbox" value="rates-userUserName" id="rates-userUserName">
             </div>
         </div>
-    <button >Филтрирај</button>
+    <button class="filter" >Филтрирај</button>
     </div>
 
 
@@ -165,7 +168,7 @@
 
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="tbody-table">
                     <tr th:each="person : ${persons}" class="elements">
                         <td><a th:href="@{'/persons/{id}' (id=${person.getPersonId()})}" th:text="${person.getName() + ' ' + person.getSurname()}"></a></td>
                         <!--<td th:text="${person.getSurname()}"></td>-->

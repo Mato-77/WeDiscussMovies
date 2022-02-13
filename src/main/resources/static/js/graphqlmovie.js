@@ -368,7 +368,7 @@ $(document).ready(function () {
             {
                 text: "Откажи",
                 click: function () {
-                    $("dialog-rating-qraphql").dialog("close")
+                    $("#dialog-rating-qraphql").dialog("close")
                 }
             }
         ]
@@ -429,6 +429,7 @@ function ajaxCall(button,string,type){
                 $(button).css('display',"none")
 
             }
+
         }
     })
 }

@@ -21,6 +21,7 @@ public interface PersonService {
      List<Person> findAllActors();
 
     Person findById(Integer person_id);
+     void addGradePersonGraphQL(Integer personId, Integer userId,Grade grade);
 
     Person  save( String name, String surname, Character type,
                   LocalDate birthDate, String image_url, String description, List<Integer> movieIds);
@@ -36,7 +37,7 @@ public interface PersonService {
     List<Movie> findAllMoviesByPerson( Person person);
 
 
-    void deleteById( Integer id);
+    Person deleteById( Integer id);
 
 
     void addGradePerson( Integer personId, User user, Grade grade);

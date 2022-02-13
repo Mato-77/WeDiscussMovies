@@ -6,9 +6,9 @@ import com.wediscussmovies.project.model.User;
 import com.wediscussmovies.project.model.exception.MovieHasAlreadyDirector;
 import com.wediscussmovies.project.model.exception.MovieIdNotFoundException;
 import com.wediscussmovies.project.model.exception.PersonNotExistException;
+import com.wediscussmovies.project.model.exception.UserNotExistException;
 import com.wediscussmovies.project.model.primarykeys.PersonRatesPK;
 import com.wediscussmovies.project.model.relation.MovieActors;
-import com.wediscussmovies.project.model.relation.MovieLikes;
 import com.wediscussmovies.project.model.relation.PersonRates;
 import com.wediscussmovies.project.repository.*;
 import com.wediscussmovies.project.model.Person;
@@ -19,7 +19,6 @@ import io.leangen.graphql.annotations.GraphQLQuery;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -32,13 +31,15 @@ public class PersonServiceImpl implements PersonService {
     private final MovieRepository movieRepository;
     private final MovieActorsRepository movieActorsRepository;
     private final PersonRatesRepository personRatesRepository;
+    private final UserRepository userRepository;
     public PersonServiceImpl(PersonRepository personRepository,
                              MovieRepository movieRepository, MovieActorsRepository movieActorsRepository,
-                             PersonRatesRepository personRatesRepository) {
+                             PersonRatesRepository personRatesRepository, UserRepository userRepository) {
         this.personRepository = personRepository;
         this.movieRepository = movieRepository;
         this.movieActorsRepository = movieActorsRepository;
         this.personRatesRepository = personRatesRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -151,15 +152,39 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     @GraphQLMutation(name = "deletePerson")
-    public  void deleteById(@GraphQLArgument(name = "id") Integer id) {
-        this.personRepository.deleteById(id);
+    public  Person deleteById(@GraphQLArgument(name = "id") Integer id) {
+        Person person = this.findById(id);
+        this.personRepository.delete(person);
+        return person;
     }
 
     @Override
-    @GraphQLMutation(name = "gradePerson")
-    public void addGradePerson(@GraphQLArgument(name = "id") Integer personId,
-                        @GraphQLArgument(name = "user") User user,
-                        @GraphQLArgument(name = "grade") Grade grade) {
+    public void addGradePerson( Integer personId,
+                         User user,
+                        Grade grade) {
+
+        addGrade(personId,user,grade);
+
+    }
+    @Override
+    @GraphQLMutation(name = "addGradePerson")
+    public void addGradePersonGraphQL(@GraphQLArgument(name = "id") Integer personId,
+                               @GraphQLArgument(name = "userId") Integer userId,
+                               @GraphQLArgument(name = "grade") Grade grade) {
+        User user = this.findUserByIdForGraphQl(userId);
+
+        addGrade(personId,user,grade);
+
+
+    }
+    @Override
+    @GraphQLMutation(name="personRates")
+    public List<PersonRates> listAllPersonRates(){
+        return this.personRatesRepository.findAll();
+    }
+
+
+    private void addGrade(Integer personId, User user, Grade grade){
         PersonRatesPK key =  new PersonRatesPK(personId, user.getUserId());
         Optional<PersonRates> personRates = this.personRatesRepository.findById(key);
         if (personRates.isPresent()){
@@ -173,16 +198,7 @@ public class PersonServiceImpl implements PersonService {
             PersonRates rates = new PersonRates(user,person,grade.getReason(),grade.getRating());
             this.personRatesRepository.save(rates);
         }
-
     }
-    @Override
-    @GraphQLMutation(name="personRates")
-    public List<PersonRates> listAllPersonRates(){
-        return this.personRatesRepository.findAll();
-    }
-
-
-
     private void addActorForMovies(Person person, List<Integer> movieIds){
 
         movieIds.stream()
@@ -210,6 +226,9 @@ public class PersonServiceImpl implements PersonService {
 
     private Movie findMovieById(Integer id){
         return this.movieRepository.findById(id).orElseThrow(() -> new MovieIdNotFoundException(id));
+    }
+    private User findUserByIdForGraphQl(Integer userId){
+        return this.userRepository.findById(userId).orElseThrow(() -> new UserNotExistException(userId.toString()));
     }
 
 }
