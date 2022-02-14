@@ -173,6 +173,7 @@ public class DiscussionServiceImpl implements DiscussionService {
     @Override
     public Discussion findById(Integer id) {
         Discussion disc =  discussionRepository.findById(id).orElseThrow(() -> new DiscussionNotExistException(id));
+        if (this.discussionRepository.findDiscussionWithLikes(id) != null)
         disc.setLikes(this.discussionRepository.findDiscussionWithLikes(id).getLikes());
         return disc;
     }

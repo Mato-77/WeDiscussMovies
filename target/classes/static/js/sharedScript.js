@@ -153,6 +153,25 @@ $(document).ready(function (){
         let url = "/api/discussions/delete/" + $(button).attr("discussion-id")
         ajaxCallDelete(url,button)
     })
+    $(".button-delete-reply").on("click",function (){
+        let button = $(this)
+        let url = "/api/replies/delete/" + $(this).attr("discussion-id")
+        let replyId = $(this).attr("reply-id")
+        $.ajax({
+            url:url,
+            method:"post",
+            data:{
+                replyId:replyId
+            },
+            success: function (data){
+                if (data){
+                    $(button).parent().parent().fadeOut(1500)
+                }
+            }
+
+        })
+
+    })
 
     $(document.body).on("click",".button-confirm",function (){
 

@@ -144,7 +144,7 @@ public class DiscussionController {
         }
     }
 
-    @PostMapping("/save/{discussionId}/")
+    @PostMapping("/save/{discussionId}")
     public String editDiscussion(
                                                @PathVariable Integer discussionId,
                                                @RequestParam String title,
