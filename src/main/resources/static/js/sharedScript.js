@@ -236,6 +236,17 @@ $(document).ready(function (){
         }
     })
 
+    $(".input").focus(function(){
+        $(this).siblings().addClass("hovered-label")
+        $(this).parent().addClass("hovered-row")
+    })
+
+    $(".input").focusout(function(){
+        $(this).siblings().removeClass("hovered-label")
+        $(this).parent().removeClass("hovered-row")
+    })
+
+
 
 })
 function ajaxCallLike(url,button,type,message){
@@ -341,34 +352,16 @@ function ajaxCallLikeReply(url,button,type,message){
         success:function (data){
             if (data){
                 console.log(data)
-                let el = $(button).parent().siblings().eq(3)
-                console.log(el)
-                if (type=="like") {
-                    $(el).html(parseInt($(el).text()) + 1)
-                    console.log("da")
-                }
-                else
-                    $(el).html(parseInt($(el).text()) - 1)
-                $(button).css("display","none")
-                $(button).siblings("a").css("display","block")
                 let userId = $(button).attr("user-id")
                 let discussionId=$(button).attr("discussionId")
-                let replyId = $(button).attr("user-id")
-                // if (type==='like') {
-                //     $(button).parent().append("<a class='btn btn-success button-like-reply' discussionId=" + discussionId + " user-id=" + userId + " reply-id="+replyId+">👍</a>")
-                //     console.log("da")
-                // }
-                // else{
-                //     $(button).parent().append("<a class='btn btn-danger button-unlike-reply' discussionId=" + discussionId + " user-id=" + userId + " reply-id="+replyId+">👎</a>")
-                // }
-                // var likes_count = $("#likes_count")
-                // var count = Number($(likes_count).text())
-                // if(type==='like')
-                //     count += 1
-                // else
-                //     count -= 1
-                // $(likes_count).text(count);
-                // $(button).remove()
+                let replyId = $(button).attr("reply-id")
+                if (type==='like') {
+                    $(button).parent().append("<a class='btn btn-danger button-unlike-reply' discussionId=" + discussionId + " user-id=" + userId + " reply-id="+replyId+">👎</a>")
+                    }
+                else {
+                    $(button).parent().append("<a class='btn btn-success button-like-reply' discussionId=" + discussionId + " user-id=" + userId + " reply-id="+replyId+">👍</a>")
+                }
+                $(button).remove()
             }
             else {
                 $(button).parent().append("<div>" + message +" <button class='button-confirm'>Ок</button></div>")
@@ -424,14 +417,6 @@ function ajaxCallLikeDiscussionAlternative(url,button,type,message){
         url:url,
         success:function (data){
             if (data){
-                let el = $(button).parent().siblings().eq(3)
-                console.log(el)
-                if (type=="like") {
-                    $(el).html(parseInt($(el).text()) + 1)
-                    console.log("da")
-                }
-                else
-                    $(el).html(parseInt($(el).text()) - 1)
                 $(button).css("display","none")
                 let userId = $(button).attr("user-id")
                 let discussionId=$(button).attr("discussion-id")

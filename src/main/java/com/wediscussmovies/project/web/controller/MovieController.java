@@ -132,6 +132,14 @@ public class MovieController {
                             ){
 
         try {
+            if(rating != null){
+                if(rating < 0)
+                    rating=0D;
+                else if(rating>10){
+                    rating=10D;
+                }
+            }
+
             Movie movie = this.movieService.save(title,description,imageUrl,airingDate,rating,directorId,actors,genres);
 
             return "redirect:/movies";
@@ -156,6 +164,15 @@ public class MovieController {
     ){
 
         try {
+
+            if(rating != null){
+                if(rating < 0)
+                    rating=0D;
+                else if(rating>10){
+                    rating=10D;
+                }
+            }
+
             Movie movie = this.movieService.edit(movieId,title,description,imageUrl,airingDate,rating,directorId,actors,genres);
 
             return "redirect:/movies";

@@ -1,11 +1,10 @@
+<link rel="stylesheet" th:href="@{/css/form-style.css}" >
+
 <main xmlns:th="http://www.thymeleaf.org">
 
-    <div class="container">
-        <div class="row">
-            <div class="col-md-5">
+    <div  id="add-form-container">
                 <form th:action="@{'/persons/save/{personId}' (personId = ${person?.getPersonId()})}" method="POST">
-                    <div class="form-group">
-
+                    <div class="row">
                         <label for="name">Име</label>
                         <input type="text"
                                class="form-control"
@@ -15,7 +14,7 @@
                                required
                                placeholder="Име">
                     </div>
-                    <div class="form-group">
+                    <div class="row">
                         <label for="surname">Презиме</label>
                         <input type="text"
                                class="form-control"
@@ -24,7 +23,7 @@
                                th:value="${person?.getSurname()}"
                                placeholder="Презиме">
                     </div>
-                    <div class="form-group">
+                    <div class="row">
                         <label for="description">Опис</label>
                         <input type="text"
                                class="form-control"
@@ -33,23 +32,25 @@
                                th:value="${person?.getDescription()}"
                                placeholder="Опис">
                     </div>
-                    <div>
+                    <div class="row">
+                        <label for="a">Актер</label>
                         <input type="radio"
+                               id="a"
                                class="form-control person-movies"
                                name="type"
                                th:value="A"
-                               th:text="Актер"
-                               th:checked="${person?.getType() != null && person.getType().toString().equals('A')}"
-
-                        >
+                               th:checked="${person?.getType() != null && person.getType().toString().equals('A')}">
+                    </div>
+                    <div class="row">
+                        <label for="d">Режисер</label>
                         <input type="radio"
+                               id="d"
                                class="form-control person-movies"
                                name="type"
                                th:value="D"
-                               th:text="Режисер"
                                th:checked="${person?.getType() != null && person.getType().toString().equals('D') }">
                     </div>
-                    <div class="form-group">
+                    <div class="row">
                         <label for="imageUrl">Слика</label>
                         <input type="text"
                                class="form-control"
@@ -58,7 +59,7 @@
                                th:value="${person?.getImageUrl()}"
                                placeholder="Слика">
                     </div>
-                    <div class="form-group">
+                    <div class="row">
                         <label for="birthDate">Датум на раѓање</label>
                         <input type="date"
                                class="form-control"
@@ -69,8 +70,9 @@
                     </div>
 
 
-                    <div class="form-group">
-                        <select name="movieIds" multiple>
+                    <div class="row">
+                        <label for="movies">Филмови: </label>
+                        <select name="movieIds" id="movies" multiple>
                             <option></option>
                             <option th:each="movie:${moviesActors}" th:value="${movie.getMovieId()}"
                                     th:text="${movie.getTitle()}"
@@ -87,9 +89,15 @@
                         </select>
                     </div>
 
+                    <div id="bottom-buttons">
+                        <div class="button-container">
+                            <button id="submit" type="submit" class="btn btn-success btn-lg">Submit</button>
+                        </div>
 
-                    <button id="submit" type="submit" class="btn btn-primary">Submit</button>
-                    <a type="button" class="btn btn-primary" th:href="@{/actors}">Back</a>
+                        <div class="button-container">
+                            <a type="button" class="btn btn-outline-danger btn-lg" href="/actors">Back</a>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>

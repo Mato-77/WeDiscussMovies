@@ -18,6 +18,7 @@ import io.leangen.graphql.annotations.GraphQLQuery;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -34,7 +35,16 @@ public class ReplyServiceImpl implements ReplyService {
         this.userRepliesRepository = userRepliesRepository;
     }
 
-
+    @Override
+    public List<ReplyPK> findAllLikedByUser(User user) {
+        List<UserReplies> likedByUser = this.userRepliesRepository.findAllByUser(user);
+        List<ReplyPK> idsOfLiked = new LinkedList<>();
+        for(UserReplies ur: likedByUser){
+            System.out.println(ur.getId().getKey());
+            idsOfLiked.add(ur.getId().getKey());
+        }
+        return idsOfLiked;
+    }
 
     @Override
     public void save(Integer discussionId, String text,User user) {

@@ -4,6 +4,7 @@ import com.wediscussmovies.project.model.Discussion;
 import com.wediscussmovies.project.model.Reply;
 import com.wediscussmovies.project.model.User;
 import com.wediscussmovies.project.model.primarykeys.ReplyPK;
+import com.wediscussmovies.project.model.primarykeys.UserRepliesPK;
 import io.leangen.graphql.annotations.GraphQLArgument;
 import io.leangen.graphql.annotations.GraphQLMutation;
 import io.leangen.graphql.annotations.GraphQLQuery;
@@ -27,6 +28,6 @@ public interface ReplyService {
 
     List<Reply> findAllByDiscussion (Discussion discussion);
 
-
+    List<ReplyPK> findAllLikedByUser(User user);
 
 }

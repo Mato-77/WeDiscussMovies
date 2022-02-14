@@ -25,6 +25,10 @@ public class ReplyPK implements Serializable {
         this.replyId = replyId;
     }
 
+    public String getString(){
+        return replyId + "r \t" + discussionId + "d";
+    }
+
     public ReplyPK() {
     }
 
