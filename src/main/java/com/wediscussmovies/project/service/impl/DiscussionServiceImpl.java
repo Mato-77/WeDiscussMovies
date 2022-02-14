@@ -49,8 +49,21 @@ public class DiscussionServiceImpl implements DiscussionService {
     public List<Discussion> listAll() {
         List<Discussion> discussions = this.discussionRepository.findAll();
         List<DiscussionLikesQM> discussionLikes  = this.discussionRepository.findAllDiscussionsWithLikes();
-        for (int i = 0; i < discussionLikes.size(); i++){
-            discussions.get(i).setLikes(discussionLikes.get(i).getLikes());
+        for (int i = 0; i < discussions.size(); i++){
+            boolean likesSet = false;
+            for(int j=0; j < discussionLikes.size(); j++){
+                Discussion d = discussions.get(i);
+                DiscussionLikesQM dl = discussionLikes.get(j);
+                Integer d2 = dl.getDiscussionId();
+                if(d.getDiscussionId() == d2){
+                    d.setLikes(dl.getLikes());
+                    likesSet = true;
+                    break;
+                }
+            }
+            if(!likesSet){
+                discussions.get(i).setLikes(0);
+            }
         }
         return discussions;
     }
@@ -160,14 +173,34 @@ public class DiscussionServiceImpl implements DiscussionService {
 
     @Override
     public List<Discussion> findAllForPersonOrMovie(Integer id,Character type) {
+        List<Discussion> list;
         if (type.equals('M'))
         {
             Movie movie = this.findMovieById(id);
-            return this.discussionRepository.findAllByMovie(movie);
+            list = this.discussionRepository.findAllByMovie(movie);
         }
-        Person person  = this.findPersonById(id);
-        return this.discussionRepository.findAllByPerson(person);
-
+        else {
+            Person person = this.findPersonById(id);
+            list = this.discussionRepository.findAllByPerson(person);
+        }
+        List<DiscussionLikesQM> discussionLikes = findLikesForAllDiscussions();
+        for (int i = 0; i < list.size(); i++) {
+            boolean likesSet = false;
+            for (int j = 0; j < discussionLikes.size(); j++) {
+                Discussion d = list.get(i);
+                DiscussionLikesQM dl = discussionLikes.get(j);
+                Integer d2 = dl.getDiscussionId();
+                if (d.getDiscussionId() == d2) {
+                    d.setLikes(dl.getLikes());
+                    likesSet = true;
+                    break;
+                }
+            }
+            if (!likesSet) {
+                list.get(i).setLikes(0);
+            }
+        }
+        return list;
     }
 
     @Override

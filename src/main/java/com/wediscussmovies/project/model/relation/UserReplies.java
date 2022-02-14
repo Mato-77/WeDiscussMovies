@@ -1,6 +1,7 @@
 package com.wediscussmovies.project.model.relation;
 
 import com.wediscussmovies.project.model.User;
+import com.wediscussmovies.project.model.primarykeys.ReplyPK;
 import com.wediscussmovies.project.model.primarykeys.UserRepliesPK;
 import io.leangen.graphql.annotations.GraphQLQuery;
 import lombok.Data;
@@ -28,6 +29,7 @@ public class UserReplies {
     public UserReplies(Integer discussionId, Integer replyId, Integer userId){
         this.id = new UserRepliesPK(discussionId,replyId,userId);
     }
+
 
 
 }

@@ -27,6 +27,5 @@ public interface ReplyService {
 
     List<Reply> findAllByDiscussion (Discussion discussion);
 
-
-
+    List<ReplyPK> findAllLikedByUser(User user);
 }

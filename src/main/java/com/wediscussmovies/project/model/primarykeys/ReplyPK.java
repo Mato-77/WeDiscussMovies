@@ -41,5 +41,9 @@ public class ReplyPK implements Serializable {
         return Objects.hash(discussionId, replyId);
     }
 
+    public String getString(){
+        return replyId + "r \t" + discussionId + "d";
+    }
+
 
 }

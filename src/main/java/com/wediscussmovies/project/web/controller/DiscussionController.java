@@ -66,6 +66,8 @@ public class DiscussionController {
             model.addAttribute("disc", disc);
             model.addAttribute("contentTemplate", "discussion");
             model.addAttribute("replies",this.replyService.findAllByDiscussion(disc));
+            model.addAttribute("likedReplies", this.replyService.findAllLikedByUser(LoggedUser.getLoggedUser()));
+            model.addAttribute("user", LoggedUser.getLoggedUser());
             addModelPropertiesForUser(model);
 
             return "template";
@@ -77,7 +79,7 @@ public class DiscussionController {
     }
     @GetMapping("/all/{id}")
     public String getDiscussionForId(@PathVariable Integer id,@RequestParam Character type, Model model){
-
+        addModelPropertiesForUser(model);
         model.addAttribute("discussions", this.discussionService.findAllForPersonOrMovie(id,type));
         model.addAttribute("contentTemplate", "discussionForType");
         return "template";
