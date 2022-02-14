@@ -67,5 +67,8 @@ public class Reply implements Serializable {
 
     }
 
+    public ReplyPK getKey(){
+        return new ReplyPK(discussionId, replyId);
+    }
 
 }
