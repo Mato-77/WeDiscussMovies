@@ -102,7 +102,7 @@ $(document).ready(function (){
             if (filters['movieAiringDate'])
                 string += 'airingDate' + '\n';
             if (filters['movieImage'])
-                string += 'image' + '\n'
+                string += 'imageUrl' + '\n'
             string += '} }' + '\n'
         }
 
