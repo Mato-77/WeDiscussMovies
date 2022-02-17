@@ -2,6 +2,11 @@
 <script type="text/javascript" th:src="@{/js/graphqlmovie.js}"></script>
 <link rel="stylesheet" th:href="@{/css/List-style.css}" >
 
+    <div class="col-md-3" style="margin: auto; margin-bottom: 10px">
+        <button id="button-show-discussed-top" class="btn btn-outline-primary" style="width: 90%; margin: auto">
+            Прикажи најдискутирани филмови
+        </button>
+    </div>
     <div style="margin:auto; width: 60%">
         <div style="width: 30%; margin: auto; height: 100%; margin-bottom: 10px">
             <a class="btn btn-outline-dark" style="height: 100%; width: 100%; font-size: 125%" id="button_toggle_filters">Прикажи филтрирање</a>
@@ -10,11 +15,6 @@
             <div th:replace="fragments/searchBarName"></div><br>
             <div th:replace="fragments/searchBarGenre"></div>
         </div>
-    </div>
-    <div id="btn-cntainer">
-        <button id="button-show-discussed-top" class="btn btn-outline-primary">
-            Прикажи најдискутирани филмови
-        </button>
     </div>
 
     <div id="paging-section">
@@ -313,29 +313,29 @@
 
             </div>
         </div>
-    <div class="container mb-4">
-        <button id="okay-button" class="btn btn-success btn-sm btn-block">Во ред</button>
-    </div>
-    <div class="container mb-4 cont">
-        <div class="row" th:each="row: ${movie_rows}" >
-            <div class="col-md-3 elements" th:each="movie: ${row}" >
-                <span th:each="genre: ${movie.getGenres()}"  th:text="${genre?.getGenre()?.getGenreType()}" hidden class="card-genre"></span>
-                <div class="card-body card bg-image" th:style="'background:url(' + ${movie.getImageUrl()} + ') no-repeat center #eee;'">
-                    <a class="card-text-center" style="color: white" th:href="@{'/movies/{id}' (id=${movie.getMovieId()})}" >
-                        <h3 class="card-title title" th:text="${movie.getTitle()}"></h3>
-                        <span th:each="genre: ${movie.getGenres()}"  th:text="${genre?.getGenre()?.getGenreType()}" hidden class="card-genre"></span>
-                    </a>
-                    <span class="card-text bottom">
-                            <h3 th:text="${'Оценет '+movie.getImdbRating() + '/10'}"></h3>
-                        </span>
-                    <th:block sec:authorize="isAuthenticated()">
-                        <button class="bottom-heart btn btn-success button-add-favourite-list" th:movie-id="${movie.getMovieId()}" th:user-id="${user.getUserId()}" th:if="${!likedMovies.contains(movie)}">❤</button>
-                        <button class="bottom-heart btn btn-danger button-remove-favourite-list" th:movie-id="${movie.getMovieId()}" th:user-id="${user.getUserId()}" th:if="${likedMovies.contains(movie)}">💔</button>
-                    </th:block>
+        <div class="d-grid gap-2 col-9 mx-auto" style="clear: both">
+            <button id="okay-button" class="btn btn-success btn-sm btn-block">Во ред</button>
+        </div>
+        <div id="tbody-table-parent">
+            <div class="row" th:each="row: ${movie_rows}" >
+                <div class="col-md-3 elements" th:each="movie: ${row}" >
+                    <span th:each="genre: ${movie.getGenres()}"  th:text="${genre?.getGenre()?.getGenreType()}" hidden class="card-genre"></span>
+                    <div class="card-body card bg-image" th:style="'background:url(' + ${movie.getImageUrl()} + ') no-repeat center #eee;'">
+                        <a class="card-text-center" style="color: white" th:href="@{'/movies/{id}' (id=${movie.getMovieId()})}" >
+                            <h3 class="card-title title" th:text="${movie.getTitle()}"></h3>
+                            <span th:each="genre: ${movie.getGenres()}"  th:text="${genre?.getGenre()?.getGenreType()}" hidden class="card-genre"></span>
+                        </a>
+                        <span class="card-text bottom">
+                                <h3 th:text="${'Оценет '+movie.getImdbRating() + '/10'}"></h3>
+                            </span>
+                        <th:block sec:authorize="isAuthenticated()">
+                            <button class="bottom-heart btn btn-success button-add-favourite-list" th:movie-id="${movie.getMovieId()}" th:user-id="${user.getUserId()}" th:if="${!likedMovies.contains(movie)}">❤</button>
+                            <button class="bottom-heart btn btn-danger button-remove-favourite-list" th:movie-id="${movie.getMovieId()}" th:user-id="${user.getUserId()}" th:if="${likedMovies.contains(movie)}">💔</button>
+                        </th:block>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
 
 
