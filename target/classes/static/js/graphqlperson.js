@@ -246,88 +246,132 @@ function ajaxCall(button,string,type){
 
 function displayDataPerson(data,type){
     let items = []
+    console.log(data)
     if (type === "режисер")
         items = data.data.directors
     else
         items = data.data.actors
     console.log(items)
+    $("#tbody-table-parent").empty()
+    let div = $("<div id='tbody-table'></div>")
+    $("#tbody-table-parent").append(div)
     $("#tbody-table").empty()
     for (let i of items){
-        let tr = $("<tr class='elements'></tr>")
-        let divPerson =$("<td><div></div></td>")
-        if (i.personId && user){
-            $(divPerson).append("<button class='btn-oceni-person' userId='" + user + "' personId='" + i.personId + "'>Оцени</button>")
-            $(divPerson).append("<button class='btn-еdit-person' personId='" + i.personId + "'>Промени</button>")
-            $(divPerson).append("<button class='btn-delete-person' personId='" + i.personId + "'>Избриши</button>")
+        let tr = $("<div class='accordion-item'></div>")
 
+        let divHeader = $("<h2 class='accordion-header' id='heading"+ i.personId +"' >" +
+            "<button class='accordion-button collapsed' type='button' data-bs-toggle='collapse' " +
+            "data-bs-target='#collapse"+i.personId+"' aria-expanded='false' aria-controls='collapse"+i.personId+"'>" +
+            i.name + ' ' + i.surname +
+            "</button>" +
+            "</h2>")
+        let divBody = $("<div id='collapse" + i.personId + "' class='accordion-collapse collapse' " +
+            "aria-labelledby='heading" + i.personId +
+            "' data-bs-parent='#tbody-table'> " +
+            "</div>")
+        let divBodyAdd = $("<div class='accordion-body'></div>")
+        $(divBodyAdd).append("<h3>Идентификатор: " + i.personId + "</h3>")
+        $(divBodyAdd).append("<h3>Име: " + i.name + "</h3>")
+        $(divBodyAdd).append("<h3>Презиме: " + i.surname + "</h3>")
+        $(divBodyAdd).append("<h3>Опис: " + i.description + "</h3>")
+        $(divBodyAdd).append("<h3>Датум на раѓање: " + i.dateOfBirth + "</h3>")
+        $(divBodyAdd).append("<h3>Слика: " + i.imageUrl + "</h3>")
+
+        if (i.personId && user){
+            let divButtons = $("<div class='sub-container'></div>")
+            let divButtonsInside = $("<div class=\"container my-3 bg-light\"></div>")
+            let divButtonsInsideChild = $("<div class=\"col-md-12 text-center\"></div>")
+            $(divButtonsInsideChild).append("<button class='btn btn-secondary btn-oceni-person mе-1' userId='" + user + "' personId='" + i.personId + "'>Оцени</button>")
+            $(divButtonsInsideChild).append("<button class='btn btn-warning btn-еdit-person mе-1' personId='" + i.personId + "'>Промени</button>")
+            $(divButtonsInsideChild).append("<button class='btn btn-danger btn-delete-person mе-1' personId='" + i.personId + "'>Избриши</button>")
+            $(divButtonsInside).append(divButtonsInsideChild)
+            $(divButtons).append($("<h2 style='text-align: center'>Акции</h2>"))
+            $(divButtons).append(divButtonsInside)
+            $(divBodyAdd).append(divButtons)
         }
-        $(divPerson).append("<h3>Идентификатор: " + i.personId + "</h3>")
-        $(divPerson).append("<h3>Име: " + i.name + "</h3>")
-        $(divPerson).append("<h3>Презиме: " + i.surname + "</h3>")
-        $(divPerson).append("<h3>Опис: " + i.description + "</h3>")
-        $(divPerson).append("<h3>Датум: " + i.dateOfBirth + "</h3>")
-        $(divPerson).append("<h3>Слика: " + i.imageUrl + "</h3>")
-        $(tr).append(divPerson)
+        $(divBody).append(divBodyAdd)
 
 
         if (i.actors != null) {
-            let divMovie = $("<td><div></div></td>")
+            let divMovie = $("<div class='sub-container'></div>")
 
             for (let movie of i.actors) {
                 let m = movie.movie
                 if (m != null) {
-                    $(divMovie).append("<h3>Идентификатор: " + m.movieId + "</h3>")
-                    $(divMovie).append("<h3>Наслов: " + m.title + "</h3>")
-                    $(divMovie).append("<h3>Опис: " + m.description + "</h3>")
-                    $(divMovie).append("<h3>Датум: " + m.airingDate + "</h3>")
-                    $(divMovie).append("<h3>Слика: " + i.imageUrl + "</h3>")
+                    $(divMovie).append("<h5>Идентификатор: " + m.movieId + "</h5>")
+                    $(divMovie).append("<h5>Наслов: " + m.title + "</h5>")
+                    $(divMovie).append("<h5>Опис: " + m.description + "</h5>")
+                    $(divMovie).append("<h5>Датум: " + m.airingDate + "</h5>")
+                    $(divMovie).append("<h5>Слика: " + i.imageUrl + "</h5>")
+                    $(divMovie).append("<hr>")
                 }
             }
-            $(tr).append(divMovie)
+            $(divBody).append(divMovie)
         }
         if (i.discussions != null) {
-            let divDiscussions = $("<td><div></div></td>")
+            let divDiscussions = $("<div class='sub-container'></div>")
+            if(i.discussions.length === 0){
+                divDiscussions.append($("<h3>Личноста нема дискусии.</h3>"))
+
+            }
+        else{
+                divDiscussions.append($("<h3>Дискусии:</h3>"))
+            }
             for (let disc of i.discussions) {
-                $(divDiscussions).append("<h3>Идентификатор: " + disc.discussionId + "</h3>")
-                $(divDiscussions).append("<h3>Наслов: " + disc.title + "</h3>")
-                $(divDiscussions).append("<h3>Опис: " + disc.text + "</h3>")
-                $(divDiscussions).append("<h3>Датум: " + disc.date + "</h3>")
+                $(divDiscussions).append("<h5>Идентификатор на дискусија: " + disc.discussionId + "</h5>")
+                $(divDiscussions).append("<h5>Наслов: " + disc.title + "</h5>")
+                $(divDiscussions).append("<h5>Опис: " + disc.text + "</h5>")
+                $(divDiscussions).append("<h5>Датум: " + disc.date + "</h5>")
                 let u = disc.user
                 if (u != null) {
-                    $(divDiscussions).append("<h3>Идентификатор корисник: " + u.userId + "</h3>")
-                    $(divDiscussions).append("<h3>Име корисник: " + u.name + "</h3>")
-                    $(divDiscussions).append("<h3>Презиме корисник: " + u.surname + "</h3>")
-                    $(divDiscussions).append("<h3>Корисничко име: " + u.username + "</h3>")
+                    $(divDiscussions).append("<h5>Идентификатор корисник: " + u.userId + "</h5>")
+                    $(divDiscussions).append("<h5>Име корисник: " + u.name + "</h5>")
+                    $(divDiscussions).append("<h5>Презиме корисник: " + u.surname + "</h5>")
+                    $(divDiscussions).append("<h5>Корисничко име: " + u.username + "</h5>")
                 }
+                let divDiscReplies = $("<div class='sub-container'></div>")
                 if (disc.replies != null) {
+                    divDiscReplies.append($("<h3>Реплики:</h3>"))
                     for (let r of disc.replies) {
-                        $(divDiscussions).append("<h3>Текст: " + r.text + "</h3>")
-                        $(divDiscussions).append("<h3>Датум реплика: " + r.date + "</h3>")
+                        $(divDiscReplies).append("<h6>Текст: " + r.text + "</h6>")
+                        $(divDiscReplies).append("<h6>Датум реплика: " + r.date + "</h6>")
                         if (r.user != null) {
-                            $(divDiscussions).append("<h3>Идентификатор корисник: " + r.user.userId + "</h3>")
-                            $(divDiscussions).append("<h3>Корисничко име: " + r.user.username + "</h3>")
+                            $(divDiscReplies).append("<h6>Идентификатор корисник: " + r.user.userId + "</h6>")
+                            $(divDiscReplies).append("<h6>Корисничко име: " + r.user.username + "</h6>")
                         }
+                        $(divDiscReplies).append("<hr>")
                     }
                 }
+                else{
+                    $(divDiscussions).append("<h4>Дискусијата нема реплики.</h4>")
+                }
+                $(divDiscussions).append("<hr>")
+                $(divDiscussions).append(divDiscReplies)
             }
-            $(tr).append(divDiscussions)
+            $(divBody).append(divDiscussions)
         }
         if (i.rates != null) {
-            let rates = $("<td><div></div></td>")
+            let rates = $("<div class='sub-container'></div>")
+            if(i.rates.length > 0){
+                rates.append($("<h2>Оцени за личноста:</h2>"))
+            }
             for (let rate of i.rates) {
-                $(rates).append("<h3>Причина: " + rate.reason + "</h3>")
-                $(rates).append("<h3>Оцена: " + rate.starsRated + "</h3>")
+                $(rates).append("<h5>Оцена: " + rate.starsRated + "</h5>")
+                $(rates).append("<h5>Причина: " + rate.reason + "</h5>")
 
                 let u = rate.user
                 if (u != null) {
-                    $(rates).append("<h3>Идентификатор корисник: " + u.userId + "</h3>")
-                    $(rates).append("<h3>Име корисник: " + u.name + "</h3>")
-                    $(rates).append("<h3>Презиме корисник: " + u.surname + "</h3>")
-                    $(rates).append("<h3>Корисничко име: " + u.username + "</h3>")
+                    $(rates).append("<h5>Идентификатор корисник: " + u.userId + "</h5>")
+                    $(rates).append("<h5>Име корисник: " + u.name + "</h5>")
+                    $(rates).append("<h5>Презиме корисник: " + u.surname + "</h5>")
+                    $(rates).append("<h5>Корисничко име: " + u.username + "</h5>")
                 }
+                $(rates.append($("<hr>")))
             }
-            $(tr).append(rates)
+            $(divBody).append(rates)
         }
+        $(tr).append(divHeader)
+        $(tr).append(divBody)
         $("#tbody-table").append(tr)
     }
 }

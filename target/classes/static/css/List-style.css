@@ -96,3 +96,12 @@
     width: 60%;
     margin: auto;
 }
+
+.sub-container{
+    width: 85%;
+    margin: auto;
+    padding: 6px;
+    border: 1px solid black;
+    border-radius: 5px;
+    margin-top: 10px;
+}
