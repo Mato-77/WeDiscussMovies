@@ -7,9 +7,7 @@ $(document).ready(function () {
 
     let id = $(".granka").attr("granka")
     displayBody()
-    if ($(".granka").attr("granka")){
-        displayInfoMovie($(".granka").attr("granka"))
-    }
+
 
     $("#title").on("keyup", function () {
         $("#title-val").hide()
@@ -134,6 +132,10 @@ function doneDisplay(data){
     for (let item of data.data.genres) {
         $("#genres").append("<option value='" + item.genreId+"'>" + item.genreType+"</option>")
     }
+    if ($(".granka").attr("granka")){
+        displayInfoMovie($(".granka").attr("granka"))
+    }
+
 }
 function edit(data){
     $("#title").val(data.title)
@@ -141,6 +143,7 @@ function edit(data){
     $("#image").val(data.imageUrl)
     $("#date").val(data.airingDate)
     $("#rating").val(data.imdbRating)
+    console.log(data.actors)
     for (let a of data.actors){
         console.log(a.person)
         $('#actors option[value=' + a.person.personId+']').attr('selected','selected');
