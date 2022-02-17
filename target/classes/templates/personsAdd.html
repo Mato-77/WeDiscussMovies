@@ -7,7 +7,7 @@
             <div class="row">
                 <label for="name">Име</label>
                 <input type="text"
-                       class="form-control"
+                       class="form-control input"
                        id="name"
                        name="name"
                        th:value="${person?.getName()}"
@@ -17,7 +17,7 @@
             <div class="row">
                 <label for="surname">Презиме</label>
                 <input type="text"
-                       class="form-control"
+                       class="form-control input"
                        id="surname"
                        name="surname"
                        th:value="${person?.getSurname()}"
@@ -26,7 +26,7 @@
             <div class="row">
                 <label for="description">Опис</label>
                 <input type="text"
-                       class="form-control"
+                       class="form-control input"
                        id="description"
                        name="description"
                        th:value="${person?.getDescription()}"
@@ -36,7 +36,7 @@
                 <label for="a">Актер</label>
                 <input type="radio"
                        id="a"
-                       class="form-control person-movies"
+                       class="form-control person-movies input"
                        name="type"
                        th:value="A"
                        th:checked="${person?.getType() != null && person.getType().toString().equals('A')}">
@@ -45,7 +45,7 @@
                 <label for="d">Режисер</label>
                 <input type="radio"
                        id="d"
-                       class="form-control person-movies"
+                       class="form-control person-movies input"
                        name="type"
                        th:value="D"
                        th:checked="${person?.getType() != null && person.getType().toString().equals('D') }">
@@ -53,7 +53,7 @@
             <div class="row">
                 <label for="imageUrl">Слика</label>
                 <input type="text"
-                       class="form-control"
+                       class="form-control input"
                        id="imageUrl"
                        name="imageUrl"
                        th:value="${person?.getImageUrl()}"
@@ -62,7 +62,7 @@
             <div class="row">
                 <label for="birthDate">Датум на раѓање</label>
                 <input type="date"
-                       class="form-control"
+                       class="form-control input"
                        id="birthDate"
                        name="birthDate"
                        th:value="${person?.getDateOfBirth()}"
@@ -72,7 +72,7 @@
 
             <div class="row">
                 <label for="movies">Филмови: </label>
-                <select name="movieIds" id="movies" multiple>
+                <select name="movieIds" id="movies" multiple class="input">
                     <option></option>
                     <option th:each="movie:${moviesActors}" th:value="${movie.getMovieId()}"
                             th:text="${movie.getTitle()}"
