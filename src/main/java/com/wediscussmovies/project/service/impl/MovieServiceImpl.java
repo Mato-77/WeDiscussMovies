@@ -131,6 +131,11 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
+    public List<Movie> findAll() {
+        return this.movieRepository.findAll();
+    }
+
+    @Override
     public List<Integer> listAllIds() {
         return this.movieRepository.findAllMovieIds();
     }

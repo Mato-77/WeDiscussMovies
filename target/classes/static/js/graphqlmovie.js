@@ -19,6 +19,27 @@ $(document).ready(function () {
     $("#replies").toggle()
     $("#reply-user").toggle()
 
+
+    $( "#discussed-top" ).dialog({
+        autoOpen: false,
+        width: 650,
+        height: 330,
+        title: "Најдискутирани филмови низ годините:",
+        show: {
+            effect: "blind",
+            duration: 300
+        },
+        hide: {
+            effect: "explode",
+            duration: 150
+        }
+    });
+
+    $("#button-show-discussed-top").on("click", function(){
+        $( "#discussed-top" ).dialog( "open" );
+    })
+
+
     $("#replyUser").change(function () {
         $("#reply-user").toggle()
         filters['replyUser'] = this.checked
