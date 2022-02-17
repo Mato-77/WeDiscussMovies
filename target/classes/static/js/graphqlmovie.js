@@ -456,10 +456,12 @@ function ajaxCall(button,string,type){
 }
 function displayData(data){
     $("#tbody-table-parent").empty()
-    let div = $("<div id='tbody-table' class='col-md-10' style='margin: auto'></div>")
-    $("#tbody-table-parent").append(div)
-    $("#tbody-table").empty()
-    let container = $("#tbody-table")
+   // let div =
+   //$(document.body).remove("#tbody-table")
+    $("#tbody-table").remove()
+    let container = $("<div id='tbody-table' class='col-md-10' style='margin: auto'></div>")
+   // $("#tbody-table-parent").append(container)
+
 
     for (let item of data.data.movies) {
         let tr = $("<div class='accordion-item' style='overflow: hidden'></div>")
@@ -622,7 +624,7 @@ function displayData(data){
         console.log(user)
         $(tr).append(divHeader)
         $(tr).append(divBody)
-        $("#tbody-table").append(tr)
+        $(container).append(tr)
 
     }
     console.log(container)
