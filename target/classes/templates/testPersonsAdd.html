@@ -1,4 +1,5 @@
 <script type="text/javascript" th:src="@{/js/graphqlPersonAdding.js}"></script>
+<link rel="stylesheet" th:href="@{/css/Form-style.css}" >
 
 <div  id="add-form-container">
 <div class="row granka" th:granka="${id != null ? id : null}" th:type="${type != null ? type : null}">
@@ -97,6 +98,7 @@
     <label for="movies">Филмови</label>
     <select name="movies" id="movies" multiple class="input">
         <option></option>
+        <option th:each="movie: ${movies}" th:value="${movie.getMovieId()}" th:text="${movie.getTitle()}"></option>
     </select>
 </div>
 

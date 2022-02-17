@@ -13,7 +13,6 @@ $(document).ready(function (){
     $("#discussion-user").toggle()
     $("#movies").toggle()
     $("#rates-user").toggle()
-
     user = $("#user-info").attr("user")
     type = $("#user-info").attr("type")
 

@@ -9,6 +9,9 @@
             </a>
         </div>
     </div>
+    <br><hr>
+    <h2>Филмови кои се препорачани за да ги гледаме:</h2>
+    <h5>Се темели на тоа со кои корисници сме стапиле во интеракција, било тоа реплика на која сме одговориле, дискусија на која тие ни одговориле нам или слично.</h5>
     <div class="row">
         <div class="col-md-3" th:each="movie: ${movie_proposeds}" th:if="${movie_proposeds != null}">
                     <h3 class="card-title title" th:text="${movie.getTitle()}"></h3>

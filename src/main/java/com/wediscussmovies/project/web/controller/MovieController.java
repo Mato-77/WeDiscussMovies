@@ -96,7 +96,6 @@ public class MovieController {
 
     @GetMapping("/add")
     public String addMovie(Model model){
-
         addModelProperties(model);
         model.addAttribute("contentTemplate", "moviesAdd");
         return "template";

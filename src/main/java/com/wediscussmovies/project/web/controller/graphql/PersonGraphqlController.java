@@ -1,6 +1,7 @@
 package com.wediscussmovies.project.web.controller.graphql;
 
 import com.wediscussmovies.project.LoggedUser;
+import com.wediscussmovies.project.service.MovieService;
 import com.wediscussmovies.project.service.PersonService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,9 +16,11 @@ public class PersonGraphqlController {
 
 
     private final PersonService personService;
+    private final MovieService movieService;
 
-    public PersonGraphqlController(PersonService personService) {
+    public PersonGraphqlController(PersonService personService, MovieService movieService) {
         this.personService = personService;
+        this.movieService = movieService;
     }
 
     @GetMapping("/actors")
@@ -25,6 +28,8 @@ public class PersonGraphqlController {
         addModelPropertiesCommon(model);
         model.addAttribute("type","актер");
         model.addAttribute("persons",this.personService.findAllActors());
+        String s = "tip";
+
         return "template";
     }
 
@@ -40,6 +45,7 @@ public class PersonGraphqlController {
     @GetMapping("/add")
     public String getForm(Model model){
         model.addAttribute("contentTemplate","testPersonsAdd");
+        model.addAttribute("movies", movieService.findAll());
         return "template";
     }
     @GetMapping("/add/{id}")

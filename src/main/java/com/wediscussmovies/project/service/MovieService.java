@@ -72,5 +72,7 @@ public interface MovieService {
 
      List<MovieSuggest> proposeMovie(Integer userId);
 
+     List<Movie> findAll();
+
 
 }
