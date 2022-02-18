@@ -6,6 +6,9 @@ $(document).ready(function () {
     $("#description-val").toggle()
 
     let id = $(".granka").attr("granka")
+    if (id)
+        displayInfoMovie(id)
+    else
     displayBody()
 
 
@@ -109,7 +112,7 @@ function callAjax(query,type,text){
 
             }
             else if (type === 'edit')
-                edit(data.data.movie)
+                edit(data.data)
         }
     })
 
@@ -123,42 +126,49 @@ function displayBody() {
         '}','display')
 }
 function doneDisplay(data){
-    for (let item of data.data.actors) {
+    for (let item of data.actors) {
         $("#actors").append("<option value='" + item.personId+"'>" + item.name + " " + item.surname+"</option>")
     }
-    for (let item of data.data.directors) {
+    for (let item of data.directors) {
         $("#directorId").append("<option value='" + item.personId+"'>" + item.name + " " + item.surname+"</option>")
     }
-    for (let item of data.data.genres) {
+    for (let item of data.genres) {
         $("#genres").append("<option value='" + item.genreId+"'>" + item.genreType+"</option>")
     }
-    if ($(".granka").attr("granka")){
-        displayInfoMovie($(".granka").attr("granka"))
-    }
+    // if ($(".granka").attr("granka")){
+    //     displayInfoMovie($(".granka").attr("granka"))
+    // }
 
 }
 function edit(data){
-    $("#title").val(data.title)
-    $("#description").val(data.description)
-    $("#image").val(data.imageUrl)
-    $("#date").val(data.airingDate)
-    $("#rating").val(data.imdbRating)
-    console.log(data.actors)
-    for (let a of data.actors){
+    let movie = data.movie
+    $("#title").val(movie.title)
+    $("#description").val(movie.description)
+    $("#image").val(movie.imageUrl)
+    $("#date").val(movie.airingDate)
+    $("#rating").val(movie.imdbRating)
+    doneDisplay(data)
+    for (let a of movie.actors){
         console.log(a.person)
         $('#actors option[value=' + a.person.personId+']').attr('selected','selected');
     }
-    for (let g of data.genres){
+    for (let g of movie.genres){
         console.log(g.genre)
         $('#genres option[value=' + g.genre.genreId+']').attr('selected','selected');
     }
-    console.log(data.director)
-    if (data.director)
-    $("#directorId option[value=" +data.director.personId+"]").attr("selected","selected")
+    if (movie.director)
+    $("#directorId option[value=" +movie.director.personId+"]").attr("selected","selected")
 }
 function displayInfoMovie(id) {
     console.log(id)
-    let q = '{ movie(id: ' + id + '){ movieId title description imageUrl airingDate imdbRating actors{ person{ personId name surname } } director{ personId name surname } genres{ genre{ genreType genreId } } } }'
+    let q = '{ movie(id: ' + id + '){ movieId title description imageUrl airingDate' +
+        ' imdbRating actors{ person{ personId name surname } } director{ personId name surname }' +
+        ' genres{ genre{ genreType genreId } } }'
+    q+='  actors{ \n' +
+        '         personId name surname } \n' +
+        '        directors{ personId name surname } \n' +
+        '        genres{ \n' +
+        '        genreId genreType  } }'
     console.log(q)
     callAjax(q, 'edit')
 }

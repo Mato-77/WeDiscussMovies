@@ -38,7 +38,7 @@
                 <label for="a">Актер</label>
                 <input type="radio"
                        id="a"
-                       class="form-control person-movies input"
+                       class="form-control person-movies"
                        name="type"
                        th:value="A"
                        th:checked="${person?.getType() != null && person.getType().toString().equals('A')}">
@@ -47,7 +47,7 @@
                 <label for="d">Режисер</label>
                 <input type="radio"
                        id="d"
-                       class="form-control person-movies input"
+                       class="form-control person-movies"
                        name="type"
                        th:value="D"
                        th:checked="${person?.getType() != null && person.getType().toString().equals('D') }">
