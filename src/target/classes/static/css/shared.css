@@ -242,8 +242,20 @@
     margin-right: 15px;
     color: black;
     transition: 200ms;
+    display: flex;
     height: fit-content !important;
+    align-content: stretch;
+    flex-direction: column;
 }
+
+.user-movies-list h3{
+    display: flex;
+    width: 100%;
+    clear: both;
+    margin: auto;
+    transition: 200ms;
+}
+
 
 .user-movies-list:hover{
     background-color: rgba(192,255,192,1);
@@ -253,6 +265,7 @@
     list-style-type: none;
     width: 99%;
     margin: auto;
+    margin-top: 10px;
     display: none;
 }
 
@@ -278,6 +291,7 @@
     border-radius: 10px;
     margin-bottom: 5px;
     text-decoration: none;
+    border: 2px solid #333333;
     float: left;
 }
 

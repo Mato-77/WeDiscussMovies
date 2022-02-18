@@ -4,7 +4,7 @@
 
     <div  id="add-form-container">
         <form th:action="@{'/persons/save/{personId}' (personId = ${person?.getPersonId()})}" method="POST">
-            <div class="row">
+            <div class="row-form">
                 <label for="name">Име</label>
                 <input type="text"
                        class="form-control input"
@@ -14,7 +14,7 @@
                        required
                        placeholder="Име">
             </div>
-            <div class="row">
+            <div class="row-form">
                 <label for="surname">Презиме</label>
                 <input type="text"
                        class="form-control input"
@@ -23,16 +23,18 @@
                        th:value="${person?.getSurname()}"
                        placeholder="Презиме">
             </div>
-            <div class="row">
+            <div class="row-form">
                 <label for="description">Опис</label>
-                <input type="text"
+                <textarea type="text"
                        class="form-control input"
                        id="description"
                        name="description"
-                       th:value="${person?.getDescription()}"
+                       rows="10"
+                       th:text="${person?.getDescription()}"
                        placeholder="Опис">
+                </textarea>
             </div>
-            <div class="row">
+            <div class="row-form" th:if="${person == null}">
                 <label for="a">Актер</label>
                 <input type="radio"
                        id="a"
@@ -41,7 +43,7 @@
                        th:value="A"
                        th:checked="${person?.getType() != null && person.getType().toString().equals('A')}">
             </div>
-            <div class="row">
+            <div class="row-form" th:if="${person == null}">
                 <label for="d">Режисер</label>
                 <input type="radio"
                        id="d"
@@ -50,7 +52,7 @@
                        th:value="D"
                        th:checked="${person?.getType() != null && person.getType().toString().equals('D') }">
             </div>
-            <div class="row">
+            <div class="row-form">
                 <label for="imageUrl">Слика</label>
                 <input type="text"
                        class="form-control input"
@@ -59,7 +61,7 @@
                        th:value="${person?.getImageUrl()}"
                        placeholder="Слика">
             </div>
-            <div class="row">
+            <div class="row-form">
                 <label for="birthDate">Датум на раѓање</label>
                 <input type="date"
                        class="form-control input"
@@ -70,7 +72,7 @@
             </div>
 
 
-            <div class="row">
+            <div class="row-form">
                 <label for="movies">Филмови: </label>
                 <select name="movieIds" id="movies" multiple class="input">
                     <option></option>

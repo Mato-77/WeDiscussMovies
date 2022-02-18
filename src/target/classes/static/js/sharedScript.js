@@ -89,8 +89,8 @@ $(document).ready(function (){
             $("#filters_div").fadeToggle();
     })
 
-    $(".user-movies-list").on("click", function (){
-       let children = $(this).children()
+    $(".user-movies-list h3").on("click", function (){
+       let children = $(this).parent().children()
         let first = true
         for (let item of children){
             if(first){
@@ -100,7 +100,7 @@ $(document).ready(function (){
                 $(item).fadeToggle();
             }
         }
-        $(this).toggleClass("hidden-class")
+        $(this).parent().toggleClass("hidden-class")
     })
 
    $(".search-button").on("click",function () {
