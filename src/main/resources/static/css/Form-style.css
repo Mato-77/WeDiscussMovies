@@ -3,6 +3,8 @@ label{
     margin: auto;
     float: left;
     min-width: 25% !important;
+    width: 25%;
+    max-width: 25%;
     height: 100%;
     display: block !important;
     padding: 30px;
@@ -35,20 +37,27 @@ input, select, textarea{
     margin: auto;
     float: right;
     width: 60% !important;
-    height: 100%;
     margin-left: 3%;
     display: block !important;
 }
 
-select{
-    font-size: 135%;
+#genres, #actors, #movies{
+    height: 250px;
 }
 
-.row{
+select option{
+    font-size: 130%;
+}
+
+.row-form{
     width: 100%;
-    height: fit-content !important;
     padding: 10px;
     transition: 300ms;
+    display: flex;
+    height: content-box;
+    clear: both;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 #add-form-container{
