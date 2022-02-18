@@ -1,0 +1,10 @@
+<div xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+     style="width:60%; margin: auto; margin-bottom: 10px">
+        <select th:if="${genres!=null}" id="searchGenre" class="form-control" style="float: left; display: block; width: 50%">
+            <option value="" selected>Сите</option>
+            <option th:each="genre: ${genres}" th:value="${genre.getGenreType()}" th:text="${genre.getGenreType()}"></option>
+        </select>
+        <div class="input-group-append" style="width: 40%">
+            <button class="btn btn-secondary  search-button" style="width: 100%">Филтрирај по жанр</button>
+        </div>
+</div>

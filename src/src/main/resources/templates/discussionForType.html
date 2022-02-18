@@ -1,0 +1,56 @@
+<div xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+
+    <div class="container mb-4">
+        <div class="row">
+            <div class="col-12" th:if="${discussions.size() > 0}">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th scope="col">За</th>
+                            <th scope="col">Наслов</th>
+                            <th scope="col">Допаѓања</th>
+                            <th scope="col">Датум</th>
+                            <th scope="col">Корисник</th>
+                            <th:block  sec:authorize="isAuthenticated()">
+                                <th:block>
+                                    <th scope="col"></th>
+                                    <th scope="col"></th>
+                                </th:block>
+                                <th scope="col"></th>
+                                <th scope="col"></th>
+                            </th:block>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="disc : ${discussions}" class="movie">
+                            <td th:text="${disc.getMovie() != null ? 'Филмот ' + disc.getMovie().getTitle() : 'Актерот ' + disc.getPerson().getName() + ' ' + disc.getPerson().getSurname()}"></td>
+                            <td>
+                                <a th:text="${disc.getTitle()}" th:href="@{'/discussions/{id}' (id=${disc.getDiscussionId()})}"></a>
+                            </td>
+                            <td th:text="${disc.getLikes() != null ? disc.getLikes() : 0}"  class="likes_count">
+                            </td>
+                            <td th:text="${disc.getDate()}"></td>
+                            <td th:text="${disc.getUser().getUsername()}"></td>
+                            <td th:if="${disc.getUser().equals(user)}"><a class="btn btn-warning" th:href="@{'/discussions/add/{id}' (id=${disc.getDiscussionId()})}">Измени</a> </td>
+                            <td th:if="${disc.getUser().equals(user)}"><a class="btn btn-danger button-delete-discussion" th:discussion-id="${disc.getDiscussionId()}">Избриши</a> </td>
+
+                            <th:block sec:authorize="isAuthenticated()">
+                                <td th:if="${!disc.getUser().equals(user)}"><a class="btn btn-success" th:href="@{'/replies/add/{discussionId}' (discussionId=${disc.getDiscussionId()})}">Реплицирај</a> </td>
+                                <td th:if="${!disc.getUser().equals(user)}">
+                                    <a class='btn btn-success button-like-discussion-alt' th:if="${!likedDiscussions.contains(disc)}" th:discussion-id="${disc?.getDiscussionId()}" th:user-id="${user.getUserId()}" >❤</a>
+                                    <a class='btn btn-danger button-unlike-discussion-alt' th:if="${likedDiscussions.contains(disc)}" th:discussion-id="${disc?.getDiscussionId()}" th:user-id="${user.getUserId()}" >💔</a>
+                                </td>
+                            </th:block>
+
+
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

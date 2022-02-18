@@ -1,0 +1,88 @@
+<script type="text/javascript" th:src="@{/js/graphqlMovieAdding.js}"></script>
+<link rel="stylesheet" th:href="@{/css/Form-style.css}" >
+<div id="add-form-container">
+    <div class="row granka" th:granka="${id != null ? id : null}">
+        <label for="title">Наслов</label>
+        <input type="text"
+               class="form-control input"
+               id="title"
+               name="title"
+               required
+               placeholder="Наслов">
+        <h3 style="color: red" id="title-val">Наслов е задолжително поле</h3>
+    </div>
+    <div class="row">
+        <label for="description">Опис</label>
+        <input type="text"
+               multiple
+               class="form-control input"
+               id="description"
+               name="description"
+               required
+               placeholder="Опис">
+        <h3 style="color: red" id="description-val">Опис е задолжително поле</h3>
+
+    </div>
+    <div class="row">
+        <label for="image">Слика</label>
+        <input type="text"
+               class="form-control input"
+               id="image"
+               name="imageUrl"
+               required
+               placeholder="Слика">
+        <h3 style="color: red" id="img-val">Слика е задолжително поле</h3>
+    </div>
+    <div class="row">
+        <label for="date">Датум на издавање</label>
+        <input type="date"
+               class="form-control input"
+               id="date"
+               name="airingDate"
+               required
+               placeholder="Датум на издавање">
+        <h3 style="color: red" id="date-val">Датум на издавање е задолжително поле</h3>
+
+    </div>
+    <div class="row">
+        <label for="rating">Рејтинг</label>
+        <input type="number"
+               class="form-control input"
+               id="rating"
+               name="rating"
+               max="10"
+               min="0"
+
+               placeholder="Рејтинг">
+    </div>
+    <div class="row">
+        <label for="directorId">Режисер:</label>
+        <select name="directorId" id="directorId" class="input">
+            <option></option>
+        </select>
+    </div>
+    <div class="row">
+        <label for="actors">Актери:</label>
+        <select name="actors-movie" id="actors" multiple class="input">
+            <option></option>
+
+        </select>
+    </div>
+    <div class="row">
+        <label for="genres">Жанрови:</label>
+        <select name="genres" id="genres" multiple class="input">
+            <option></option>
+
+        </select>
+    </div>
+
+    <div id="bottom-buttons">
+        <div class="button-container">
+            <button id="test-submit" type="submit" class="btn btn-primary btn-test-add-movie">Додади</button>
+        </div>
+
+        <div class="button-container">
+            <a type="button" class="btn btn-outline-danger btn-lg" href="/products">Назад</a>
+        </div>
+    </div>
+</div>

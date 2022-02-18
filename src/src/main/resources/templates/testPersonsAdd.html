@@ -1,0 +1,118 @@
+<script type="text/javascript" th:src="@{/js/graphqlPersonAdding.js}"></script>
+<link rel="stylesheet" th:href="@{/css/Form-style.css}" >
+
+<div  id="add-form-container">
+<div class="row granka" th:granka="${id != null ? id : null}" th:type="${type != null ? type : null}">
+    <label for="name">Име</label>
+    <input type="text"
+           class="form-control input"
+           id="name"
+           name="title"
+           required
+           placeholder="Наслов">
+    <h3 style="color: red" id="name-val">Име е задолжително поле</h3>
+</div>
+<div class="row">
+    <label for="surname">Презиме</label>
+    <input type="text"
+           class="form-control input"
+           id="surname"
+           name="title"
+           required
+           placeholder="Наслов">
+    <h3 style="color: red" id="surname-val">Презиме е задолжително поле</h3>
+</div>
+
+    <!--
+            <div class="row">
+                <input type="radio"
+                       class="form-control person-movies  input"
+                       name="type"
+                       th:value="A"
+                       th:text="Актер"
+
+                >
+                <input type="radio"
+                       class="form-control person-movies input"
+                       name="type"
+                       th:value="D"
+                       th:text="Режисер">
+            </div>
+    -->
+
+    <div class="row">
+        <label for="a">Актер</label>
+        <input type="radio"
+               id="a"
+               class="form-control person-movies"
+               name="type"
+               th:value="A"
+               th:checked="${person?.getType() != null && person.getType().toString().equals('A')}">
+    </div>
+    <div class="row">
+        <label for="d">Режисер</label>
+        <input type="radio"
+               id="d"
+               class="form-control person-movies"
+               name="type"
+               th:value="D"
+               th:checked="${person?.getType() != null && person.getType().toString().equals('D') }">
+    </div>
+<h3 style="color: red" id="type-val">Тип е задолжително поле</h3>
+
+<div class="row">
+    <label for="description">Опис</label>
+    <input type="text"
+           multiple
+           class="form-control input"
+           id="description"
+           name="description"
+           required
+           placeholder="Опис">
+    <h3 style="color: red" id="description-val">Опис е задолжително поле</h3>
+
+</div>
+<div class="row">
+    <label for="image">Слика</label>
+    <input type="text"
+           class="form-control input"
+           id="image"
+           name="imageUrl"
+           required
+           placeholder="Слика">
+    <h3 style="color: red" id="img-val">Слика е задолжително поле</h3>
+</div>
+<div class="row">
+    <label for="date">Датум на раѓање</label>
+    <input type="date"
+           class="form-control input"
+           id="date"
+           name="airingDate"
+           required
+           placeholder="Датум на издавање">
+    <h3 style="color: red" id="date-val">Датум на раѓање е задолжително поле</h3>
+
+</div>
+
+<div class="row">
+    <label for="movies">Филмови</label>
+    <select name="movies" id="movies" multiple class="input">
+        <option></option>
+        <option th:each="movie: ${movies}" th:value="${movie.getMovieId()}" th:text="${movie.getTitle()}"></option>
+    </select>
+</div>
+
+<div id="bottom-buttons">
+    <div class="button-container">
+        <button id="test-submit" type="submit" class="btn btn-success btn-lg btn-test-add-person">Submit</button>
+    </div>
+
+    <div class="button-container">
+        <a type="button" class="btn btn-outline-danger btn-lg" href="/actors">Back</a>
+    </div>
+</div>
+
+</div>
+<!--<button id="test-submit" type="submit" class="btn btn-primary btn-test-add-person">Додади</button>-->
+
+</div>
