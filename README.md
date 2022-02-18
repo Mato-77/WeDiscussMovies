@@ -11,7 +11,7 @@
 
 <h2 style="padding-bottom: 8px; border-bottom: 2px solid red; color: red">Членови на проектот</h2>
 <ol>
-	<li>Петар Парталоски - Координатор (193181)</li>
+	<li>Петар Парталоски (193181)</li>
 	<li>Мартин Николов (193113)</li>
 </ol>
 </div>
