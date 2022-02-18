@@ -1,5 +1,5 @@
 
-<h1 style="color: red">WeDiscussMovies</h1>
+<h1 style="color: red">weDiscussMovies</h1>
 <div style="float: left; width: 60%;">
 
 <img src="/img/logo.png" style="display: block; float:left; height: auto; width: 30%;" align="right" alt="q">
