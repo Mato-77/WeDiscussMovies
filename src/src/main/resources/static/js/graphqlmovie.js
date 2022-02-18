@@ -239,8 +239,10 @@ $(document).ready(function () {
             !filters['movieImageUrl'] &&
             !filters['movieAiringDate'] &&
             !filters['imdbRating']
-        ))
+        )){
+            alert("Вие не сте штиклирале ни еден елемент, не смеете да правите празно барање, ве молиме обидете се повторно.")
             return
+        }
         let string = "{ movies{" + '\n'
         if (filters['movieId'])
             string += "movieId" + '\n'
@@ -255,8 +257,10 @@ $(document).ready(function () {
         if (filters['imdbRating'])
             string += 'imdbRating' + '\n'
 
-        if (filters['actors'] && (filters['actorId'] || filters['actorName'] || filters['actorSurname']
-            || filters['actorImage'] || filters['actorDesc'] || filters['actorBirth'])) {
+        if (filters['actors'] && (filters['actorId'] ||
+            filters['actorName'] || filters['actorSurname']
+            || filters['actorImage'] || filters['actorDesc']
+            || filters['actorBirth'])) {
             string += 'actors{person{' + '\n'
             if (filters['actorId'])
                 string += 'personId' + '\n'
@@ -273,8 +277,10 @@ $(document).ready(function () {
             string += '} }' + '\n'
         }
 
-        if (filters['director'] && (filters['director'] || filters['directorName'] || filters['directorSurname']
-            || filters['directorImage'] || filters['directorDesc'] || filters['directorBirth'])) {
+        if (filters['director'] && (filters['director'] ||
+            filters['directorName'] || filters['directorSurname']
+            || filters['directorImage'] || filters['directorDesc']
+            || filters['directorBirth'])) {
             string += 'director{' + '\n'
 
             if (filters['director'])
@@ -292,11 +298,14 @@ $(document).ready(function () {
 
             string += '}' + '\n'
         }
+
         if (filters['movieGenres']) {
             string += "genres{ genre{ genreType } }" + '\n'
         }
-        if (filters['discussions'] && (filters['discussionId'] || filters['discussionText']
-            || filters['discussionDate'] || filters['discussionTitle'] || filters['discussionReplies']
+
+        if (filters['discussions'] && (filters['discussionId'] ||
+            filters['discussionText'] || filters['discussionDate'] ||
+            filters['discussionTitle'] || filters['discussionReplies']
             || filters['discussionUser'])) {
             string += 'discussions{ ' + '\n'
             if (filters['discussionId'])
@@ -307,8 +316,10 @@ $(document).ready(function () {
                 string += 'date' + '\n'
             if (filters['discussionTitle'])
                 string += 'title' + '\n'
-            if (filters['discussionUser'] && (filters['discussion-userId'] || filters['discussion-userName']
-                || filters['discussion-userSurname'] || filters['discussion-userUserName'])) {
+
+            if (filters['discussionUser'] && (filters['discussion-userId'] ||
+                filters['discussion-userName'] || filters['discussion-userSurname'] ||
+                filters['discussion-userUserName'])) {
                 string += 'user{' + '\n'
                 if (filters['discussion-userId'])
                     string += 'userId' + '\n'
@@ -320,14 +331,16 @@ $(document).ready(function () {
                     string += 'surname' + '\n'
                 string += '}' + '\n'
             }
-            if (filters['discussionReplies'] && (filters['replyText'] || filters['replyDate']
-                || filters['replyUser'])) {
+
+            if (filters['discussionReplies'] && (filters['replyText']
+                || filters['replyDate'] || filters['replyUser'])) {
                 string += 'replies{'
                 if (filters['replyText'])
                     string += 'text' + '\n'
                 if (filters['replyDate'])
                     string += 'date' + '\n'
-                if (filters['replyUser'] && (filters['replyUserId'] || filters['replyUserName'])) {
+                if (filters['replyUser'] && (filters['replyUserId']
+                    || filters['replyUserName'])) {
                     string += 'user{' + '\n'
                     if (filters['replyUserId'])
                         string += 'userId' + '\n'
@@ -335,12 +348,15 @@ $(document).ready(function () {
                         string += 'username' + '\n'
                     string += '}'
                 }
+
                 string += '}'
             }
             string += '}' + '\n'
-
         }
-        if (filters['likes'] && (filters['like-userId'] || filters['like-userUserName'])) {
+
+
+        if (filters['likes'] && (filters['like-userId']
+            || filters['like-userUserName'])) {
             string += 'likes{ user {' + '\n'
             if (filters['like-userId'])
                 string += 'userId' + '\n'
@@ -348,13 +364,17 @@ $(document).ready(function () {
                 string += 'username' + '\n'
             string += '} }' + '\n'
         }
-        if (filters['rates'] && (filters['rates-grade'] || filters['rates-reason'] || filters['rates-show-user'])) {
+
+        if (filters['rates'] && (filters['rates-grade']
+            || filters['rates-reason'] || filters['rates-show-user'])) {
             string += 'rates{' + '\n'
             if (filters['rates-grade'])
                 string += 'starsRated' + '\n'
             if (filters['rates-reason'])
                 string += 'reason' + '\n'
-            if (filters['rates-show-user'] && (filters['rates-userId'] || filters['rates-userUserName'])) {
+
+            if (filters['rates-show-user'] && (filters['rates-userId']
+                || filters['rates-userUserName'])) {
                 string += 'user{' + '\n'
                 if (filters['rates-userId'])
                     string += 'userId' + '\n'
@@ -362,6 +382,7 @@ $(document).ready(function () {
                     string += 'username' + '\n'
                 string += '}' + '\n'
             }
+
             string += '}' + '\n'
         }
 
@@ -439,7 +460,6 @@ function ajaxCall(button,string,type){
                 displayData(data)
             }
             else if (type === "grade"){
-            //rabote, nemam display deka dodal ocena
             }
             else if (type === "like"){
                 $(button).parent().append("<button class='btn-unlike bottom-heart btn btn-danger' movieId='" +$(button).attr("movieId") +"'>💔</button>")
@@ -456,16 +476,11 @@ function ajaxCall(button,string,type){
 }
 function displayData(data){
     $("#tbody-table-parent").empty()
-   // let div =
-   //$(document.body).remove("#tbody-table")
     $("#tbody-table").remove()
     let container = $("<div id='tbody-table' class='col-md-10' style='margin: auto'></div>")
-   // $("#tbody-table-parent").append(container)
-
 
     for (let item of data.data.movies) {
         let tr = $("<div class='accordion-item' style='overflow: hidden'></div>")
-        let divPerson =$("<div></div>")
 
         let divHeader = $("<h2 class='accordion-header' id='heading"+ item.movieId +"' >" +
             "<button class='accordion-button collapsed' type='button' data-bs-toggle='collapse' " +
@@ -477,7 +492,9 @@ function displayData(data){
             "aria-labelledby='heading" + item.movieId +
             "' data-bs-parent='#tbody-table'> " +
             "</div>")
+
         let divBodyAdd = $("<div class='accordion-body'></div>")
+
         $(divBodyAdd).append("<h3>Идентификатор: " + item.movieId + "</h3>")
         $(divBodyAdd).append("<h3>Наслов: " + item.title + "</h3>")
         $(divBodyAdd).append("<h3>Опис: " + item.description + "</h3>")
