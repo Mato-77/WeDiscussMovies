@@ -19,9 +19,7 @@ import java.util.Collection;
 @Data
 public class Person {
 
-    /*
-    ni fale tabela za person koj zanrovi gi ima - ako e potrebno
-     */
+
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id

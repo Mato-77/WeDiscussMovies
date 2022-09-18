@@ -153,10 +153,10 @@ public class MovieServiceImpl implements MovieService {
                @GraphQLArgument(name = "genreIds") List<Integer> genreIds) {
 
 
-        Person director =getDirector(directorId);
+        Person director =this.getDirector(directorId);
         Movie movie = new Movie(title,description,imageUrl,airingDate,rating,director);
        movie = this.movieRepository.saveAndFlush(movie);
-       addActorsAndGenresForMovie(movie,actorIds,genreIds);
+       this.addActorsAndGenresForMovie(movie,actorIds,genreIds);
        return movie;
     }
 
@@ -176,7 +176,7 @@ public class MovieServiceImpl implements MovieService {
 
 
         Movie movie = this.findById(movieId);
-        Person director =getDirector(directorId);
+        Person director = this.getDirector(directorId);
 
         movie.setTitle(title);
         movie.setDescription(description);
@@ -188,7 +188,7 @@ public class MovieServiceImpl implements MovieService {
         this.movieActorsRepository.deleteAllByMovie(movie);
         this.movieGenresRepository.deleteAllByMovie(movie);
 
-        movie = this.movieRepository.save(movie);
+        this.movieRepository.save(movie);
         this.addActorsAndGenresForMovie(movie,actorIds,genreIds);
 
         return movie;
@@ -284,6 +284,7 @@ public class MovieServiceImpl implements MovieService {
             genreIds.stream()
                     .map(this::findGenreById)
                     .forEach(genre -> this.movieGenresRepository.save(new MovieGenres(movie, genre)));
+
         }
     }
     private Person getDirector(Integer directorId){

@@ -158,8 +158,8 @@ public class MovieController {
             @RequestParam(required = false) Double rating,
             @RequestParam(required = false) Integer directorId,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate airingDate,
-            @RequestParam List<Integer> actors,
-            @RequestParam List<Integer> genres
+            @RequestParam(required = false) List<Integer> actors,
+            @RequestParam(required = false) List<Integer> genres
     ){
 
         try {
