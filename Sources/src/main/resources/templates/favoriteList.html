@@ -9,45 +9,14 @@
             </a>
         </div>
     </div>
-
-    <!--<div class="row">
-        <div class="col-12" th:if="${movies.size() > 0}">
-            <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th scope="col">Наслов</th>
-                        <th scope="col">Опис</th>
-                        <th scope="col">Датум издавање</th>
-                        <th scope="col">Допаѓања</th>
-                        <th scope="col">Занрови</th>
-                        <th scope="col">Актери</th>
-                        <th scope="col">Режисер</th>
-
-
-
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="movie : ${movies}" class="elements">
-                        <td th:text="${movie.getTitle()}"></td>
-                        <td th:text="${movie.getDescription()}"></td>
-                        <td th:text="${movie.getAiringDate()}"></td>
-                        <td th:text="${movie.getLikes() != null  ? movie.getLikes().size() : 0}">
-
-                        </td>
-                        <td class="genre">
-                            <div th:each="g: ${movie.getGenres()}" th:text="${g.getGenre().genreType }"></div>
-                        </td>
-                        <td>
-                            <div th:each="a: ${movie.getActors()}" th:text="${a.getPerson().getName()} "></div>
-                        </td>
-                        <td th:text="${movie.getDirector() != null ? movie.getDirector()?.getName() + ' '+ movie.getDirector()?.getSurname() : 'Не е додаен директор'}"></td>
-
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
+    <br><hr>
+    <h2>Филмови кои се препорачани за да ги гледаме:</h2>
+    <h5>Се темели на тоа со кои корисници сме стапиле во интеракција, било тоа реплика на која сме одговориле, дискусија на која тие ни одговориле нам или слично.</h5>
+    <div class="row">
+        <div class="col-md-3" th:each="movie: ${movie_proposeds}" th:if="${movie_proposeds != null}">
+                    <h3 class="card-title title" th:text="${movie.getTitle()}"></h3>
+                </div>
+            </a>
         </div>
-    </div>-->
+    </div>
 </div>

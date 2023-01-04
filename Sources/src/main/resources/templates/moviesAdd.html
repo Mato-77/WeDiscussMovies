@@ -1,89 +1,98 @@
+<link rel="stylesheet" th:href="@{/css/Form-style.css}" >
 <main xmlns:th="http://www.thymeleaf.org">
 
-    <div class="container">
-        <div class="row">
-            <div class="col-md-5">
-                <form th:action="@{'/movies/save/{movieId}' (movieId = ${movie?.getMovieId()})}" method="POST">
-                    <div class="form-group">
-                        <label for="title">Наслов</label>
-                        <input type="text"
-                               class="form-control"
-                               id="title"
-                               name="title"
-                               th:value="${movie?.getTitle()}"
-                               required
-                               placeholder="Наслов">
-                    </div>
-                    <div class="form-group">
-                        <label for="description">Опис</label>
-                        <input type="text"
-                               multiple
-                               class="form-control"
-                               id="description"
-                               name="description"
-                               th:value="${movie?.getDescription()}"
-                               placeholder="Опис">
-                    </div>
-                    <div class="form-group">
-                        <label for="imageUrl">Слика</label>
-                        <input type="text"
-                               class="form-control"
-                               id="imageUrl"
-                               name="imageUrl"
-                               th:value="${movie?.getImageUrl()}"
-                               placeholder="Слика">
-                    </div>
-                    <div class="form-group">
-                        <label for="airingDate">Датум на издавање</label>
-                        <input type="date"
-                               class="form-control"
-                               id="airingDate"
-                               name="airingDate"
-                               th:value="${movie?.getAiringDate()}"
-                               placeholder="Датум на издавање">
-                    </div>
-                    <div class="form-group">
-                        <label for="rating">Рејтинг</label>
-                        <input type="number"
-                               step="0.01"
-                               class="form-control"
-                               id="rating"
-                               name="rating"
-                               th:value="${movie?.getImdbRating()}"
-                               placeholder="Рејтинг">
-                    </div>
-                    <div class="form-group">
-                        <select name="directorId">
-                            <option></option>
-                            <option th:each="dir:${directors}" th:value="${dir.getPersonId()}" th:text="${dir.getName() + ' ' + dir.getSurname()}"
+    <div id="add-form-container">
+        <form th:action="@{'/movies/save/{movieId}' (movieId = ${movie?.getMovieId()})}" method="POST">
+            <div class="row-form">
+                <label for="title">Наслов</label>
+                <input type="text"
+                       class="form-control input"
+                       id="title"
+                       name="title"
+                       th:value="${movie?.getTitle()}"
+                       required
+                       placeholder="Наслов">
+            </div>
+            <div class="row-form">
+                <label for="description">Опис</label>
+                <textarea  type="text"
+                           class="form-select form-control input"
+                           id="description"
+                           name="description"
+                           rows="8"
+                           th:value="${movie?.getDescription()}"
+                           placeholder="Опис"></textarea>
+            </div>
+            <div class="row-form">
+                <label for="imageUrl">Слика</label>
+                <input type="text"
+                       class="form-control input"
+                       id="imageUrl"
+                       name="imageUrl"
+                       th:value="${movie?.getImageUrl()}"
+                       placeholder="Слика">
+            </div>
+            <div class="row-form">
+                <label for="airingDate">Датум на издавање</label>
+                <input type="date"
+                       class="form-control input"
+                       id="airingDate"
+                       name="airingDate"
+                       th:value="${movie?.getAiringDate()}"
+                       placeholder="Датум на издавање">
+            </div>
+            <div class="row-form">
+                <label for="rating">Рејтинг</label>
+                <input type="number"
+                       class="form-control input"
+                       id="rating"
+                       name="rating"
+                       max="10"
+                       min="0"
+                       th:value="${movie} ? ${movie?.getImdbRating()} : 5"
+                       placeholder="Рејтинг">
+            </div>
+            <div class="row-form">
+                <label for="director">Режисер:</label>
+                <select name="directorId" id="director" class="selectOne form-select input">
+                    <option></option>
+                    <option th:each="dir:${directors}" th:value="${dir.getPersonId()}" th:text="${dir.getName() + ' ' + dir.getSurname()}"
                             th:selected="${director?.equals(dir)}"></option>
 
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <select name="actors" multiple>
-                            <option></option>
-                            <option th:each="act:${actors}" th:value="${act.getPersonId()}"
-                                    th:text="${act.getName() + ' ' + act.getSurname()}"
-                                    th:selected="${movieActors?.contains(act)}"></option>
-
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <select name="genres" multiple>
-                            <option></option>
-                            <option th:each="genr:${genres}" th:value="${genr.getGenreId()}"
-                                    th:text="${genr.getGenreType()}"
-                                    th:selected="${movieGenres?.contains(genr)}"></option>
-
-                        </select>
-                    </div>
-
-                    <button id="submit" type="submit" class="btn btn-primary">Submit</button>
-                    <a type="button" class="btn btn-primary" href="/products">Back</a>
-                </form>
+                </select>
             </div>
-        </div>
+            <div class="row-form">
+                <label for="actors">Актери:</label>
+                <select name="actors" id="actors" multiple class="selectMultiple form-select input">
+                    <option></option>
+                    <option th:each="act:${actors}" th:value="${act.getPersonId()}"
+                            th:text="${act.getName() + ' ' + act.getSurname()}"
+                            th:selected="${movieActors?.contains(act)}"></option>
+
+                </select>
+            </div>
+            <div class="row-form">
+                <label for="genres">Жанрови:</label>
+                <select name="genres" id="genres" multiple class="selectMultiple form-select input">
+                    <option></option>
+                    <option th:each="genr:${genres}" th:value="${genr.getGenreId()}"
+                            th:text="${genr.getGenreType()}"
+                            th:selected="${movieGenres?.contains(genr)}"></option>
+
+                </select>
+            </div>
+            <div id="bottom-buttons">
+                <div class="button-container">
+                    <button id="submit" type="submit" class="btn btn-success btn-lg">Додади</button>
+                </div>
+
+                <div class="button-container">
+                    <a type="button" class="btn btn-outline-danger btn-lg" href="/movies">Назад</a>
+                </div>
+            </div>
+        </form>
+    </div>
+    </div>
     </div>
 
 
