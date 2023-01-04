@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="76b97c1a-eb77-4d68-ab86-d28e19e1fb34" name="Changes" comment="" />
+    <list default="true" id="11c356f8-baa8-4f32-a866-223a0aa6b5c2" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -16,7 +16,7 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectId" id="2Gcy5E0gGmiJuDV9MDwnb0ReK0F" />
+  <component name="ProjectId" id="2Jq4hacuB1yvKO0SHuiOwevr9Bz" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -27,20 +27,38 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.DirectoryMappings" />
+  </component>
+  <component name="RunManager">
+    <configuration name="WeDiscussMoviesApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="project" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.wediscussmovies.project.WeDiscussMoviesApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="76b97c1a-eb77-4d68-ab86-d28e19e1fb34" name="Changes" comment="" />
-      <created>1666702002121</created>
+      <changelist id="11c356f8-baa8-4f32-a866-223a0aa6b5c2" name="Changes" comment="" />
+      <created>1672792402113</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1666702002121</updated>
-      <workItem from="1666702009944" duration="30000" />
+      <updated>1672792402113</updated>
+      <workItem from="1672792404559" duration="92000" />
+      <workItem from="1672793462936" duration="68000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <ignored-roots>
+      <path value="$PROJECT_DIR$/../.." />
+      <path value="$PROJECT_DIR$/WeDiscussMovies" />
+    </ignored-roots>
   </component>
 </project>
