@@ -1,0 +1,363 @@
+<div  xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<script type="text/javascript" th:src="@{/js/graphqlmovie.js}"></script>
+<link rel="stylesheet" th:href="@{/css/List-style.css}" >
+
+    <div class="col-md-3" style="margin: auto; margin-bottom: 10px">
+        <button id="button-show-discussed-top" class="btn btn-outline-primary" style="width: 90%; margin: auto">
+            Прикажи најдискутирани филмови
+        </button>
+    </div>
+    <div style="margin:auto; width: 60%">
+        <div style="width: 30%; margin: auto; height: 100%; margin-bottom: 10px">
+            <a class="btn btn-outline-dark" style="height: 100%; width: 100%; font-size: 125%" id="button_toggle_filters">Прикажи филтрирање</a>
+        </div>
+        <div style="width: 100%; margin: auto; transition: 200ms" id="filters_div" class="invisible-search">
+            <div th:replace="fragments/searchBarName"></div><br>
+            <div th:replace="fragments/searchBarGenre"></div>
+        </div>
+    </div>
+
+    <div id="paging-section">
+        <div id="inner-paging" class="input-group">
+            <!--
+            <a class="btn btn-danger" id="button-sub" style="float: left; display: block">Previous</a>
+            <a class="btn btn-success" id="button-add" style="float: left; display: block">Next</a>
+            -->
+            <div class="input-group-prepend">
+                <button class="btn btn-danger" id="button-sub" >Previous</button>
+            </div>
+            <form method="get" action="" style="float: left; display: block">
+                <input type="number" class="form-control" min="1" name="page" th:value="${page!= null ? page : 1}" id="pageInput">
+                <button type="submit" id="button-submit-page" class="btn btn-primary">Check page</button>
+            </form>
+
+            <div class="input-group-append">
+                <button class="btn btn-success" id="button-add" >Next</button>
+            </div>
+        </div>
+    </div><br>
+
+    <div sec:authorize="isAuthenticated()">
+        <a class="btn btn-secondary btn-add" href="/graphql/movie/add">Додади нов филм</a>
+        <div id="dialog-rating-qraphql" style="display: none">
+            <label for="reason-graph">Причина</label><textarea id="reason-graph"></textarea>
+            <label for="grade-graph">Рејтинг</label><input type="number" id="grade-graph" max="10" min="5">
+        </div>
+    </div>
+<!--    <div sec:authorize="isAuthenticated()">-->
+<!--        <a class="btn btn-secondary аdd-form">Додади нов филм</a>-->
+<!--    </div>-->
+
+
+    <div class="container mb-4" id="user-info" th:user="${user?.getUserId()}" th:likedMovies="${likedMovies}">
+        <h1>Изберете потребни филтри за податоци на филм:</h1>
+        <div id="movies">
+            <h3 class="title-group">Филм: </h3>
+
+            <div class="check-field">
+                <label for="movieId">Идентификатор</label>
+                <input type="checkbox" value="Да" id="movieId">
+            </div>
+
+            <div class="check-field">
+                <label for="movieTitle">Наслов</label>
+                <input type="checkbox" value="Да" id="movieTitle">
+            </div>
+
+            <div class="check-field">
+                <label for="movieDesc">Опис</label>
+                <input type="checkbox" value="Да" id="movieDesc">
+            </div>
+
+            <div class="check-field">
+                <label for="movieImageUrl">Линк за слика</label>
+                <input type="checkbox" value="Да" id="movieImageUrl">
+            </div>
+
+            <div class="check-field">
+                <label for="movieAiringDate">Датум на издавање</label>
+                <input type="checkbox" value="Да" id="movieAiringDate">
+            </div>
+
+            <div class="check-field">
+                <label for="imdbRating">Рејтинг</label>
+                <input type="checkbox" value="Да" id="imdbRating">
+            </div>
+
+            <div class="check-field">
+                <label for="movieActors">Актери</label>
+                <input type="checkbox" value="Да" id="movieActors">
+            </div>
+
+            <div class="check-field">
+                <label for="movieDirector">Режисер</label>
+                <input type="checkbox" value="Да" id="movieDirector">
+            </div>
+
+            <div class="check-field">
+                <label for="movieDiscussions">Дискусии</label>
+                <input type="checkbox" value="Да" id="movieDiscussions">
+            </div>
+
+            <div class="check-field">
+                <label for="movieLikes">Лајкови</label>
+                <input type="checkbox" value="Да" id="movieLikes">
+            </div>
+
+            <div class="check-field">
+                <label for="movieGenres">Жанрови</label>
+                <input type="checkbox" value="Да" id="movieGenres">
+            </div>
+
+            <div class="check-field">
+                <label for="movieRates">Оцени</label>
+                <input type="checkbox" value="Да" id="movieRates">
+            </div>
+        </div>
+        <div id="actors">
+            <h3 class="title-group">Актери на филмот: </h3>
+        <div class="check-field">
+            <label for="actorId">Идентификатор</label>
+            <input type="checkbox" value="Да" id="actorId">
+        </div>
+        <div class="check-field">
+            <label for="actorName">Име</label>
+            <input type="checkbox" value="Да" id="actorName">
+        </div>
+
+        <div class="check-field">
+            <label for="actorSurname">Презиме</label>
+            <input type="checkbox" value="Да" id="actorSurname">
+        </div>
+
+        <div class="check-field">
+            <label for="actorBirth">Датум раѓање</label>
+            <input type="checkbox" value="Да" id="actorBirth">
+        </div>
+
+        <div class="check-field">
+            <label for="actorImage">Слика</label>
+            <input type="checkbox" value="Да" id="actorImage">
+        </div>
+
+        <div class="check-field">
+            <label for="actorDesc">Опис</label>
+            <input type="checkbox" value="Да" id="actorDesc">
+        </div>
+        </div>
+        <div id="director">
+            <h3 class="title-group">Режисер на филмот: </h3>
+
+        <div class="check-field">
+            <label for="directorId">Идентификатор</label>
+            <input type="checkbox" value="Да" id="directorId">
+        </div>
+
+            <div class="check-field">
+                <label for="directorName">Име</label>
+                <input type="checkbox" value="Да" id="directorName">
+            </div>
+
+            <div class="check-field">
+                <label for="directorSurname">Презиме</label>
+                <input type="checkbox" value="Да" id="directorSurname">
+            </div>
+
+            <div class="check-field">
+                <label for="directorBirth">Датум раѓање</label>
+                <input type="checkbox" value="Да" id="directorBirth">
+            </div>
+
+            <div class="check-field">
+                <label for="directorImage">Слика</label>
+                <input type="checkbox" value="Да" id="directorImage">
+            </div>
+
+            <div class="check-field">
+                <label for="directorDesc">Опис</label>
+                <input type="checkbox" value="Да" id="directorDesc">
+            </div>
+        </div>
+        <div id="discussions">
+            <h3 class="title-group">Дискусии на филмот: </h3>
+        <div class="check-field">
+            <label for="discussionId">Идентификатор</label>
+            <input type="checkbox" value="Да" id="discussionId">
+        </div>
+
+        <div class="check-field">
+            <label for="discussionText">Текст</label>
+            <input type="checkbox" value="Да" id="discussionText">
+        </div>
+
+        <div class="check-field">
+            <label for="discussionDate">Датум</label>
+            <input type="checkbox" value="Да" id="discussionDate">
+        </div>
+        <div class="check-field">
+            <label for="discussionTitle">Наслов</label>
+            <input type="checkbox" value="Да" id="discussionTitle">
+        </div>
+
+        <div class="check-field">
+            <label for="discussionReplies">Реплики</label>
+            <input type="checkbox" value="Да" id="discussionReplies">
+        </div>
+
+        <div class="check-field">
+            <label for="discussionUser">Корисник</label>
+            <input type="checkbox" value="Да" id="discussionUser">
+        </div>
+            <div id="discussion-user">
+                <h3  class="title-group" >Креатор на дискусија</h3>
+            <div class="check-field">
+                <label for="discussion-userId">Идентификатор</label>
+                <input type="checkbox" value="Да" id="discussion-userId">
+            </div>
+
+                <div class="check-field">
+                <label for="discussion-userName">Име</label>
+                <input type="checkbox" value="Да" id="discussion-userName">
+                </div>
+
+            <div class="check-field">
+                <label for="discussion-userSurname">Презиме</label>
+                <input type="checkbox" value="Да" id="discussion-userSurname">
+            </div>
+
+            <div class="check-field">
+                <label for="discussion-userUserName">Корисничко име</label>
+                <input type="checkbox" value="Да" id="discussion-userUserName">
+            </div>
+            </div>
+            <div id="replies">
+                <h3 class="title-group" >Реплики за дискусијата:</h3>
+
+            <div class="check-field">
+                <label for="replyText">Текст</label>
+                <input type="checkbox" value="Да" id="replyText">
+            </div>
+
+            <div class="check-field">
+                <label for="replyDate">Датум</label>
+                <input type="checkbox" value="Да" id="replyDate">
+            </div>
+
+            <div class="check-field">
+                <label for="replyUser">Корисник</label>
+                <input type="checkbox" value="Да" id="replyUser">
+            </div>
+
+                <div id="reply-user">
+                    <h3 class="title-group">Креатор на реплика</h3>
+                    <div class="check-field">
+                        <label for="replyUserId">Идентификатор</label>
+                        <input type="checkbox" value="Да" id="replyUserId">
+                    </div>
+
+                    <div class="check-field">
+                        <label for="replyUserName">Корисничко име</label>
+                        <input type="checkbox" value="Да" id="replyUserName">
+                    </div>
+                </div>
+        </div>
+
+        </div>
+        <div id="likes">
+            <h3 class="title-group">Допаѓања на филмот: </h3>
+
+            <div id="like-user">
+
+            <div class="check-field">
+                <label for="like-userId">Идентификатор</label>
+                <input type="checkbox" value="Да" id="like-userId">
+            </div>
+
+            <div class="check-field">
+                <label for="like-userUserName">Корисничко име</label>
+                <input type="checkbox" value="Да" id="like-userUserName">
+            </div>
+
+            </div>
+        </div>
+
+        <div id="rates">
+            <h3 class="title-group">Оцени на филмот: </h3>
+            <div class="check-field">
+                <label for="rates-grade">Оцена</label>
+                <input type="checkbox" value="Да" id="rates-grade">
+            </div>
+
+            <div class="check-field">
+                <label for="rates-reason">Причина</label>
+                <input type="checkbox" value="Да" id="rates-reason">
+            </div>
+
+            <div class="check-field">
+                <label for="rates-show-user">Корисник</label>
+                <input type="checkbox" value="Да" id="rates-show-user">
+            </div>
+
+            <div  id="rates-user">
+
+            <div class="check-field">
+                <label for="rates-userId">Идентификатор</label>
+                <input type="checkbox" value="Да" id="rates-userId">
+
+            </div>
+
+            <div class="check-field">
+                <label for="rates-userUserName">Корисничко име</label>
+                <input type="checkbox" value="Да" id="rates-userUserName">
+            </div>
+
+            </div>
+        </div>
+        <div class="d-grid gap-2 col-9 mx-auto" style="clear: both">
+            <button id="okay-button" class="btn btn-success btn-sm btn-block">Во ред</button>
+        </div>
+        <div id="tbody-table-parent">
+            <div class="row" th:each="row: ${movie_rows}" >
+                <div class="col-md-3 elements" th:each="movie: ${row}" >
+                    <span th:each="genre: ${movie.getGenres()}"  th:text="${genre?.getGenre()?.getGenreType()}" hidden class="card-genre"></span>
+                    <div class="card-body card bg-image" th:style="'background:url(' + ${movie.getImageUrl()} + ') no-repeat center #eee;'">
+                        <a class="card-text-center" style="color: white" th:href="@{'/movies/{id}' (id=${movie.getMovieId()})}" >
+                            <h3 class="card-title title" th:text="${movie.getTitle()}"></h3>
+                            <span th:each="genre: ${movie.getGenres()}"  th:text="${genre?.getGenre()?.getGenreType()}" hidden class="card-genre"></span>
+                        </a>
+                        <span class="card-text bottom">
+                                <h3 th:text="${'Оценет '+movie.getImdbRating() + '/10'}"></h3>
+                            </span>
+                        <th:block sec:authorize="isAuthenticated()">
+                            <button class="bottom-heart btn btn-success button-add-favourite-list" th:movie-id="${movie.getMovieId()}" th:user-id="${user.getUserId()}" th:if="${!likedMovies.contains(movie)}">❤</button>
+                            <button class="bottom-heart btn btn-danger button-remove-favourite-list" th:movie-id="${movie.getMovieId()}" th:user-id="${user.getUserId()}" th:if="${likedMovies.contains(movie)}">💔</button>
+                        </th:block>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div id="discussed-top">
+            <div id="discussed-container">
+                <div class="discussed-row">
+                    <strong>
+                        <span class="d-year">Година</span>
+                    </strong>
+                    <strong>
+                        <span class="d-title">Наслов</span>
+                    </strong>
+                    <strong>
+                        <span class="d-year">Бр. дискусии</span>
+                    </strong>
+                </div>
+                <div class="discussed-row" th:each="movieyear: ${movieTops}">
+                    <span class="d-year" th:text="${movieyear.getYear()}"></span>
+                    <span class="d-title" th:text="${movieyear.getTitle()}"></span>
+                    <span class="d-discussions" th:text="${movieyear.getDiscussions()}"></span>
+                </div>
+            </div>
+        </div>
+
+</div>

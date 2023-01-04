@@ -1,0 +1,60 @@
+<div xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+
+    <div style="width: 70%; margin: auto;">
+        <a sec:authorize="isAuthenticated()" th:href="@{'persons/add'}" class="btn btn-secondary">Додади актер или режисер</a>
+    </div>
+    <div class="container mb-4">
+            <div class="col-12" th:if="${persons.size() > 0}">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th scope="col">Име</th>
+                            <th scope="col">Датум рагање</th>
+
+                            <th scope="col">Слика</th>
+
+                            <th scope="col">Филмови</th>
+                            <th scope="col"></th>
+                            <th:block sec:authorize="isAuthenticated()">
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                                <th scope="col"></th>
+
+                            </th:block>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="person : ${persons}" class="elements">
+                            <td><a th:href="@{'/persons/{id}' (id=${person.getPersonId()})}" th:text="${person.getName() + ' ' + person.getSurname()}"></a></td>
+                            <td th:text="${person.getDateOfBirth()}"></td>
+                  <td><img th:src="${person.getImageUrl()}" style="width: 20%; height: 20%"/></td>
+                            <td>
+                                <div th:each="m: ${person.getActors().size() > 0 ? person.getActors() : person.getMovies()}"
+                                     th:text="${m.getClass().getName() == 'com.wediscussmovies.project.model.relation.MovieActors'  ? m.getMovie().getTitle() : m.getTitle()} "></div>
+                            </td>
+                            <td> <a class="btn btn-primary" th:href="@{'discussions/all/{id}?type=P' (id=${person.getPersonId()})}" >Прегледај дискусии</a></td>
+                            <th:block sec:authorize="isAuthenticated()">
+                                <td>
+                                    <a class="btn btn-secondary button-add-grade-person" th:person-id="${person.getPersonId()}">Остави оценка</a>
+                                </td>
+                            <td>
+                                <a class="btn btn-warning" th:href="@{'persons/edit/{personId}' (personId = ${person.getPersonId()})}">Промени</a>
+                            </td>
+                            <td>
+                                <a class="btn btn-danger button-delete-actor" th:person-id="${person.getPersonId()}">Избриши</a>
+
+                            </td>
+
+
+                            </th:block>
+
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+    </div>
+
+</div>
