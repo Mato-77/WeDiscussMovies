@@ -1,5 +1,3 @@
-
-
 <h1 style="color: red">WeDiscussMovies</h1>
 <div style="float: left; width: 60%;">
 

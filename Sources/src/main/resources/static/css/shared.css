@@ -111,7 +111,9 @@
 .visibility{
     transition: 200ms;
     opacity: 0;
+    display: none;
 }
+
 
 .person-movies-list{
     margin: auto;
@@ -234,32 +236,46 @@
     margin-top: 20px;
     padding: 10px;
     width: 80%;
-    background-color: rgba(52, 58, 64, 0.7);
+    background-color: rgba(192,255,192,0.6);
     border-radius: 10px;
     transition: 200ms;
     margin-right: 15px;
-    color: white;
+    color: black;
+    transition: 200ms;
+    display: flex;
+    height: fit-content !important;
+    align-content: stretch;
+    flex-direction: column;
+}
+
+.user-movies-list h3{
+    display: flex;
+    width: 100%;
+    clear: both;
+    margin: auto;
     transition: 200ms;
 }
 
+
 .user-movies-list:hover{
-    background-color: rgba(52, 58, 64, 1);
+    background-color: rgba(192,255,192,1);
 }
 
 .user-movies-list ul{
     list-style-type: none;
     width: 99%;
     margin: auto;
+    margin-top: 10px;
     display: none;
 }
 
 .hidden-class{
-    background-color: rgba(192,255,192,0.6);
-    color: black;
+    background-color: rgba(52, 58, 64, 0.7);
+    color: white;
 }
 
 .hidden-class:hover{
-    background-color: rgba(128,255,128,1) !important;
+    background-color: rgba(52, 58, 64, 1);
 
 }
 
@@ -275,6 +291,7 @@
     border-radius: 10px;
     margin-bottom: 5px;
     text-decoration: none;
+    border: 2px solid #333333;
     float: left;
 }
 
@@ -300,4 +317,14 @@
 #buttons-person li{
     float: left;
     margin-right: 10px;
+}
+#cont{
+    display: flex;
+    height: auto;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+.elem-graphql{
+    height: 300px;
 }

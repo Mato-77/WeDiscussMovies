@@ -1,4 +1,5 @@
-<div xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" style="width:60%; margin: auto; margin-bottom: 10px">
+<div xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+     style="width:60%; margin: auto; margin-bottom: 10px">
         <select th:if="${genres!=null}" id="searchGenre" class="form-control" style="float: left; display: block; width: 50%">
             <option value="" selected>Сите</option>
             <option th:each="genre: ${genres}" th:value="${genre.getGenreType()}" th:text="${genre.getGenreType()}"></option>

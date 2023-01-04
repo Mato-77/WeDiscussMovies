@@ -21,11 +21,11 @@
                 <h3 >Се појавува во филмовите:</h3>
                 <hr>
                 <ul>
-                    <li th:each="movie: ${person.getMovieActors()}" ><a th:text="${movie.getMovie().getTitle()}" th:href="@{'/movies/{id}' (id=${movie.getMovie().getMovieId()})}" ></a></li>
+                    <li th:each="movie: ${person.getActors()}" ><a th:text="${movie.getMovie().getTitle()}" th:href="@{'/movies/{id}' (id=${movie.getMovie().getMovieId()})}" ></a></li>
                 </ul>
             </div><br>
             <ul style="list-style-type: none; width: 100%; margin: auto" id="buttons-person">
-                <li><a class="btn btn-primary" th:href="@{'discussions/all/{id}?type=P' (id=${person.getPersonId()})}" >Прегледај дискусии</a></li>
+                <li><a class="btn btn-primary" th:href="@{'/discussions/all/{id}?type=P' (id=${person.getPersonId()})}" >Прегледај дискусии</a></li>
                 <th:block sec:authorize="isAuthenticated()">
                     <li><a class="btn btn-secondary button-add-grade-person" th:person-id="${person.getPersonId()}" th:if="${!person.hasGradeFromUser(user)}">Остави оценка</a></li>
                     <li><a class="btn btn-secondary button-add-grade-person" th:person-id="${person.getPersonId()}" th:if="${person.hasGradeFromUser(user)}">Промени оценка</a></li>
@@ -42,10 +42,10 @@
     <div style="clear:both; display: inline-block; width: 100%; background-color: rgb(200,200,200); padding: 10px; border-radius: 5px">
         <h2>
             <span>Бројот на оцени кои личноста ги има добиено:</span>
-            <span th:text="${person.getPersonRates().size()}"></span>
+            <span th:text="${person.getRates().size()}"></span>
         </h2>
         <hr>
-        <div th:each="rating: ${person.getPersonRates()}" style="margin-bottom: 10px; border: 2px solid gray; border-radius: 10px; background-color: lightblue; padding: 10px; border-radius: 10px; min-height: 130px;">
+        <div th:each="rating: ${person.getRates()}" style="margin-bottom: 10px; border: 2px solid gray; border-radius: 10px; background-color: lightblue; padding: 10px; border-radius: 10px; min-height: 130px;">
             <div style="width: 60%; float:left;">
                 <a th:href="@{'/profiles/{id}' (id=${rating.getUser().getUserId()})}">
                     <h4 th:text="${'Oд: '+rating.getUser().getName() + ' ' + rating.getUser().getSurname()}"> </h4>

@@ -1,19 +1,20 @@
 <main xmlns:th="http://www.thymeleaf.org">
 
     <div class="container">
-        <div class="row">
+        <div class="row-form">
             <div class="col-md-5">
                 <form th:action="@{'/replies/save/{replyId}' (replyId = ${reply?.getReplyId()})}" method="POST">
 
                     <div class="form-group">
                         <label for="text">Опис</label>
-                        <input type="text"
+                        <textarea type="text"
                                class="form-control"
                                id="text"
                                name="text"
-                               th:value="${reply?.getText()}"
-                               multiple
+                                  rows="10"
+                                  th:text="${reply?.getText()}"
                                placeholder="Опис">
+                        </textarea>
                     </div>
                     <input type="hidden"
                             id="discussionId"
@@ -27,8 +28,8 @@
 
 
 
-                    <button id="submit" type="submit" class="btn btn-primary">Submit</button>
-                    <a type="button" class="btn btn-primary" th:href="@{/discussions}">Back</a>
+                    <button id="submit" type="submit" class="btn btn-primary">Додади</button>
+                    <a type="button" class="btn btn-primary" th:href="@{/discussions}">Назад</a>
                 </form>
             </div>
         </div>

@@ -53,11 +53,11 @@
                 <a th:href="@{'/profiles/{id}' (id=${reply.getUser().getUserId()})}" th:text="${reply.getUser().getUsername()}"></a>
             </td>
             <td th:if="${reply.getUser().equals(user)}"><a class="btn btn-warning" th:href="@{'/replies/edit/{discussionId}/{replyId}' (discussionId=${disc.getDiscussionId()},replyId=${reply.getReplyId()})}">Промени</a> </td>
-            <td th:if="${reply.getUser().equals(user)}"><a class="btn btn-danger button-delete-reply" th:reply-id="${reply.getReplyId()}" th:dicsussion-id="${disc.getDiscussionId()}">Избриши</a> </td>
+            <td th:if="${reply.getUser().equals(user)}"><a class="btn btn-danger button-delete-reply" th:reply-id="${reply.getReplyId()}" th:discussion-id="${disc.getDiscussionId()}">Избриши</a> </td>
             <th:block sec:authorize="isAuthenticated()">
                 <td th:if="${!reply.getUser().equals(user)}">
-                    <a class="btn btn-success">👍 </a>
-                    <a class="btn btn-danger">👎</a>
+                    <a class="btn btn-success button-like-reply" th:discussionId="${reply.getDiscussionId()}" th:reply-id="${reply.getReplyId()}" th:user-id="${user.getUserId()}" th:if="${!likedReplies.contains(reply.getKey())}">👍</a>
+                    <a class="btn btn-danger button-unlike-reply" th:discussionId="${reply.getDiscussionId()}" th:reply-id="${reply.getReplyId()}" th:user-id="${user.getUserId()}" th:if="${likedReplies.contains(reply.getKey())}">👎</a>
                 </td>
             </th:block>
         </tr>

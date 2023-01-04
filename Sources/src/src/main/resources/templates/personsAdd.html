@@ -1,0 +1,109 @@
+<link rel="stylesheet" th:href="@{/css/Form-style.css}" >
+
+<main xmlns:th="http://www.thymeleaf.org">
+
+    <div  id="add-form-container">
+        <form th:action="@{'/persons/save/{personId}' (personId = ${person?.getPersonId()})}" method="POST">
+            <div class="row-form">
+                <label for="name">Име</label>
+                <input type="text"
+                       class="form-control input"
+                       id="name"
+                       name="name"
+                       th:value="${person?.getName()}"
+                       required
+                       placeholder="Име">
+            </div>
+            <div class="row-form">
+                <label for="surname">Презиме</label>
+                <input type="text"
+                       class="form-control input"
+                       id="surname"
+                       name="surname"
+                       th:value="${person?.getSurname()}"
+                       placeholder="Презиме">
+            </div>
+            <div class="row-form">
+                <label for="description">Опис</label>
+                <textarea type="text"
+                       class="form-control input"
+                       id="description"
+                       name="description"
+                       rows="10"
+                       th:text="${person?.getDescription()}"
+                       placeholder="Опис">
+                </textarea>
+            </div>
+            <div class="row-form" th:if="${person == null}">
+                <label for="a">Актер</label>
+                <input type="radio"
+                       id="a"
+                       class="form-control person-movies"
+                       name="type"
+                       th:value="A"
+                       th:checked="${person?.getType() != null && person.getType().toString().equals('A')}">
+            </div>
+            <div class="row-form" th:if="${person == null}">
+                <label for="d">Режисер</label>
+                <input type="radio"
+                       id="d"
+                       class="form-control person-movies"
+                       name="type"
+                       th:value="D"
+                       th:checked="${person?.getType() != null && person.getType().toString().equals('D') }">
+            </div>
+            <div class="row-form">
+                <label for="imageUrl">Слика</label>
+                <input type="text"
+                       class="form-control input"
+                       id="imageUrl"
+                       name="imageUrl"
+                       th:value="${person?.getImageUrl()}"
+                       placeholder="Слика">
+            </div>
+            <div class="row-form">
+                <label for="birthDate">Датум на раѓање</label>
+                <input type="date"
+                       class="form-control input"
+                       id="birthDate"
+                       name="birthDate"
+                       th:value="${person?.getDateOfBirth()}"
+                       placeholder="Датум на раѓање">
+            </div>
+
+
+            <div class="row-form">
+                <label for="movies">Филмови: </label>
+                <select name="movieIds" id="movies" multiple class="input">
+                    <option></option>
+                    <option th:each="movie:${moviesActors}" th:value="${movie.getMovieId()}"
+                            th:text="${movie.getTitle()}"
+                            th:selected="${movieActors?.contains(movie)}"
+                            th:hidden="${person != null && person.getType().toString()=='D'}"
+                            class="movies-actors"></option>
+
+                    <option th:each="movie:${moviesDirectors}" th:value="${movie.getMovieId()}"
+                            th:text="${movie.getTitle()}"
+                            th:selected="${movieActors?.contains(movie)}"
+                            th:hidden="${person != null && person.getType().toString()=='A'}"
+                            class="movie-directors"></option>
+
+                </select>
+            </div>
+
+            <div id="bottom-buttons">
+                <div class="button-container">
+                    <button id="submit" type="submit" class="btn btn-success btn-lg">Додади</button>
+                </div>
+
+                <div class="button-container">
+                    <a type="button" class="btn btn-outline-danger btn-lg" href="/actors">Назад</a>
+                </div>
+            </div>
+        </form>
+    </div>
+    </div>
+    </div>
+
+
+</main>
