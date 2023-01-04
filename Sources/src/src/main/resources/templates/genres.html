@@ -1,0 +1,30 @@
+<div class="container mb-4" xmlns:sec="http://www.w3.org/1999/xhtml">
+
+    <div class="row">
+      <div class="col-12">
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+            <tr>
+              <th scope="col">Име</th>
+              <th scope="col">Лајкови</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="genre : ${genres}" class="elements">
+              <td th:text="${genre.getName()}"></td>
+              <td th:text="${genre.getLikes()}" th:id="${genre.getGenreId()+'genre'}"></td>
+              <td>
+                <th:block sec:authorize="isAuthenticated()" th:each="g: ${allGenres}" th:if="${g.getGenreId() == genre.getGenreId()}">
+                  <a class="btn btn-success button-add-genre-liked-list" th:genre-id="${g.getGenreId()}" th:user-id="${user.getUserId()}" th:if="${likedGenres.size() == 0 ||!likedGenres.contains(g)}">❤</a>
+                  <a class="btn btn-danger button-remove-genre-liked-list" th:genre-id="${g.getGenreId()}" th:user-id="${user.getUserId()}" th:if="${likedGenres?.contains(g)}">💔</a>
+                </th:block>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+  </div>
+</div>
