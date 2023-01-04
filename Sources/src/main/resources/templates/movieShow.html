@@ -12,9 +12,9 @@
 
 <div xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" style="width: 80%; margin: auto">
     <div>
-        <div style="width: 30%; margin-right: 10px; padding:20px; border-right: 3px solid black; border-radius: 10px; float:left" id="image-movie-section">
+        <div style="width: 30%; margin-right: 10px; padding:20px; border-right: 3px solid black; border-radius: 10px; float:left;" id="image-movie-section">
             <img th:src="${movie.getImageUrl()}" style="width: 90%; height: auto; clear: both; margin-bottom: 20px">
-            <div id="admin-buttons">
+            <div id="admin-buttons" style="clear: both">
                 <a class="btn btn-primary" th:href="@{'/discussions/all/{id}?type=M' (id=${movie.getMovieId()})}" >Прегледај дискусии</a>
                 <th:block sec:authorize="isAuthenticated()" >
                     <div>

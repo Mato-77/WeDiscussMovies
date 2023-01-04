@@ -1,0 +1,283 @@
+<div xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+    <link rel="stylesheet" th:href="@{/css/List-style.css}" >
+    <script type="text/javascript" th:src="@{'/js/graphqlperson.js'}"></script>
+    <div style="width: 70%; margin: auto;">
+        <a sec:authorize="isAuthenticated()" th:href="@{'/graphql/person/add'}" class="btn btn-secondary">Додади актер или режисер</a>
+    </div>
+    <div id="dialog-rating-person" style="display: none">
+        <label for="reason-person">Причина</label><textarea id="reason-person"></textarea>
+        <label for="grade-person">Рејтинг</label><input type="number" id="grade-person" max="10" min="5">
+    </div>
+    <div class="container mb-4" id="user-info" th:user="${user?.getUserId()}" th:type="${type}">
+        <h1>Изберете потребни филтри за податоци на <span th:text="${type}"></span> </h1>
+        <div>
+            <h3  class="title-group" th:text="${type.toUpperCase().substring(0,1) + type.toLowerCase().substring(1)}"></h3>
+        <div class="check-field">
+            <label for="personId">Идентификатор</label>
+            <input type="checkbox" value="personId" id="personId">
+        </div>
+
+        <div class="check-field">
+            <label for="personName">Име</label>
+            <input type="checkbox" value="personName" id="personName">
+        </div>
+
+        <div class="check-field">
+            <label for="personSurname">Презиме</label>
+            <input type="checkbox" value="personSurname" id="personSurname">
+        </div>
+
+        <div class="check-field">
+            <label for="personImage">Линк за слика</label>
+            <input type="checkbox" value="personImage" id="personImage">
+        </div>
+
+        <div class="check-field">
+            <label for="personDate">Датум на издавање</label>
+            <input type="checkbox" value="personDate" id="personDate">
+        </div>
+
+        <div class="check-field">
+            <label for="personDescription">Рејтинг</label>
+            <input type="checkbox" value="personDescription" id="personDescription">
+        </div>
+
+        <div class="check-field">
+            <label for="personDiscussions">Дискусии</label>
+            <input type="checkbox" value="personDiscussions" id="personDiscussions">
+        </div>
+
+        <div class="check-field" th:if="${type == 'актер'}">
+            <label for="personActor">Актерство</label>
+            <input type="checkbox" value="personActor" id="personActor">
+        </div>
+
+        <div class="check-field" th:if="${type == 'режисер'}">
+            <label for="personDirector" >Режисер</label>
+            <input type="checkbox" value="personDirector" id="personDirector">
+        </div>
+
+        <div class="check-field">
+            <label for="personRates">Оцени</label>
+            <input type="checkbox" value="personRates" id="personRates">
+        </div>
+
+        <div id="movies">
+            <h3 class="title-group"><span th:text="${type.toUpperCase().substring(0,1) + type.toLowerCase().substring(1)}"></span> на филмот: </h3>
+
+            <div class="check-field">
+                <label for="movieId">Идентификатор</label>
+                <input type="checkbox" value="movieId" id="movieId">
+            </div>
+
+            <div class="check-field">
+                <label for="movieTitle">Наслов</label>
+                <input type="checkbox" value="movieTitle" id="movieTitle">
+            </div>
+
+            <div class="check-field">
+                <label for="movieDescription">Опис</label>
+                <input type="checkbox" value="movieDescription" id="movieDescription">
+            </div>
+
+            <div class="check-field">
+                <label for="movieAiringDate">Датум</label>
+                <input type="checkbox" value="movieAiringDate" id="movieAiringDate">
+            </div>
+
+            <div class="check-field">
+                <label for="movieImage">Слика</label>
+                <input type="checkbox" value="movieImage" id="movieImage">
+            </div>
+        </div>
+
+        <div id="discussions">
+            <h3 class="title-group">Дискусии на филмот: </h3>
+
+            <div class="check-field">
+                <label for="discussionId">Идентификатор</label>
+                <input type="checkbox" value="discussionId" id="discussionId">
+            </div>
+
+            <div class="check-field">
+                <label for="discussionText">Текст</label>
+                <input type="checkbox" value="discussionText" id="discussionText">
+            </div>
+
+            <div class="check-field">
+                <label for="discussionDate">Датум</label>
+                <input type="checkbox" value="discussionDate" id="discussionDate">
+            </div>
+
+            <div class="check-field">
+                <label for="discussionTitle">Наслов</label>
+                <input type="checkbox" value="discussionTitle" id="discussionTitle">
+            </div>
+
+            <div class="check-field">
+                <label for="discussionReplies">Реплики</label>
+                <input type="checkbox" value="discussionReplies" id="discussionReplies">
+            </div>
+
+            <div class="check-field">
+                <label for="discussionUser">Корисник</label>
+                <input type="checkbox" value="discussionUser" id="discussionUser">
+            </div>
+            <div id="discussion-user">
+                <h3 class="title-group">Креатор на дискусија</h3>
+
+                <div class="check-field">
+                    <label for="discussion-userId">Идентификатор</label>
+                    <input type="checkbox" value="discussion-userId" id="discussion-userId">
+                </div>
+
+                <div class="check-field">
+                    <label for="discussion-userName">Име</label>
+                    <input type="checkbox" value="discussion-userName" id="discussion-userName">
+                </div>
+
+                <div class="check-field">
+                    <label for="discussion-userSurname">Презиме</label>
+                    <input type="checkbox" value="discussion-userSurname" id="discussion-userSurname">
+                </div>
+
+                <div class="check-field">
+                    <label for="discussion-userUserName">Корисничко име</label>
+                    <input type="checkbox" value="discussion-userUserName" id="discussion-userUserName">
+                </div>
+
+            </div>
+            <div id="replies">
+                <h3 class="title-group">Реплика</h3>
+
+            <div class="check-field">
+                <label for="replyText">Текст</label>
+                <input type="checkbox" value="replyText" id="replyText">
+            </div>
+
+            <div class="check-field">
+                <label for="replyDate">Датум</label>
+                <input type="checkbox" value="replyDate" id="replyDate">
+            </div>
+
+            <div class="check-field">
+                <label for="replyUser">Корисник</label>
+                <input type="checkbox" value="replyUser" id="replyUser">
+            </div>
+                <div id="reply-user">
+                    <h3 class="title-group">Креатор на реплика</h3>
+
+                    <div class="check-field">
+                        <label for="replyUserId">Идентификатор</label>
+                        <input type="checkbox" value="replyUserId" id="replyUserId">
+                    </div>
+
+                    <div class="check-field">
+                        <label for="replyUserName">Корисничко име</label>
+                        <input type="checkbox" value="replyUserName" id="replyUserName">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="rates">
+            <h3 class="title-group">Оцени на <span th:text="${type}"></span> </h3>
+
+            <div class="check-field">
+                <label for="rates-grade">Оцена</label>
+                <input type="checkbox" value="rates-grade" id="rates-grade">
+            </div>
+
+            <div class="check-field">
+                <label for="rates-reason">Причина</label>
+                <input type="checkbox" value="rates-reason" id="rates-reason">
+            </div>
+
+            <div class="check-field">
+                <label for="rates-show-user">Корисник</label>
+                <input type="checkbox" value="rates-show-user" id="rates-show-user">
+            </div>
+            <div  id="rates-user">
+                <div class="check-field">
+                    <label for="rates-userId">Идентификатор</label>
+                    <input type="checkbox" value="rates-userId" id="rates-userId">
+                </div>
+
+                <div class="check-field">
+                    <label for="rates-userUserName">Корисничко име</label>
+                    <input type="checkbox" value="rates-userUserName" id="rates-userUserName">
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <br>
+    <div class="d-grid gap-2 col-9 mx-auto" style="clear: both">
+        <button id="okay-button" class="btn btn-success filter">Во ред</button>
+    </div>
+    <br>
+
+        <div class="container mb-4 cont">
+        <div class="col-12" th:if="${persons.size() > 0}" id="tbody-table-parent">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">Име</th>
+                        <!--<th scope="col">Презиме</th>-->
+                        <th scope="col">Датум рагање</th>
+                        <!--<th scope="col">Опис</th>-->
+                        <!--                            <th scope="col">Занрови</th>-->
+                        <th scope="col">Слика</th>
+
+                        <th scope="col">Филмови</th>
+                        <th scope="col"></th>
+                        <th:block sec:authorize="isAuthenticated()">
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+
+                        </th:block>
+
+                    </tr>
+                    </thead>
+                    <tbody id="tbody-table">
+                    <tr th:each="person : ${persons}" class="elements">
+                        <td><a th:href="@{'/persons/{id}' (id=${person.getPersonId()})}" th:text="${person.getName() + ' ' + person.getSurname()}"></a></td>
+                        <!--<td th:text="${person.getSurname()}"></td>-->
+                        <td th:text="${person.getDateOfBirth()}"></td>
+                        <!--<td th:text="${person.getDescription()}"></td>-->
+
+                        <!--                            <td>-->
+                        <!--                                <div th:each="g: ${person.getGenres()}" th:text="${g.getGenre().genreType }"></div>-->
+                        <!--                            </td>-->
+                        <td><img th:src="${person.getImageUrl()}" style="width: 20%; height: 20%"/></td>
+                        <td>
+                            <div th:each="m: ${person.getActors().size() > 0 ? person.getActors() : person.getMovies()}"
+                                 th:text="${m.getClass().getName() == 'com.wediscussmovies.project.model.relation.MovieActors'  ? m.getMovie().getTitle() : m.getTitle()} "></div>
+                        </td>
+                        <td> <a class="btn btn-primary" th:href="@{'discussions/all/{id}?type=P' (id=${person.getPersonId()})}" >Прегледај дискусии</a></td>
+                        <th:block sec:authorize="isAuthenticated()">
+                            <td>
+                                <a class="btn btn-secondary button-add-grade-person" th:person-id="${person.getPersonId()}">Остави оценка</a>
+                            </td>
+                            <td>
+                                <a class="btn btn-warning" th:href="@{'persons/edit/{personId}' (personId = ${person.getPersonId()})}">Промени</a>
+                            </td>
+                            <td>
+                                <a class="btn btn-danger button-delete-actor" th:person-id="${person.getPersonId()}">Избриши</a>
+
+                            </td>
+
+
+                        </th:block>
+
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>

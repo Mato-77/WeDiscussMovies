@@ -10,10 +10,8 @@
                         <thead>
                         <tr>
                             <th scope="col">Име</th>
-                            <!--<th scope="col">Презиме</th>-->
                             <th scope="col">Датум рагање</th>
-                            <!--<th scope="col">Опис</th>-->
-<!--                            <th scope="col">Занрови</th>-->
+
                             <th scope="col">Слика</th>
 
                             <th scope="col">Филмови</th>
@@ -30,16 +28,10 @@
                         <tbody>
                         <tr th:each="person : ${persons}" class="elements">
                             <td><a th:href="@{'/persons/{id}' (id=${person.getPersonId()})}" th:text="${person.getName() + ' ' + person.getSurname()}"></a></td>
-                            <!--<td th:text="${person.getSurname()}"></td>-->
                             <td th:text="${person.getDateOfBirth()}"></td>
-                            <!--<td th:text="${person.getDescription()}"></td>-->
-
-<!--                            <td>-->
-<!--                                <div th:each="g: ${person.getGenres()}" th:text="${g.getGenre().genreType }"></div>-->
-<!--                            </td>-->
-                            <td><img th:src="${person.getImageUrl()}" style="width: 20%; height: 20%"/></td>
+                  <td><img th:src="${person.getImageUrl()}" style="width: 20%; height: 20%"/></td>
                             <td>
-                                <div th:each="m: ${person.getMovieActors().size() > 0 ? person.getMovieActors() : person.getMovies()}"
+                                <div th:each="m: ${person.getActors().size() > 0 ? person.getActors() : person.getMovies()}"
                                      th:text="${m.getClass().getName() == 'com.wediscussmovies.project.model.relation.MovieActors'  ? m.getMovie().getTitle() : m.getTitle()} "></div>
                             </td>
                             <td> <a class="btn btn-primary" th:href="@{'discussions/all/{id}?type=P' (id=${person.getPersonId()})}" >Прегледај дискусии</a></td>

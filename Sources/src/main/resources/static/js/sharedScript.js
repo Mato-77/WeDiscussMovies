@@ -22,12 +22,12 @@ $(document).ready(function (){
     $("#searchTitle").on("keyup", function() {
         var value = $(this).val().toLowerCase();
         console.log(value)
+        //$(this).text().toLowerCase().indexOf(value) <= -1
         $(".elements div a .title").filter(function() {
-            console.log($(this).text())
-            if($(this).text().toLowerCase().indexOf(value) <= -1)
-                $(this).parent().parent().parent().addClass("visibility")
-            else
+            if($(this).text().toLowerCase().includes(value) || $(this).text().toLowerCase() === value)
                 $(this).parent().parent().parent().removeClass("visibility")
+            else
+                $(this).parent().parent().parent().addClass("visibility")
         });
     });
 
@@ -65,20 +65,20 @@ $(document).ready(function (){
     })
 
 
-    /*$(".search-button-title").on("click",function (){
-        let filter = $("#searchTitle").val()
-        console.log(elements)
-        for (let item of elements){
-            let title =  $(item).find(".card-title").text()
-            if (title.toLowerCase() === filter.toLowerCase()){
-                console.log("Da")
-                $(item).css("display","block")
-            }
-            else{
-                $(item).css("display","none")
-            }
-        }
-    })*/
+    // $(".search-button-title").on("click",function (){
+    //     let filter = $("#searchTitle").val()
+    //     console.log(elements)
+    //     for (let item of elements){
+    //         let title =  $(item).find(".card-title").text()
+    //         if (title.toLowerCase() === filter.toLowerCase()){
+    //             console.log("Da")
+    //             $(item).css("display","block")
+    //         }
+    //         else{
+    //             $(item).css("display","none")
+    //         }
+    //     }
+    // })
 
     $("#button_toggle_filters").on("click", function (){
         if(first_time){
@@ -89,8 +89,8 @@ $(document).ready(function (){
             $("#filters_div").fadeToggle();
     })
 
-    $(".user-movies-list").on("click", function (){
-       let children = $(this).children()
+    $(".user-movies-list h3").on("click", function (){
+       let children = $(this).parent().children()
         let first = true
         for (let item of children){
             if(first){
@@ -100,7 +100,7 @@ $(document).ready(function (){
                 $(item).fadeToggle();
             }
         }
-        $(this).toggleClass("hidden-class")
+        $(this).parent().toggleClass("hidden-class")
     })
 
    $(".search-button").on("click",function () {
@@ -108,30 +108,34 @@ $(document).ready(function (){
        let filter = $("#searchGenre").val()
        console.log('\''+filter+'\'')
        console.log(elements)
-       if(filter.length==0){
+       if(filter === ''){
            console.log("HERE")
            for (let item of elements) {
                $(item).removeClass("visibility")
            }
+           console.log(elements)
        }
-       for (let item of elements) {
-           $(item).removeClass("visibility")
-            let genre = $(item).children(".card-genre")
-            let visible = false;
-            console.log(genre.length)
-            for (let g of genre) {
-                if (( $(g).text().toLowerCase() === filter.toLowerCase())){
-                    console.log(item.text + ' ' + $(g).text())
-                    visible = true
-                    $(item).removeClass("visibility")
-                    break;
-                }
-            }
-            if(!visible){
-                $(item).addClass("visibility")
-            }
+       else {
+           for (let item of elements) {
+               $(item).removeClass("visibility")
+               let genre = $(item).find("span")
+               let visible = false;
+             console.log(genre)
+               for (let g of genre) {
+                   console.log(g)
+                   if (($(g).text().toLowerCase() === filter.toLowerCase())) {
+                     //  console.log(item.text + ' ' + $(g).text())
+                       visible = true
+                       $(item).removeClass("visibility")
+                       break;
+                   }
+               }
+               if (!visible) {
+                   $(item).addClass("visibility")
+               }
 
-        }
+           }
+       }
     });
 
     $(".button-delete-movie").on("click",function (){
@@ -149,6 +153,25 @@ $(document).ready(function (){
         let url = "/api/discussions/delete/" + $(button).attr("discussion-id")
         ajaxCallDelete(url,button)
     })
+    $(".button-delete-reply").on("click",function (){
+        let button = $(this)
+        let url = "/api/replies/delete/" + $(this).attr("discussion-id")
+        let replyId = $(this).attr("reply-id")
+        $.ajax({
+            url:url,
+            method:"post",
+            data:{
+                replyId:replyId
+            },
+            success: function (data){
+                if (data){
+                    $(button).parent().parent().fadeOut(1500)
+                }
+            }
+
+        })
+
+    })
 
     $(document.body).on("click",".button-confirm",function (){
 
@@ -156,15 +179,16 @@ $(document).ready(function (){
     })
     $(".person-movies").change(function (){
         if (this.value === "A"){
-            $(".movie-directors").attr("hidden",true).prop("selected",false)
+            $(".movie-directors").attr("hidden",true)
 
 
             $(".movies-actors").attr("hidden",false)
 
         }
         else{
-            $(".movies-actors").attr("hidden",true).prop("selected",false)
             $(".movie-directors").attr("hidden",false)
+            $(".movies-actors").attr("hidden",true)
+
         }
     })
     $(document.body).on("click",".button-add-favourite-list",function (){
@@ -195,6 +219,7 @@ $(document).ready(function (){
     $(document.body).on("click",".button-unlike-discussion",function (){
         let button = $(this)
         let url = "/api/discussions/unlike/"+ $(this).attr("discussion-id")+"?userId="+ $(this).attr("user-id")
+        console.log(url)
         ajaxCallLikeDiscussion(url,button,'unlike','Немате оставено допаѓање на дискусијата!')
     })
     $(document.body).on("click",".button-like-discussion-alt",function (){
@@ -207,6 +232,17 @@ $(document).ready(function (){
         let url = "/api/discussions/unlike/"+ $(this).attr("discussion-id")+"?userId="+ $(this).attr("user-id")
         ajaxCallLikeDiscussionAlternative(url,button,'unlike','Немате оставено допаѓање на дискусијата!')
     })
+    $(document.body).on("click",".button-like-reply",function (){
+        let button = $(this)
+        let url = "/api/replies/like/"+ $(this).attr("reply-id")+"?userId="+ $(this).attr("user-id")+"&discussionId="+$(this).attr("discussionId")
+        console.log(url)
+        ajaxCallLikeReply(url,button,'like','Немате оставено допаѓање на реплика!')
+    })
+    $(document.body).on("click",".button-unlike-reply",function (){
+        let button = $(this)
+        let url = "/api/replies/unlike/"+ $(this).attr("reply-id")+"?userId="+ $(this).attr("user-id")+"&discussionId="+$(this).attr("discussionId")
+        ajaxCallLikeReply(url,button,'unlike','Немате оставено допаѓање на реплика!')
+    })
     $(".discussion-type").change(function (){
         if (this.value === "M"){
             $(".persons-discussion").hide()
@@ -218,6 +254,16 @@ $(document).ready(function (){
             $(".movies-discussion").hide()
             $(".persons-discussion").show()
         }
+    })
+
+    $(".input").focus(function(){
+        $(this).siblings().addClass("hovered-label")
+        $(this).parent().addClass("hovered-row")
+    })
+
+    $(".input").focusout(function(){
+        $(this).siblings().removeClass("hovered-label")
+        $(this).parent().removeClass("hovered-row")
     })
 
 
@@ -319,13 +365,37 @@ function ajaxCallLikeGenre(url,button,type,message){
 }
 
 
-
+function ajaxCallLikeReply(url,button,type,message){
+    $.ajax({
+        url:url,
+        success:function (data){
+            if (data){
+                console.log(data)
+                $(button).siblings("a").css("display","block")
+                let userId = $(button).attr("user-id")
+                let discussionId=$(button).attr("discussionId")
+                let replyId = $(button).attr("reply-id")
+                if (type==='like') {
+                    $(button).parent().append("<a class='btn btn-danger button-unlike-reply' discussionId=" + discussionId + " user-id=" + userId + " reply-id="+replyId+">👎</a>")
+                }
+                else {
+                    $(button).parent().append("<a class='btn btn-success button-like-reply' discussionId=" + discussionId + " user-id=" + userId + " reply-id="+replyId+">👍</a>")
+                }
+                $(button).remove()
+            }
+            else {
+                $(button).parent().append("<div>" + message +" <button class='button-confirm'>Ок</button></div>")
+            }
+        }
+    })
+}
 
 function ajaxCallLikeDiscussion(url,button,type,message){
     $.ajax({
         url:url,
         success:function (data){
             if (data){
+                console.log(data)
                 let el = $(button).parent().siblings().eq(3)
                 console.log(el)
                 if (type=="like") {
@@ -367,14 +437,6 @@ function ajaxCallLikeDiscussionAlternative(url,button,type,message){
         url:url,
         success:function (data){
             if (data){
-                let el = $(button).parent().siblings().eq(3)
-                console.log(el)
-                if (type=="like") {
-                    $(el).html(parseInt($(el).text()) + 1)
-                    console.log("da")
-                }
-                else
-                    $(el).html(parseInt($(el).text()) - 1)
                 $(button).css("display","none")
                 let userId = $(button).attr("user-id")
                 let discussionId=$(button).attr("discussion-id")
